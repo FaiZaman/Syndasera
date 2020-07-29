@@ -1,24 +1,7 @@
-# README
+# Syndasera
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is a Rails application implementing the synthetic data service available at `https://github.com/noo-rashbass/synthetic-data-service`. The service generates synthetic data from real data using a suite of machine learning algoritms. The data generated is both realistic enough to draw insights from and conduct research into, and confidential enough so that no identifying details for any of the real patients can be acquired.
 
-Things you may want to cover:
+# Setup & Running
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Clone the repository, navigate to the root directory, and run `rails server` to deploy the app locally. Navigate to `http://127.0.0.1:3000/` to view the app.
