@@ -1,4 +1,7 @@
 class PagesController < ApplicationController
+
+  before_action :authenticate_user!, only: [:make_request]
+
   def home
   end
 
