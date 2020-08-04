@@ -13,6 +13,11 @@
     transition-duration: 0.5s;
 }
 
+.logo {
+    font-weight: bold;
+    padding-left: 10px;
+}
+
 .link-to {
     color: black;
 }
@@ -56,4 +61,9 @@
     margin: auto;
     padding: 10px;
     width: 70%;
+}
+
+.warning {
+    color: red;
+    font-weight: bold;
 }
