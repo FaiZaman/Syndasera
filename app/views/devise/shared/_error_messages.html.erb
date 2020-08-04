@@ -1,0 +1,12 @@
+<% if resource.errors.any? %>
+  <div id="error_explanation">
+    <h4>
+      Please fix the following error(s):
+    </h4>
+    <ul>
+      <% resource.errors.full_messages.each do |message| %>
+        <span class="warning"><li><%= message %></li></span>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

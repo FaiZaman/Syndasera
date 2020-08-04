@@ -3,3 +3,67 @@
 .body-container {
     padding-top: 50px; // padding after navbar
 }
+
+.navbar-nav > li{
+    padding-left: 20px;
+  }
+
+.nav-link {
+    color: white;
+    transition-duration: 0.5s;
+}
+
+.logo {
+    font-weight: bold;
+    padding-left: 10px;
+}
+
+.link-to {
+    color: black;
+}
+
+.link-to:hover {
+    color: #292b2c;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.dropdown-menu { 
+    width: 50%;
+}
+
+.dropdown-items{
+    padding-left: 20px;
+}
+
+.form-container {
+    margin-top: -2px;
+    text-align: left;
+    background-color: white;
+    border-style: solid;
+    border-color: #292b2c;
+    border-width: 10px;
+    padding-top: 20px;
+    padding-bottom: 10px;
+    padding-left: 50px;
+    padding-right: 0px;
+  }
+
+.btn-info {
+    margin-top: 5px;
+}
+
+.btn-light {
+    margin-top: 5px;
+}
+
+.logsignin {
+    margin: auto;
+    padding: 10px;
+    width: 70%;
+}
+
+.warning {
+    color: red;
+    font-weight: bold;
+}
