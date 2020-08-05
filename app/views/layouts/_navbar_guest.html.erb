@@ -3,7 +3,7 @@
     <%= image_tag("logo.png", :alt => "logo", :size => "64x44") %>
     <span class="logo">Syndasera</span>
   </a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" 
+  <button class="navbar-toggler" type="button" data-toggle="collapse"
     data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
     aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -16,6 +16,9 @@
       </li>
       <li class="nav-item <%= 'active' if current_page?(about_path) %>">
         <a class="nav-link" href="/about">About</a>
+      </li>
+      <li class="nav-item <%= 'active' if current_page?(prism_dashboard_path) %>">
+        <a class="nav-link" href="/prism_dashboard">PRISM Dashboard</a>
       </li>
       <li class="nav-item <%= 'active' if current_page?(make_request_path) %>">
         <a class="nav-link" href="/make_request">Make A Request</a>
