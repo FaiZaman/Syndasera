@@ -1,7 +1,17 @@
 @import "bootstrap/scss/bootstrap";
 
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
 .body-container {
     padding-top: 50px; // padding after navbar
+    flex: 1 0 auto;
 }
 
 .navbar-nav > li{
@@ -66,4 +76,8 @@
 .warning {
     color: red;
     font-weight: bold;
+}
+
+#sticky-footer {
+    flex-shrink: 0;
 }
