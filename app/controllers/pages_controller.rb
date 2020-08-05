@@ -10,4 +10,7 @@ class PagesController < ApplicationController
 
   def make_request
   end
+
+  def prism_dashboard
+  end
 end
