@@ -13,8 +13,10 @@
   </head>
 
   <body>
-    <div class='container body-container'>
+    <div class='container body-container' id="content">
       <%= yield %>
     </div>
+    <br>
+    <%= render 'layouts/footer' %>
   </body>
 </html>
