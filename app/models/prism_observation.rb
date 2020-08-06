@@ -1,0 +1,2 @@
+class PrismObservation < ApplicationRecord
+end
