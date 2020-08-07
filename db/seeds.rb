@@ -10,7 +10,7 @@ require 'csv'
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-observations = File.read(Rails.root.join('lib', 'seeds', 'isaFull.csv'))
+observations = File.read(Rails.root.join('lib', 'seeds', 'sorted.csv'))
 csv = CSV.parse(observations, :headers => true, :encoding => 'ISO-8859-1')
 
 csv.each do |row|
