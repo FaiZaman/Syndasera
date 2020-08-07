@@ -7,10 +7,6 @@ require("@rails/ujs").start()
 require("turbolinks").start()
 require("@rails/activestorage").start()
 require("channels")
-
-var $ = require('jquery');
-window.$ = $
-
 var d3 = require("d3");
 window.d3 = d3
 var $ = require('jquery') 
