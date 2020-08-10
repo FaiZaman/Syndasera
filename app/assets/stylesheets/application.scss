@@ -46,6 +46,30 @@ body {
     padding-left: 20px;
 }
 
+.data-table {
+    overflow-x: auto;
+    height: 800px;
+}
+
+thead tr:nth-child(1) th {
+    background: lightblue;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+
+.notes {
+    margin-top: 10px;
+    text-align: left;
+    background-color: white;
+    border-style: solid;
+    border-color: lightblue;
+    border-width: 5px;
+    padding-top: 20px;
+    padding-left: 10px;
+}
+
 .form-container {
     margin-top: -2px;
     text-align: left;
