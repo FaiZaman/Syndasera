@@ -1,4 +1,3 @@
-console.log("hello world")
 var loadData = function(){
                 $.ajax({
                   type: 'GET',
@@ -26,6 +25,6 @@ d3.select("#content").append("div").attr("class", "container")
                     For the time being please use dummy data defined as an object in this file. \
                     Once we get the rails model with the data in it I might become a .js.erb so you\
                     can query the model from here :D.")
-$(document).ready(function(){ 
-loadData()
- });
+$(document).ready(function(){
+  loadData()
+});

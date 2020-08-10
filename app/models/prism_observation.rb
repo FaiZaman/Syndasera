@@ -1,3 +1,3 @@
 class PrismObservation < ApplicationRecord
-    self.per_page = 5
+    self.per_page = 20
 end

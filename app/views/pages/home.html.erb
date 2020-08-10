@@ -17,11 +17,14 @@ enrolled in a dynamic cohort, and children were excluded from follow-up after re
 Participants had routine clinic visits roughly every 3 months and attended a study clinic any 
 time they became ill.
 
-<br><br><br>
 <%= javascript_include_tag 'home.js' %>
 
-<div style="overflow-x:auto;">
-  <table class="table table-striped table-bordered" id="data-table">
+<div class="notes col-md-6">
+  <p>All durations are given in days and all dates are in the form yyyy/mm/dd</p>
+</div>
+
+<div class="data-table">
+  <table class="table table-striped table-bordered">
     <thead>
       <tr>
         <th>Participant ID</th>
@@ -65,52 +68,48 @@ time they became ill.
 
     <% @observations.each do |observation| %>
       <tr>
-        <td><%= observation.participant_id %></td>
-        <td><%= observation.household_id %></td>
-        <td><%= observation.visit_date %></td>
-        <td><%= observation.age_at_visit %></td>
-        <td><%= observation.temperature %></td>
-        <td><%= observation.weight %></td>
-        <td><%= observation.abdominal_pain_duration %></td>
-        <td><%= observation.admitting_hospital %></td>
-        <td><%= observation.anorexia_duration %></td>
-        <td><%= observation.asexual_plasmodium_parasite_density %></td>
-        <td><%= observation.basis_of_complicated_diagnosis %></td>
-        <td><%= observation.complicated_malaria %></td>
-        <td><%= observation.cough_duration %></td>
-        <td><%= observation.diagnosis_at_hospitalisation %></td>
-        <td><%= observation.diarrhoea_duration %></td>
-        <td><%= observation.fatigue_duration %></td>
-        <td><%= observation.fever_duration %></td>
-        <td><%= observation.headache_duration %></td>
-        <td><%= observation.hospital_admission_date %></td>
-        <td><%= observation.hospital_discharge_date %></td>
-        <td><%= observation.itn_last_night %></td>
-        <td><%= observation.jaundice_duration %></td>
-        <td><%= observation.joint_pains_duration %></td>
-        <td><%= observation.malaria_diagnosis %></td>
-        <td><%= observation.malaria_diagnosis_and_parasite_status %></td>
-        <td><%= observation.malaria_treatment %></td>
-        <td><%= observation.muscle_aches_duration %></td>
-        <td><%= observation.non_malaria_medication %></td>
-        <td><%= observation.other_diagnosis %></td>
-        <td><%= observation.other_medical_complaint %></td>
-        <td><%= observation.plasmodium_gametocytes_present %></td>
-        <td><%= observation.seizures_duration %></td>
-        <td><%= observation.severe_malaria_criteria %></td>
-        <td><%= observation.subjective_fever %></td>
-        <td><%= observation.submicroscopic_plasmodium_present %></td>
-        <td><%= observation.visit_type %></td>
+        <td><%= replace_na(observation.participant_id) %></td>
+        <td><%= replace_na(observation.household_id) %></td>
+        <td><%= replace_na(observation.visit_date) %></td>
+        <td><%= replace_na(observation.age_at_visit) %></td>
+        <td><%= replace_na(observation.temperature) %></td>
+        <td><%= replace_na(observation.weight) %></td>
+        <td><%= replace_na(observation.abdominal_pain_duration) %></td>
+        <td><%= replace_na(observation.admitting_hospital) %></td>
+        <td><%= replace_na(observation.anorexia_duration) %></td>
+        <td><%= replace_na(observation.asexual_plasmodium_parasite_density) %></td>
+        <td><%= replace_na(observation.basis_of_complicated_diagnosis) %></td>
+        <td><%= replace_na(observation.complicated_malaria) %></td>
+        <td><%= replace_na(observation.cough_duration) %></td>
+        <td><%= replace_na(observation.diagnosis_at_hospitalisation) %></td>
+        <td><%= replace_na(observation.diarrhoea_duration) %></td>
+        <td><%= replace_na(observation.fatigue_duration) %></td>
+        <td><%= replace_na(observation.fever_duration) %></td>
+        <td><%= replace_na(observation.headache_duration) %></td>
+        <td><%= replace_na(observation.hospital_admission_date) %></td>
+        <td><%= replace_na(observation.hospital_discharge_date) %></td>
+        <td><%= replace_na(observation.itn_last_night) %></td>
+        <td><%= replace_na(observation.jaundice_duration) %></td>
+        <td><%= replace_na(observation.joint_pains_duration) %></td>
+        <td><%= replace_na(observation.malaria_diagnosis) %></td>
+        <td><%= replace_na(observation.malaria_diagnosis_and_parasite_status) %></td>
+        <td><%= replace_na(observation.malaria_treatment) %></td>
+        <td><%= replace_na(observation.muscle_aches_duration) %></td>
+        <td><%= replace_na(observation.non_malaria_medication) %></td>
+        <td><%= replace_na(observation.other_diagnosis) %>
+        <td><%= replace_na(observation.other_medical_complaint) %></td>
+        <td><%= replace_na(observation.plasmodium_gametocytes_present) %></td>
+        <td><%= replace_na(observation.seizures_duration) %></td>
+        <td><%= replace_na(observation.severe_malaria_criteria) %></td>
+        <td><%= replace_na(observation.subjective_fever) %></td>
+        <td><%= replace_na(observation.submicroscopic_plasmodium_present) %></td>
+        <td><%= replace_na(observation.visit_type) %></td>
       </tr>
     <% end %>
   </table>
 </div>
 
-<div class="notes col-md-4">
-  <p>* all durations are given in days</p>
-  <p>* all dates are in the form yyyy/mm/dd</p>
-</div>
-
+<br>
 <div class="text-center">
   <div class="page_info">
     <%= page_entries_info @observations %>
