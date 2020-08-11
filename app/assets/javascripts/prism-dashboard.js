@@ -25,10 +25,12 @@ function visualisation(data) {
 //<div id="my_first_histogram"></div>
 
 //  <script>
+// set the dimensions and margins of the graph
     var margin = {top: 10, right: 30, bottom: 30, left: 40},
         width = 460 - margin.left - margin.right,
         height = 400 - margin.top - margin.bottom;
 
+// append the svg object to the body of the page
     var svg = d3.select("#my_first_histogram")
       .append("svg")
         .attr("width", width + margin.left + margin.right)
@@ -46,7 +48,7 @@ function visualisation(data) {
         .call(d3.axisBottom(x));
 
       var histogram = d3.histogram()
-          .value(function(data) { return data.isisisisis; })   // I need to give the vector of value
+          .value(function(data) { return data.Particpant_Id; })   // I need to give the vector of value
           .domain(x.domain())  // then the domain of the graphic
               .thresholds(x.ticks(70)); // then the numbers of bins
 //    </script>
