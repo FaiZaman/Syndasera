@@ -1,23 +1,56 @@
 <h2>Project Summary</h2>
 
-<p>
 Syndasera is a dynamic synthetic data service allowing users like yourselves to create requests
 for synthetic data generation from a real time-series patient dataset. We use sophisticated machine
 learning algorithms and effective privacy evaluations to make sure that your synthesised data is as
 realistic as possible whist protecting the privacy of your patients, which is of utmost importance.
-Please see below for an example of data synthesised from the Program for Resistance, 
-Immunology, Surveillance and Modeling of Malaria (PRISM) dataset. 
-</p>
-
-<hr>
-
-PRISM was a longitudinal cohort study conducted in different transmission settings in Uganda. 
+Please see below for an example of data synthesised from the 
+<span data-toggle="tooltip" style="color:blue; font-weight:bold;" 
+title="PRISM was a longitudinal cohort study conducted in different transmission settings in Uganda. 
 All children 6 months to 10 years old within a household and up to one primary caregiver were 
 enrolled in a dynamic cohort, and children were excluded from follow-up after reaching 11 years of age.
 Participants had routine clinic visits roughly every 3 months and attended a study clinic any 
-time they became ill.
+time they became ill."> 
+Program for Resistance, Immunology, Surveillance and Modeling of Malaria (PRISM) dataset
+</span>.
 
+<hr>
 <%= javascript_include_tag 'home.js' %>
+
+<div class="col-md-4">
+  <div class="card" style="width: 18rem;">
+    <div class="card-header">
+      Filter by Column
+    </div>
+    <div class="list-group">
+      <input type="checkbox" id="CheckBox1" />
+      <label class="list-group-item" for="CheckBox1">Participant ID</label>
+      
+      <input type="checkbox" id="CheckBox2" />
+      <label class="list-group-item" for="CheckBox2">Household ID</label>
+      
+      <input type="checkbox" id="CheckBox3" />
+      <label class="list-group-item" for="CheckBox3">Hospital Visit Date</label>
+      
+      <input type="checkbox" id="CheckBox4" />
+      <label class="list-group-item" for="CheckBox4">Age</label>
+
+      <input type="checkbox" id="CheckBox5" />
+      <label class="list-group-item" for="CheckBox5">Temperature (C)</label>
+
+      <input type="checkbox" id="CheckBox6" />
+      <label class="list-group-item" for="CheckBox6">Weight</label>
+
+      <input type="checkbox" id="CheckBox7" />
+      <label class="list-group-item" for="CheckBox7">Malaria Diagnosis</label>
+
+      <input type="checkbox" id="CheckBox8" />
+      <label class="list-group-item" for="CheckBox8">Parasite Status</label>
+    </div>
+  </div>
+</div>
+
+<br />
 
 <div class="notes col-md-6">
   <p>All durations are given in days and all dates are in the form yyyy/mm/dd</p>
@@ -114,5 +147,7 @@ time they became ill.
   <div class="page_info">
     <%= page_entries_info @observations %>
   </div>
-  <%= will_paginate @observations, :container => false, renderer: WillPaginate::ActionView::BootstrapLinkRenderer, list_classes: %w(pagination justify-content-center) %>
+  <%= will_paginate @observations, :container => false, 
+  renderer: WillPaginate::ActionView::BootstrapLinkRenderer, 
+  list_classes: %w(pagination justify-content-center) %>
 </div>

@@ -46,6 +46,10 @@ body {
     padding-left: 20px;
 }
 
+.tooltip-inner {
+    max-width: 350px;
+}
+
 .data-table {
     overflow-x: auto;
     height: 800px;
@@ -58,6 +62,39 @@ thead tr:nth-child(1) th {
     z-index: 10;
 }
 
+.list-group{
+    max-height: 300px;
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
+}
+
+.list-group-item {
+    user-select: none;
+  }
+  
+.list-group input[type="checkbox"] {
+    display: none;
+}
+
+.list-group input[type="checkbox"] + .list-group-item {
+    cursor: pointer;
+}
+
+.list-group input[type="checkbox"] + .list-group-item:before {
+    content: "\2713";
+    color: transparent;
+    font-weight: bold;
+    margin-right: 1em;
+}
+
+.list-group input[type="checkbox"]:checked + .list-group-item {
+    background-color: #0275D8;
+    color: #FFF;
+}
+
+.list-group input[type="checkbox"]:checked + .list-group-item:before {
+    color: inherit;
+}
 
 .notes {
     margin-top: 10px;
