@@ -19,33 +19,119 @@ Program for Resistance, Immunology, Surveillance and Modeling of Malaria (PRISM)
 
 <div class="col-md-4">
   <div class="card" style="width: 18rem;">
-    <div class="card-header">
-      Filter by Column
+    <div class="card-header text-center">
+      <b>Filter by Column</b><br>
+      <button class="btn btn-info" type="button" id="select-all">Select All</button>
+      <button class="btn btn-info" type="button" id="select-none">Select None</button>
     </div>
     <div class="list-group">
-      <input type="checkbox" id="CheckBox1" />
+      <input type="checkbox" id="CheckBox1" class="checkbox" checked />
       <label class="list-group-item" for="CheckBox1">Participant ID</label>
-      
-      <input type="checkbox" id="CheckBox2" />
-      <label class="list-group-item" for="CheckBox2">Household ID</label>
-      
-      <input type="checkbox" id="CheckBox3" />
+
+      <input type="checkbox" id="CheckBox2" class="checkbox" checked />
+      <label class="list-group-item" for="CheckBox2" >Household ID</label>
+
+      <input type="checkbox" id="CheckBox3" class="checkbox" checked />
       <label class="list-group-item" for="CheckBox3">Hospital Visit Date</label>
-      
-      <input type="checkbox" id="CheckBox4" />
+
+      <input type="checkbox" id="CheckBox4" class="checkbox" checked />
       <label class="list-group-item" for="CheckBox4">Age</label>
 
-      <input type="checkbox" id="CheckBox5" />
-      <label class="list-group-item" for="CheckBox5">Temperature (C)</label>
+      <input type="checkbox" id="CheckBox5" class="checkbox" checked />
+      <label class="list-group-item" for="CheckBox5">Weight (kg)</label>
 
-      <input type="checkbox" id="CheckBox6" />
-      <label class="list-group-item" for="CheckBox6">Weight</label>
+      <input type="checkbox" id="CheckBox6" class="checkbox" checked />
+      <label class="list-group-item" for="CheckBox6">Temperature (C)</label>
 
-      <input type="checkbox" id="CheckBox7" />
-      <label class="list-group-item" for="CheckBox7">Malaria Diagnosis</label>
+      <input type="checkbox" id="CheckBox7" class="checkbox" checked />
+      <label class="list-group-item" for="CheckBox7">Abdominal Pain Duration</label>
 
-      <input type="checkbox" id="CheckBox8" />
-      <label class="list-group-item" for="CheckBox8">Parasite Status</label>
+      <input type="checkbox" id="CheckBox8" class="checkbox" checked />
+      <label class="list-group-item" for="CheckBox8">Admitting Hospital</label>
+
+      <input type="checkbox" id="CheckBox9" class="checkbox" checked />
+      <label class="list-group-item" for="CheckBox9">Anorexia Duration</label>
+
+      <input type="checkbox" id="CheckBox10" class="checkbox" checked />
+      <label class="list-group-item" for="CheckBox10">Plasmodium Parasite Density</label>
+
+      <input type="checkbox" id="CheckBox11" class="checkbox" checked />
+      <label class="list-group-item" for="CheckBox11">Basis of Complicated Diagnosis</label>
+
+      <input type="checkbox" id="CheckBox12" class="checkbox" checked />
+      <label class="list-group-item" for="CheckBox12">Complicated Malaria</label>
+
+      <input type="checkbox" id="CheckBox13" class="checkbox" checked />
+      <label class="list-group-item" for="CheckBox13">Cough Duration</label>
+
+      <input type="checkbox" id="CheckBox14" class="checkbox" checked />
+      <label class="list-group-item" for="CheckBox14">Diagnosis at Hospitalisation</label>
+
+      <input type="checkbox" id="CheckBox15" class="checkbox" checked />
+      <label class="list-group-item" for="CheckBox15">Diarrhoea Duration</label>
+
+      <input type="checkbox" id="CheckBox16" class="checkbox" checked />
+      <label class="list-group-item" for="CheckBox16">Fatigue Duration</label>
+
+      <input type="checkbox" id="CheckBox17" class="checkbox" checked />
+      <label class="list-group-item" for="CheckBox17">Fever Duration</label>
+
+      <input type="checkbox" id="CheckBox18" class="checkbox" checked />
+      <label class="list-group-item" for="CheckBox18">Headache Duration</label>
+
+      <input type="checkbox" id="CheckBox19" class="checkbox" checked />
+      <label class="list-group-item" for="CheckBox19">Hospital Admission Date</label>
+
+      <input type="checkbox" id="CheckBox20" class="checkbox" checked />
+      <label class="list-group-item" for="CheckBox20">Hospital Discharge Date</label>
+
+      <input type="checkbox" id="CheckBox21" class="checkbox" checked />
+      <label class="list-group-item" for="CheckBox21">ITN Last Night</label>
+
+      <input type="checkbox" id="CheckBox22" class="checkbox" checked />
+      <label class="list-group-item" for="CheckBox22">Jaundice Duration</label>
+
+      <input type="checkbox" id="CheckBox23" class="checkbox" checked />
+      <label class="list-group-item" for="CheckBox23">Joint Pains Duration</label>
+
+      <input type="checkbox" id="CheckBox24" class="checkbox" checked />
+      <label class="list-group-item" for="CheckBox24">Malaria Diagnosis</label>
+
+      <input type="checkbox" id="CheckBox25" class="checkbox" checked />
+      <label class="list-group-item" for="CheckBox25">Parasite Status</label>
+
+      <input type="checkbox" id="CheckBox26" class="checkbox" checked />
+      <label class="list-group-item" for="CheckBox26">Malaria Treatment</label>
+
+      <input type="checkbox" id="CheckBox27" class="checkbox" checked />
+      <label class="list-group-item" for="CheckBox27">Muscle Aches Duration</label>
+
+      <input type="checkbox" id="CheckBox28" class="checkbox" checked />
+      <label class="list-group-item" for="CheckBox28">Non Malaria Medication</label>
+
+      <input type="checkbox" id="CheckBox29" class="checkbox" checked />
+      <label class="list-group-item" for="CheckBox29">Other Diagnosis</label>
+
+      <input type="checkbox" id="CheckBox30" class="checkbox" checked />
+      <label class="list-group-item" for="CheckBox30">Other Medical Complaint</label>
+
+      <input type="checkbox" id="CheckBox31" class="checkbox" checked />
+      <label class="list-group-item" for="CheckBox31">Plasmodium Gametocytes Present</label>
+
+      <input type="checkbox" id="CheckBox32" class="checkbox" checked />
+      <label class="list-group-item" for="CheckBox32">Seizures Duration</label>
+
+      <input type="checkbox" id="CheckBox33" class="checkbox" checked />
+      <label class="list-group-item" for="CheckBox33">Severe Malaria Criteria</label>
+
+      <input type="checkbox" id="CheckBox34" class="checkbox" checked />
+      <label class="list-group-item" for="CheckBox34">Subjective Fever</label>
+
+      <input type="checkbox" id="CheckBox35" class="checkbox" checked />
+      <label class="list-group-item" for="CheckBox35">Submicroscopic Plasmodium Present</label>
+
+      <input type="checkbox" id="CheckBox36" class="checkbox" checked />
+      <label class="list-group-item" for="CheckBox36">Visit Type</label>
     </div>
   </div>
 </div>
@@ -64,8 +150,8 @@ Program for Resistance, Immunology, Surveillance and Modeling of Malaria (PRISM)
         <th>Household ID</th>
         <th>HospVisitDate</th>
         <th>Age</th>
-        <th>Temperature (C)</th>
         <th>Weight (kg)</th>
+        <th>Temperature (C)</th>
         <th>Abdominal Pain Duration</th>
         <th>Admitting Hospital</th>
         <th>Anorexia Duration</th>
@@ -96,6 +182,7 @@ Program for Resistance, Immunology, Surveillance and Modeling of Malaria (PRISM)
         <th>Subjective Fever</th>
         <th>Submicroscopic Plasmodium Present</th>
         <th>Visit Type</th>
+        <th>Vomiting Duration</th>
       </tr>
     </thead>
 
@@ -105,8 +192,8 @@ Program for Resistance, Immunology, Surveillance and Modeling of Malaria (PRISM)
         <td><%= replace_na(observation.household_id) %></td>
         <td><%= replace_na(observation.visit_date) %></td>
         <td><%= replace_na(observation.age_at_visit) %></td>
-        <td><%= replace_na(observation.temperature) %></td>
         <td><%= replace_na(observation.weight) %></td>
+        <td><%= replace_na(observation.temperature) %></td>
         <td><%= replace_na(observation.abdominal_pain_duration) %></td>
         <td><%= replace_na(observation.admitting_hospital) %></td>
         <td><%= replace_na(observation.anorexia_duration) %></td>
@@ -137,6 +224,7 @@ Program for Resistance, Immunology, Surveillance and Modeling of Malaria (PRISM)
         <td><%= replace_na(observation.subjective_fever) %></td>
         <td><%= replace_na(observation.submicroscopic_plasmodium_present) %></td>
         <td><%= replace_na(observation.visit_type) %></td>
+        <td><%= replace_na(observation.vomiting_duration) %></td>
       </tr>
     <% end %>
   </table>
