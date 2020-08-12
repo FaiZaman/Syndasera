@@ -108,7 +108,25 @@ $(document).ready(function(){
           }
         });
       };
+
     loadData();
+    var authorizationToken = "concertina";
+
+    function getSubset(){
+        $.ajax({
+            type: "POST",
+            url: "/get_subset",
+            data: {
+                "participant_id": 1001
+            },
+            dataType: "json",
+            success: function(response) {
+              console.log(response);
+            }
+          });
+    }
+
+    getSubset();
 
     // render column list as html
     function generateColumnList(columnNames){
