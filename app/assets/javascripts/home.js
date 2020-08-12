@@ -45,7 +45,7 @@ $(document).ready(function(){
     ]
 
     generateColumnList(columnNames);
-// $().append("for @observation do |observation|...
+
     // select all checked columns to display
     $("#select-all").on('click', function(){
 
@@ -76,12 +76,39 @@ $(document).ready(function(){
 
     $(".checkbox").on('click', function(){
         var id = $(this).attr('id');
-        var tableHeaders = getTableHeaders();
+        var tableHeaders = getTableHeaders();   // from checkboxes
 
-        tableHeaders.forEach((element) => {
-            console.log(element.replace(/\s/g, "_").toLowerCase());
+        // removes all headers and readds them based on checked checkboxes
+        $("th").remove();
+        $("td").remove();
+
+        //$(".table-body").append("<% @observations.each do |observation| %>"
+        //                        + "<tr class='data-row'>"
+        //                        + "</tr><% end %>")
+
+        // $().append("for @observation do |observation|...
+        tableHeaders.forEach((columnName) => {
+            var columnID = columnName.replace(/\s/g, "_").toLowerCase();
+            $(".header-row").append("<th>" + columnName + "</th>");
+            //$(".data-row").append("<td><%= replace_na(observation." + columnID + ") %></td>")
         });
     });
+
+    var loadData = function(){
+        $.ajax({
+          type: 'GET',
+          contentType: 'application/json; charset=utf-8',
+          url: '/get_data',
+          dataType: 'json',
+          success: function(data){
+            console.log(data);
+          },
+          failure: function(result){
+            console.log("Something went wrong!");
+          }
+        });
+      };
+    loadData();
 
     // render column list as html
     function generateColumnList(columnNames){
