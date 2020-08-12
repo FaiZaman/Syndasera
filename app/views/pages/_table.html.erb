@@ -1,6 +1,6 @@
 <table class="table table-striped table-bordered">
 	<thead>
-    <tr>
+    <tr class="header-row">
 			<th>Participant ID</th>
 			<th>Household ID</th>
 			<th>HospVisitDate</th>
@@ -42,17 +42,17 @@
 	</thead>
 
 	<% @observations.each do |observation| %>
-    <tr>
+    <tr class="data-row">
 			<td><%= replace_na(observation.participant_id) %></td>
 			<td><%= replace_na(observation.household_id) %></td>
 			<td><%= replace_na(observation.visit_date) %></td>
-			<td><%= replace_na(observation.age_at_visit) %></td>
+			<td><%= replace_na(observation.age) %></td>
 			<td><%= replace_na(observation.weight) %></td>
 			<td><%= replace_na(observation.temperature) %></td>
 			<td><%= replace_na(observation.abdominal_pain_duration) %></td>
 			<td><%= replace_na(observation.admitting_hospital) %></td>
 			<td><%= replace_na(observation.anorexia_duration) %></td>
-			<td><%= replace_na(observation.asexual_plasmodium_parasite_density) %></td>
+			<td><%= replace_na(observation.plasmodium_parasite_density) %></td>
 			<td><%= replace_na(observation.basis_of_complicated_diagnosis) %></td>
 			<td><%= replace_na(observation.complicated_malaria) %></td>
 			<td><%= replace_na(observation.cough_duration) %></td>
@@ -67,7 +67,7 @@
 			<td><%= replace_na(observation.jaundice_duration) %></td>
 			<td><%= replace_na(observation.joint_pains_duration) %></td>
 			<td><%= replace_na(observation.malaria_diagnosis) %></td>
-			<td><%= replace_na(observation.malaria_diagnosis_and_parasite_status) %></td>
+			<td><%= replace_na(observation.parasite_status) %></td>
 			<td><%= replace_na(observation.malaria_treatment) %></td>
 			<td><%= replace_na(observation.muscle_aches_duration) %></td>
 			<td><%= replace_na(observation.non_malaria_medication) %></td>

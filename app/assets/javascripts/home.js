@@ -1,13 +1,16 @@
+"use strict";
+
 $(document).ready(function(){
     
-    // render column list as html
-    const column_names = [
+    $('[data-toggle="tooltip"]').tooltip(); // PRISM description
+
+    const columnNames = [
         'Participant ID',
         'Household ID',
-        'HospVisitDate',
+        'Visit Date',
         'Age',
-        'Weight (kg)',
-        'Temperature (C)',
+        'Weight',
+        'Temperature',
         'Abdominal Pain Duration',
         'Admitting Hospital',
         'Anorexia Duration',
@@ -41,21 +44,63 @@ $(document).ready(function(){
         'Vomiting Duration'
     ]
 
-    for (var i = 1; i < column_names.length + 1; i++){
-        $(".list-group").append("<input type='checkbox' id='CheckBox" 
-                                + i + "' class='checkbox' checked /><label class='list-group-item' for='CheckBox"
-                                + i + "'>" + column_names[i - 1] + "</label>")
+    generateColumnList(columnNames);
+// $().append("for @observation do |observation|...
+    // select all checked columns to display
+    $("#select-all").on('click', function(){
+
+        var tableHeaders = getTableHeaders();
+        $(".checkbox").prop('checked', true);
+        
+        if (tableHeaders.length < columnNames.length){
+            for (var i = 0; i < columnNames.length; i++){
+                $(".header-row").append("<th>" + columnNames[i] + "</th>")
+            }
+        }
+        $("td").show();
+        $(".pagination-div").show();
+    });
+
+    // remove all columns from display
+    $("#select-none").on('click', function(){
+
+        var tableHeaders = getTableHeaders();
+        $(".checkbox").prop('checked', false);
+
+        if (tableHeaders.length > 0){
+            $("th").remove();
+            $("td").hide();
+            $(".pagination-div").hide();
+        }
+    });
+
+    $(".checkbox").on('click', function(){
+        var id = $(this).attr('id');
+        var tableHeaders = getTableHeaders();
+
+        tableHeaders.forEach((element) => {
+            console.log(element.replace(/\s/g, "_").toLowerCase());
+        });
+    });
+
+    // render column list as html
+    function generateColumnList(columnNames){
+        for (var i = 1; i < columnNames.length + 1; i++){
+            const id = columnNames[i - 1].replace(/\s/g , "-");
+            $(".list-group").append("<input type='checkbox' id='" + id
+                                    + "' class='checkbox' checked /><label class='list-group-item'"
+                                    + "for='" + id + "'>" + columnNames[i - 1] + "</label>")
+        }
     }
 
-    $('[data-toggle="tooltip"]').tooltip(); // PRISM description
+    // gets the current table header names
+    function getTableHeaders(){
+        
+        var tableHeaders = []
+        $('input[type=checkbox]:checked').next().each(function(){
+            tableHeaders.push($(this).text());
+        });
 
-    // select all and none for column checkboxes
-    $("#select-all").on('click', function(){
-        $(".checkbox").prop('checked', true)
-    });
-
-    $("#select-none").on('click', function(){
-        $(".checkbox").prop('checked', false)
-    });
-
+        return tableHeaders;
+    }
 });
