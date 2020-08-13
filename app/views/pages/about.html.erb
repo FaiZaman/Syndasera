@@ -101,6 +101,8 @@
 <!--<a href="/make_request">text</a>-->
 <!--<a href="/prism_dashboard">text</a>-->
 
+<!--dot plot from d3 website-->
+
 <!--<meta charset="utf-8">-->
 <!--<script src="https://d3js.org/d3.v4.js"></script>-->
 <div id="my_dataviz"></div>
@@ -154,5 +156,17 @@ d3.csv("https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_data
       .style("fill", "#69b3a2")
 
 })
+
+</script>
+
+<!--tSNE plot-->
+
+<script>
+  var x_axis = [1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12,13,13,14,14,15,15,16,16,17,17,18,18,19,19,20,20]
+  var y_axis_real = [2,4,2,4,3,5,6,7,3,8,9,3,4,5,7,11,12,15,16,11,16,4,16,13,4,15,20,1,3,5,6,7,18,16,19,7]
+  var dataset_tSNE=[];
+  for(var i=0; i<x_axis.length; i++){
+    var obj = {real: x_axis[i], synthetic: y_axis_real[i]};
+    dataset_tSNE.push(obj);
 
 </script>
