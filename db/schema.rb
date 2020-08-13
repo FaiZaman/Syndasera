@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_12_083356) do
+ActiveRecord::Schema.define(version: 2020_08_13_131321) do
 
   create_table "prism_observations", force: :cascade do |t|
     t.integer "observation_id"
@@ -48,7 +48,7 @@ ActiveRecord::Schema.define(version: 2020_08_12_083356) do
     t.string "joint_pains"
     t.integer "joint_pains_duration"
     t.string "malaria_diagnosis"
-    t.string "parasite_status"
+    t.string "malaria_diagnosis_and_parasite_status"
     t.string "malaria_treatment"
     t.string "muscle_aches"
     t.integer "muscle_aches_duration"

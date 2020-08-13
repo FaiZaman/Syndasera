@@ -62,6 +62,10 @@ thead tr:nth-child(1) th {
     z-index: 10;
 }
 
+.nowrap {
+    white-space: nowrap;
+}
+
 .list-group{
     max-height: 300px;
     overflow: scroll;

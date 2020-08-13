@@ -1,7 +1,7 @@
 "use strict";
 
 $(document).ready(function(){
-    
+
     $('[data-toggle="tooltip"]').tooltip(); // PRISM description
 
     const columnNames = [
@@ -24,12 +24,12 @@ $(document).ready(function(){
         'Fever Duration',
         'Headache Duration',
         'Hospital Admission Date',
-        'Hopsital Discharge Date',
+        'Hospital Discharge Date',
         'ITN Last Night',
         'Jaundice Duration',
         'Joint Pains Duration',
         'Malaria Diagnosis',
-        'Parasite Status',
+        'Malaria Diagnosis and Parasite Status',
         'Malaria Treatment',
         'Muscle Aches Duration',
         'Non Malaria Medication',
@@ -75,63 +75,52 @@ $(document).ready(function(){
     });
 
     $(".checkbox").on('click', function(){
-        var id = $(this).attr('id');
+        var checkboxID = $(this).attr('id');
+        var realID = checkboxID.replace('-checkbox', '');
+
         var tableHeaders = getTableHeaders();   // from checkboxes
+        var columns = [];
 
         // removes all headers and readds them based on checked checkboxes
         $("th").remove();
-        $("td").remove();
 
-        //$(".table-body").append("<% @observations.each do |observation| %>"
-        //                        + "<tr class='data-row'>"
-        //                        + "</tr><% end %>")
-
-        // $().append("for @observation do |observation|...
         tableHeaders.forEach((columnName) => {
             var columnID = columnName.replace(/\s/g, "_").toLowerCase();
+            columns.push(columnID);
             $(".header-row").append("<th>" + columnName + "</th>");
-            //$(".data-row").append("<td><%= replace_na(observation." + columnID + ") %></td>")
         });
-    });
 
-    var loadData = function(){
-        $.ajax({
-          type: 'GET',
-          contentType: 'application/json; charset=utf-8',
-          url: '/get_data',
-          dataType: 'json',
-          success: function(data){
-            console.log(data);
-          },
-          failure: function(result){
-            console.log("Something went wrong!");
-          }
-        });
-      };
+        if ($(this).is(":checked")){
+            // is now checked so display it
+            $("." + realID).show();
+        }
+        else {
+            // is now not checked so hide it
+            $("." + realID).hide();
+        }
+    });  
 
-    loadData();
-    var authorizationToken = "concertina";
-
-    function getSubset(){
+    function getSubset(columns){
         $.ajax({
             type: "POST",
             url: "/get_subset",
             data: {
-                "participant_id": 1001
+                cols: columns
             },
             dataType: "json",
             success: function(response) {
               console.log(response);
+            },
+            failure: function(response){
+                console.log("Something went wrong!");
             }
           });
     }
 
-    getSubset();
-
     // render column list as html
     function generateColumnList(columnNames){
         for (var i = 1; i < columnNames.length + 1; i++){
-            const id = columnNames[i - 1].replace(/\s/g , "-");
+            const id = columnNames[i - 1].replace(/\s/g , "-").toLowerCase() + "-checkbox";
             $(".list-group").append("<input type='checkbox' id='" + id
                                     + "' class='checkbox' checked /><label class='list-group-item'"
                                     + "for='" + id + "'>" + columnNames[i - 1] + "</label>")

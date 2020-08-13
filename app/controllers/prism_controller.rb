@@ -9,7 +9,7 @@ class PrismController < ApplicationController
   end
 
   def get_subset
-    @subset = PrismObservation.select("participant_id, household_id, visit_date").where(participant_id: params[:participant_id]).to_json()
+    @subset = PrismObservation.select(params[:cols])
     render json: @subset
   end
 
