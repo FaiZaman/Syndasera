@@ -5,7 +5,6 @@ $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip(); // PRISM description
 
     const columnNames = [
-        'Participant ID',
         'Household ID',
         'Visit Date',
         'Age',
@@ -50,15 +49,20 @@ $(document).ready(function(){
     $("#select-all").on('click', function(){
 
         var tableHeaders = getTableHeaders();
-        $(".checkbox").prop('checked', true);
-        
+		$(".checkbox").prop('checked', true);
+
         if (tableHeaders.length < columnNames.length){
             for (var i = 0; i < columnNames.length; i++){
                 $(".header-row").append("<th>" + columnNames[i] + "</th>")
             }
-        }
-        $("td").show();
-        $(".pagination-div").show();
+		}
+
+		// sets all as true
+		var columnCheckedCookie = JSON.parse(sessionStorage.getItem('columnCheckedCookie'));
+		Object.keys(columnCheckedCookie).forEach(v => columnCheckedCookie[v] = true);
+		sessionStorage.setItem('columnCheckedCookie', JSON.stringify(columnCheckedCookie));
+		$(".col").show();
+
     });
 
     // remove all columns from display
@@ -68,36 +72,38 @@ $(document).ready(function(){
         $(".checkbox").prop('checked', false);
 
         if (tableHeaders.length > 0){
-            $("th").remove();
-            $("td").hide();
-            $(".pagination-div").hide();
-        }
+            $("th").not(':first').remove();
+            $(".col").hide();
+		}
+
+		// sets all as false
+		var columnCheckedCookie = JSON.parse(sessionStorage.getItem('columnCheckedCookie'));
+		Object.keys(columnCheckedCookie).forEach(v => columnCheckedCookie[v] = false);
+		sessionStorage.setItem('columnCheckedCookie', JSON.stringify(columnCheckedCookie));
+
     });
 
     $(".checkbox").on('click', function(){
         var checkboxID = $(this).attr('id');
-        var realID = checkboxID.replace('-checkbox', '');
+		var realID = checkboxID.replace('-checkbox', '');
+		var columnCheckedCookie = JSON.parse(sessionStorage.getItem('columnCheckedCookie'));
 
-        var tableHeaders = getTableHeaders();   // from checkboxes
-        var columns = [];
-
-        // removes all headers and readds them based on checked checkboxes
-        $("th").remove();
-
-        tableHeaders.forEach((columnName) => {
-            var columnID = columnName.replace(/\s/g, "_").toLowerCase();
-            columns.push(columnID);
-            $(".header-row").append("<th>" + columnName + "</th>");
-        });
+		removeHeaders();
 
         if ($(this).is(":checked")){
             // is now checked so display it
-            $("." + realID).show();
+			$("." + realID).show();
+			columnCheckedCookie[realID] = true;
         }
         else {
             // is now not checked so hide it
-            $("." + realID).hide();
-        }
+			$("." + realID).hide();
+			columnCheckedCookie[realID] = false;
+		}
+
+		console.log(columnCheckedCookie);
+		sessionStorage.setItem('columnCheckedCookie', JSON.stringify(columnCheckedCookie));
+
     });  
 
     function getSubset(columns){
@@ -119,22 +125,63 @@ $(document).ready(function(){
 
     // render column list as html
     function generateColumnList(columnNames){
-        for (var i = 1; i < columnNames.length + 1; i++){
-            const id = columnNames[i - 1].replace(/\s/g , "-").toLowerCase() + "-checkbox";
-            $(".list-group").append("<input type='checkbox' id='" + id
-                                    + "' class='checkbox' checked /><label class='list-group-item'"
-                                    + "for='" + id + "'>" + columnNames[i - 1] + "</label>")
-        }
+
+		var columnChecks = {};
+		var columnCheckedCookie = JSON.parse(sessionStorage.getItem('columnCheckedCookie'));
+		console.log(columnCheckedCookie);
+
+		for (var i = 0; i < columnNames.length; i++){
+
+			const columnName = columnNames[i]
+			const id = columnName.replace(/\s/g , "-").toLowerCase();
+			const checkboxID = id + "-checkbox";
+
+			var checked = "checked";
+
+			if (columnCheckedCookie != null){
+				if (!columnCheckedCookie[id]){
+					checked = "";
+				}
+				if (checked){
+					$("." + id).show();
+				}
+				else {
+					$("." + id).hide();
+				}
+			}
+
+			$(".list-group").append("<input type='checkbox' id='" + checkboxID + "' class='checkbox'"
+									+ checked + "/><label class='list-group-item'" + "for='"
+									+ checkboxID + "'>" + columnName + "</label>")
+
+			columnChecks[id] = $("#" + checkboxID).is(':checked');
+
+		}
+
+		sessionStorage.setItem('columnCheckedCookie', JSON.stringify(columnChecks));
+		removeHeaders();
     }
 
     // gets the current table header names
     function getTableHeaders(){
         
-        var tableHeaders = []
+        var tableHeaders = ['Participant ID']
         $('input[type=checkbox]:checked').next().each(function(){
             tableHeaders.push($(this).text());
         });
 
         return tableHeaders;
-    }
+	}
+	
+	// removes all headers and readds them based on checked checkboxes
+	function removeHeaders(tableHeaders){
+
+		var tableHeaders = getTableHeaders();   // from checkboxes
+
+		$("th").remove();
+		tableHeaders.forEach((columnName) => {
+			$(".header-row").append("<th>" + columnName + "</th>");
+		});
+	}
+
 });
