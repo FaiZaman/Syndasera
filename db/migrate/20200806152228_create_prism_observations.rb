@@ -7,10 +7,10 @@ class CreatePrismObservations < ActiveRecord::Migration[6.0]
       t.string :abdominal_pain
       t.integer :abdominal_pain_duration
       t.string :admitting_hospital
-      t.float :age_at_visit
+      t.float :age
       t.string :anorexia
       t.integer :anorexia_duration
-      t.integer :asexual_plasmodium_parasite_density
+      t.integer :plasmodium_parasite_density
       t.string :asexual_plasmodium_parasite_present
       t.string :basis_of_complicated_diagnosis
       t.string :complicated_malaria
@@ -36,7 +36,7 @@ class CreatePrismObservations < ActiveRecord::Migration[6.0]
       t.string :joint_pains
       t.integer :joint_pains_duration
       t.string :malaria_diagnosis
-      t.string :malaria_diagnosis_and_parasite_status
+      t.string :parasite_status
       t.string :malaria_treatment
       t.string :muscle_aches
       t.integer :muscle_aches_duration

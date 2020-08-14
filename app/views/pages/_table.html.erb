@@ -1,0 +1,161 @@
+<table class="table table-striped table-bordered">
+	<thead>
+    <tr class="header-row">
+			<th>Participant ID</th>
+			<th>Household ID</th>
+			<th>Visit Date</th>
+			<th>Age</th>
+			<th>Weight (kg)</th>
+			<th>Temperature (C)</th>
+			<th>Abdominal Pain Duration</th>
+			<th>Admitting Hospital</th>
+			<th>Anorexia Duration</th>
+			<th>Plasmodium Parasite Density</th>
+			<th>Basis of Complicated Diagnosis</th>
+			<th>Complicated Malaria</th>
+			<th>Cough Duration</th>
+			<th>Diagnosis at Hospitalisation</th>
+			<th>Diarrhoea Duration</th>
+			<th>Fatigue Duration</th>
+			<th>Fever Duration</th>
+			<th>Headache Duration</th>
+			<th>Hospital Admission Date</th>
+			<th>Hospital Discharge Date</th>
+			<th>ITN Last Night</th>
+			<th>Jaundice Duration</th>
+			<th>Joint Pains Duration</th>
+			<th>Malaria Diagnosis</th>
+			<th>Malaria Diagnosis and Parasite Status</th>
+			<th>Malaria Treatment</th>
+			<th>Muscle Aches Duration</th>
+			<th>Non Malaria Medication</th>
+			<th>Other Diagnosis</th>
+			<th>Other Medical Complaint</th>
+			<th>Plasmodium Gametocytes Present</th>
+			<th>Seizures Duration</th>
+			<th>Severe Malaria Criteria</th>
+			<th>Subjective Fever</th>
+			<th>Submicroscopic Plasmodium Present</th>
+			<th>Visit Type</th>
+			<th>Vomiting Duration</th>
+    </tr>
+	</thead>
+
+	<div class="table-body">
+		<% @observations.each do |observation| %>
+			<tr class="data-row">
+				<td class="participant-id">
+					<%= replace_na(observation.participant_id) %>
+				</td>
+				<td class="col household-id">
+					<%= replace_na(observation.household_id) %>
+				</td>
+				<td class="col visit-date nowrap">
+					<%= replace_na(observation.visit_date) %>
+				</td>
+				<td class="col age">
+					<%= replace_na(observation.age) %>
+				</td>
+				<td class="col weight">
+					<%= replace_na(observation.weight) %>
+				</td>
+				<td class="col temperature">
+					<%= replace_na(observation.temperature) %>
+				</td>
+				<td class="col abdominal-pain-duration">
+					<%= replace_na(observation.abdominal_pain_duration) %>
+				</td>
+				<td class="col admitting-hospital">
+					<%= replace_na(observation.admitting_hospital) %>
+				</td>
+				<td class="col anorexia-duration">
+					<%= replace_na(observation.anorexia_duration) %>
+				</td>
+				<td class="col plasmodium-parasite-density">
+					<%= replace_na(observation.plasmodium_parasite_density) %>
+				</td>
+				<td class="col basis-of-complicated-diagnosis">
+					<%= replace_na(observation.basis_of_complicated_diagnosis) %>
+				</td>
+				<td class="col complicated-malaria">
+					<%= replace_na(observation.complicated_malaria) %>
+				</td>
+				<td class="col cough-duration">
+					<%= replace_na(observation.cough_duration) %>
+				</td>
+				<td class="col diagnosis-at-hospitalisation">
+					<%= replace_na(observation.diagnosis_at_hospitalisation) %>
+				</td>
+				<td class="col diarrhoea-duration">
+					<%= replace_na(observation.diarrhoea_duration) %>
+				</td>
+				<td class="col fatigue-duration">
+					<%= replace_na(observation.fatigue_duration) %>
+				</td>
+				<td class="col fever-duration">
+					<%= replace_na(observation.fever_duration) %>
+				</td>
+				<td class="col headache-duration">
+					<%= replace_na(observation.headache_duration) %>
+				</td>
+				<td class="col hospital-admission-date nowrap">
+					<%= replace_na(observation.hospital_admission_date) %>
+				</td>
+				<td class="col hospital-discharge-date nowrap">
+					<%= replace_na(observation.hospital_discharge_date) %>
+				</td>
+				<td class="col itn-last-night">
+					<%= replace_na(observation.itn_last_night) %>
+				</td>
+				<td class="col jaundice-duration">
+					<%= replace_na(observation.jaundice_duration) %>
+				</td>
+				<td class="col joint-pains-duration">
+					<%= replace_na(observation.joint_pains_duration) %>
+				</td>
+				<td class="col malaria-diagnosis">
+					<%= replace_na(observation.malaria_diagnosis) %>
+				</td>
+				<td class="col malaria-diagnosis-and-parasite-status nowrap">
+					<%= replace_na(observation.malaria_diagnosis_and_parasite_status) %>
+				</td>
+				<td class="col malaria-treatment">
+					<%= replace_na(observation.malaria_treatment) %>
+				</td>
+				<td class="col muscle-aches-duration">
+					<%= replace_na(observation.muscle_aches_duration) %>
+				</td>
+				<td class="col non-malaria-medication">
+					<%= replace_na(observation.non_malaria_medication) %>
+				</td>
+				<td class="col other-diagnosis">
+					<%= replace_na(observation.other_diagnosis) %>
+				</td>
+				<td class="col other-medical-complaint">
+					<%= replace_na(observation.other_medical_complaint) %>
+				</td>
+				<td class="col plasmodium-gametocytes-present">
+					<%= replace_na(observation.plasmodium_gametocytes_present) %>
+				</td>
+				<td class="col seizures-duration">
+					<%= replace_na(observation.seizures_duration) %>
+				</td>
+				<td class="col severe-malaria-criteria">
+					<%= replace_na(observation.severe_malaria_criteria) %>
+				</td>
+				<td class="col subjective-fever">
+					<%= replace_na(observation.subjective_fever) %>
+				</td>
+				<td class="col submicroscopic-plasmodium-present">
+					<%= replace_na(observation.submicroscopic_plasmodium_present) %>
+				</td>
+				<td class="col visit-type">
+					<%= replace_na(observation.visit_type) %>
+				</td>
+				<td class="col vomiting-duration">
+					<%= replace_na(observation.vomiting_duration) %>
+				</td>
+			</tr>
+		<% end %>
+	</div>
+</table>
