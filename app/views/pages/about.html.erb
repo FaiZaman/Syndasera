@@ -67,6 +67,7 @@
 <div id="barchart_mockup"></div>
         <li><b>Inter-variable dependencies.</b> To confirm dependencies between variables within columns are maintained, Pearson’s correlation coefficient <i>(link dictionary)</i> is calculated between categorical columns within the original and synthetic data. To compare the datasets, the MSE is calculated between each correlation coefficient. </li>
         <li><b>Autocorrelation comparison.</b> To confirm the variance in numerical values/counts over time are maintained, autocorrelation graphs are plotted for both datasets and compared.</li>
+<div id="Autocorrelation_mockup"></div>
       </ol>
   <li><u>Predictiveness.</u> To assess predictiveness, the following methods are applied:</li>
       <ol>
@@ -103,6 +104,8 @@
 
 <!--<a href="/make_request">text</a>-->
 <!--<a href="/prism_dashboard">text</a>-->
+
+<!-- tSNE mockup-->
 
 <script>
   var x_axis = [1,1,2,2,3,3,4,4.5,5,5,6.5,6,7,7,8,8,9,9.5,10,10,11,11,12,12,13.5,13,14,14.5,15,15,16,16,17,17,18,18.5,19,19,20,20];
@@ -287,6 +290,120 @@ svg.selectAll("mybar")
 
 </script>
 
+<!-- Autocorrelation mockup-->
+
+<script>
+
+var numbers = [];
+for (var i = 0; i <= 40; i++) {
+    numbers.push(i);
+}
+var auto_real= [ 1.0,  0.83194072,  0.60752648,  0.40733211,  0.2393539 ,
+        0.06308392, -0.03042551, -0.00156437,  0.11492175,  0.23156727,
+        0.40431004,  0.587576  ,  0.74329417,  0.73899856,  0.60086223,
+        0.42929339,  0.26445132,  0.08971791, -0.04624491, -0.10146541,
+       -0.05592395,  0.02258253,  0.14953432,  0.32115828,  0.49650044,
+        0.57808745,  0.56546254,  0.45923887,  0.31581384,  0.15070561,
+       -0.00991299, -0.11399981, -0.14651289, -0.12881442, -0.04292734,
+        0.0860217 ,  0.25763288,  0.37661576,  0.4222832 ,  0.39984781,
+        0.30730804];
+
+var auto_fake = [ 1.0,  0.85194072,  0.65752648,  0.40733211,  0.2293539 ,
+        0.06308392, -0.03042551, -0.00156437,  0.13492175,  0.23156727,
+        0.40431004,  0.557576  ,  0.78329417,  0.73899856,  0.60086223,
+        0.42929339,  0.23445132,  0.08971791, -0.07624491, -0.10146541,
+       -0.05592395,  0.02258253,  0.14953432,  0.37115828,  0.46650044,
+        0.55808745,  0.56546254,  0.45923887,  0.33581384,  0.15070561,
+       -0.00991299, -0.11399981, -0.12651289, -0.12881442, -0.04292734,
+        0.0860217 ,  0.25763288,  0.39661576,  0.4822832 ,  0.39984781,
+        0.30730804];
+
+var auto_real_df=[];
+var auto_fake_df=[];
+
+for(var i=0; i<numbers.length; i++){
+    var obj = {real_x: numbers[i], real_auto: auto_real[i]};
+    var obj_fake = {fake_x: numbers[i], fake_auto: auto_fake[i]};
+    auto_real_df.push(obj);
+    auto_fake_df.push(obj_fake);
+        }
+console.log(auto_real_df);
+console.log(auto_fake_df);
+
+// set the dimensions and margins of the graph
+var margin = {top: 20, right: 30, bottom: 40, left: 40},
+    width = 340 - margin.left - margin.right,
+    height = 300 - margin.top - margin.bottom;
+
+// append the svg object to the body of the page
+var svg = d3.select("#Autocorrelation_mockup")
+            .append("svg")
+              .attr("width", width + margin.left + margin.right)
+              .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+              .attr("transform",
+                    "translate(" + margin.left + "," + margin.top + ")");
+
+// Add X axis
+    var x = d3.scaleLinear()
+      .domain(d3.extent(auto_real_df, function(d) { return d.real_x; }))
+      .range([ 0, width ]);
+    svg.append("g")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x));
+    // Add Y axis
+    var y = d3.scaleLinear()
+      .domain( [d3.min(auto_real_df, function(d) { return +d.real_auto }), d3.max(auto_real_df, function(d) { return +d.real_auto })])
+      .range([ height, 0 ]);
+    svg.append("g")
+      .call(d3.axisLeft(y));
+
+// Add the line
+    svg.append("path")
+      .datum(auto_real_df)
+      .attr("fill", "none")
+      .attr("stroke", "#fa0000")
+      .attr("stroke-width", 1.5)
+      .attr("d", d3.line()
+        .x(function(d) { return x(d.real_x) })
+        .y(function(d) { return y(d.real_auto) })
+        )
+    // Add the points
+    svg
+      .append("g")
+      .selectAll("dot")
+      .data(auto_real_df)
+      .enter()
+      .append("circle")
+        .attr("cx", function(d) { return x(d.real_x) } )
+        .attr("cy", function(d) { return y(d.real_auto) } )
+        .attr("r", 3)
+        .attr("fill", "#fa0000")
+
+// Add the line
+    svg.append("path")
+      .datum(auto_fake_df)
+      .attr("fill", "none")
+      .attr("stroke", "#417ee0")
+      .attr("stroke-width", 1.5)
+      .attr("d", d3.line()
+        .x(function(d) { return x(d.fake_x) })
+        .y(function(d) { return y(d.fake_auto) })
+        )
+    // Add the points
+    svg
+      .append("g")
+      .selectAll("dot")
+      .data(auto_fake_df)
+      .enter()
+      .append("circle")
+        .attr("cx", function(d) { return x(d.fake_x) } )
+        .attr("cy", function(d) { return y(d.fake_auto) } )
+        .attr("r", 3)
+        .attr("fill", "#417ee0")
+
+</script>
+
 <!--predictive model mockup-->
 
 <script>
@@ -411,7 +528,3 @@ svg.append("path")
 
 
 </script>
-
-<p>
-<!--bar graph model mockup-->
-</p>
