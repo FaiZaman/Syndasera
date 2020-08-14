@@ -19,12 +19,14 @@ function error() {
 
 function visualisation(data) {
   console.log(data);
+d3.select("#content")
+    .append("div")
+      .attr("id","my_first_histogram")
 
-//<meta charset="utf-8">
-//<script src="https://d3js.org/d3.v4.js"></script>
-//<div id="my_first_histogram"></div>
+d3.select("#content")
+      .append("div")
+        .attr("id","my_second_histogram")
 
-//  <script>
 // set the dimensions and margins of the graph
     var margin = {top: 10, right: 30, bottom: 30, left: 40},
         width = 460 - margin.left - margin.right,
@@ -41,8 +43,8 @@ function visualisation(data) {
 
 // X axis: scale and draw:
     var x = d3.scaleLinear()
-        .domain([0, 20])     // can use this instead of 1000 to have the max of data: d3.max(data, function(d) { return +d.price })
-//        .domain([0, d3.max(data, function(d) { return +d["Hemoglobin (g/dL) [EUPATH_0000047]"]})])
+//        .domain([0, 20])     // can use this instead of 1000 to have the max of data: d3.max(data, function(d) { return +d.price })
+        .domain([0, d3.max(data, function(d) { return +d["Hemoglobin (g/dL) [EUPATH_0000047]"]})])
         .range([0, width]);
     svg.append("g")
         .attr("transform", "translate(0," + height + ")")
@@ -74,12 +76,8 @@ function visualisation(data) {
             .attr("height", function(d) { return height - y(d.length); })
             .style("fill", "#69b3a2")
 
-                  //});
 
-//    </script>
-
-
-}
+    }
 
 d3.select("body").transition().style("background-color", "#f6abb650")
 

@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   get '/about' => 'pages#about'
   get '/make_request' => 'pages#make_request'
   get '/prism_dashboard' => 'pages#prism_dashboard'
-
+  get '/present_data' => 'pages#present_data'
   devise_scope :user do
     get '/sign-in' => "devise/sessions#new", :as => :login
   end
