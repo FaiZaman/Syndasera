@@ -9,7 +9,11 @@ require("@rails/activestorage").start()
 require("channels")
 var d3 = require("d3");
 window.d3 = d3
+<<<<<<< HEAD
 var $ = require('jquery')
+=======
+var $ = require('jquery') 
+>>>>>>> master
 window.$ = $
 
 // Uncomment to copy all static images under ../images to the output folder and reference
