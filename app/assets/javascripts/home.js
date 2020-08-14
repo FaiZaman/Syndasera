@@ -101,10 +101,9 @@ $(document).ready(function(){
 			columnCheckedCookie[realID] = false;
 		}
 
-		console.log(columnCheckedCookie);
 		sessionStorage.setItem('columnCheckedCookie', JSON.stringify(columnCheckedCookie));
 
-    });  
+    });
 
     function getSubset(columns){
         $.ajax({
@@ -127,10 +126,9 @@ $(document).ready(function(){
     function generateColumnList(columnNames){
 
 		var columnChecks = {};
-		var columnCheckedCookie = JSON.parse(sessionStorage.getItem('columnCheckedCookie'));
-		console.log(columnCheckedCookie);
+        var columnCheckedCookie = JSON.parse(sessionStorage.getItem('columnCheckedCookie'));
 
-		for (var i = 0; i < columnNames.length; i++){
+        for (var i = 0; i < columnNames.length; i++){
 
 			const columnName = columnNames[i]
 			const id = columnName.replace(/\s/g , "-").toLowerCase();
@@ -157,8 +155,10 @@ $(document).ready(function(){
 			columnChecks[id] = $("#" + checkboxID).is(':checked');
 
 		}
-
-		sessionStorage.setItem('columnCheckedCookie', JSON.stringify(columnChecks));
+        
+        if (columnCheckedCookie == null){
+            sessionStorage.setItem('columnCheckedCookie', JSON.stringify(columnChecks));
+        }
 		removeHeaders();
     }
 

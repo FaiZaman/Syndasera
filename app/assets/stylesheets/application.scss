@@ -19,7 +19,7 @@ body {
   }
 
 .nav-link {
-    color: white;
+    color: black;
     transition-duration: 0.5s;
 }
 
@@ -124,11 +124,7 @@ thead tr:nth-child(1) th {
     padding-right: 0px;
   }
 
-.btn-info {
-    margin-top: 5px;
-}
-
-.btn-light {
+.btn-info, .btn-secondary {
     margin-top: 5px;
 }
 
