@@ -43,16 +43,16 @@ d3.select("#content")
 // X axis: scale and draw:
     var x = d3.scaleLinear()
 //        .domain([0, 20])     // can use this instead of 1000 to have the max of data: d3.max(data, function(d) { return +d.price })
-        .domain([0, d3.max(data, function(d) { return +d["Hemoglobin (g/dL) [EUPATH_0000047]"]})])
+        .domain([0, d3.max(data, function(d) { return +d.haemoglobin})])
         .range([0, width]);
     svg.append("g")
         .attr("transform", "translate(0," + height + ")")
         .call(d3.axisBottom(x));
 
     var histogram = d3.histogram()
-        .value(function(data) { return data["Hemoglobin (g/dL) [EUPATH_0000047]"]; })   // I need to give the vector of value
+        .value(function(data) { return data.haemoglobin; })   // I need to give the vector of value
         .domain(x.domain())  // then the domain of the graphic
-        .thresholds(x.ticks(20)); // then the numbers of bins
+        .thresholds(x.ticks(40)); // then the numbers of bins
 
                 // And apply this function to data to get the bins
     var bins = histogram(data);
@@ -60,7 +60,8 @@ d3.select("#content")
                   // Y axis: scale and draw:
     var y = d3.scaleLinear()
         .range([height, 0]);
-        y.domain([0, d3.max(bins, function(d) { return d.length; })]);   // d3.hist has to be called before the Y axis obviously
+        y.domain([0, d3.max(bins, function(data) { return data.length; })]);   // d3.hist has to be called before the Y axis obviously
+//          y.domain([0, 50])
     svg.append("g")
         .call(d3.axisLeft(y));
 
