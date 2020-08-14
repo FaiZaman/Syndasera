@@ -13,4 +13,9 @@ class PrismController < ApplicationController
     render json: @subset
   end
 
+  def get_data_500
+    @prism_data = PrismObservation.first(500).to_json()
+    render json: @prism_data
+  end
+
 end

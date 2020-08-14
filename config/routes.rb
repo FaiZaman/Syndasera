@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get '/make_request' => 'pages#make_request'
   get '/prism_dashboard' => 'pages#prism_dashboard'
   get '/get_data' => 'prism#get_data'
+  get '/get_data_500' => 'prism#get_data_500'
   post '/get_subset' => 'prism#get_subset'
 
   devise_scope :user do
