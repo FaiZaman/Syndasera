@@ -535,6 +535,7 @@ var svg = d3.select("#predictive_mockup")
           .append("div")
           .style("opacity", 0)
           .attr("class", "tooltip")
+          .style("position", "absolute")
           .style("background-color", "white")
           .style("border", "solid")
           .style("border-width", "1px")
@@ -543,6 +544,10 @@ var svg = d3.select("#predictive_mockup")
 
           // Three function that change the tooltip when user hover / move / leave a cell
       var mouseover = function(d) {
+        // d3.mouse(this) returns x,y in relation to the svg, not in relation to the page
+        // so when you transform the div it ends up in the corner
+        // So you need to use either event.pageY or d3.event.pageY
+        // I'd use the d3 one just for cohesivness but don't think it matters tbh
         tooltip
           .style("opacity", 1)
         d3.select(this)
@@ -552,13 +557,14 @@ var svg = d3.select("#predictive_mockup")
       var mousemove = function(d) {
         tooltip
           .html(d.variable)
-//          .style("left", (d3.mouse(this)[0]+1000)+ "px")
-//          .style("top", (d3.mouse(this)[1])+"px")
-          .style("left", (d3.mouse(this)[0]+50))
-          .style("top", (d3.mouse(this)[1]))
+          .style("top", (d3.event.pageY + 10)+"px")
+          .style("left",(d3.event.pageX + 10)+"px")
+          // .style("top", (event.pageY)+"px")
+          // .style("left",(event.pageX)+"px")
       }
       var mouseleave = function(d) {
         tooltip
+          .transition()
           .style("opacity", 0)
         d3.select(this)
           .style("stroke", "none")
