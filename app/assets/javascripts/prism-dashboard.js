@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-console.log("hello world")
-=======
->>>>>>> master
 var loadData = function(){
                 $.ajax({
                   type: 'GET',
@@ -19,7 +15,6 @@ var loadData = function(){
 function error() {
     console.log("Something went wrong!");
 }
-<<<<<<< HEAD
 
 function visualisation(data) {
   console.log(data);
@@ -83,11 +78,6 @@ d3.select("#content")
 
     }
 
-=======
-function visualisation(data) {
-    console.log(data);
-}
->>>>>>> master
 d3.select("body").transition().style("background-color", "#f6abb650")
 
 d3.select("#content").append("div").attr("class", "container")
@@ -95,13 +85,7 @@ d3.select("#content").append("div").attr("class", "container")
                     For the time being please use dummy data defined as an object in this file. \
                     Once we get the rails model with the data in it I might become a .js.erb so you\
                     can query the model from here :D.")
-<<<<<<< HEAD
 
 $(document).ready(function(){ 
 loadData()
  });
-=======
-$(document).ready(function(){
-  loadData()
-});
->>>>>>> master
