@@ -203,6 +203,10 @@ svg.selectAll("mybar")
     .attr("stroke", "black");
 
     svg.append("text").attr("x", 60).attr("y", 0).text("Empirical distribution").style("font-size", "15px").attr("alignment-baseline","middle")
+    svg.append("circle").attr("cx",20).attr("cy",10).attr("r", 5).style("fill", "#fa0000").style("opacity", 0.7)
+    svg.append("circle").attr("cx",20).attr("cy",30).attr("r", 5).style("fill", "#417ee0").style("opacity", 0.7)
+    svg.append("text").attr("x", 35).attr("y", 15).text("original data").style("font-size", "10px").attr("alignment-baseline","middle")
+    svg.append("text").attr("x", 35).attr("y", 35).text("synthetic data").style("font-size", "10px").attr("alignment-baseline","middle")
 
 </script>
 
@@ -269,6 +273,7 @@ var tooltip = d3.select("#empirical_plot")
 .append("div")
 .style("opacity", 0)
 .attr("class", "tooltip")
+.style("position", "absolute")
 .style("background-color", "white")
 .style("border", "solid")
 .style("border-width", "1px")
@@ -283,13 +288,12 @@ d3.select(this)
 .style("stroke", "black")
 .style("opacity", 1)
 }
+
 var mousemove = function(d) {
 tooltip
 .html(d.variables)
-//          .style("left", (d3.mouse(this)[0]+1000)+ "px")
-//          .style("top", (d3.mouse(this)[1])+"px")
-.style("left", (d3.mouse(this)[0]+50))
-.style("top", (d3.mouse(this)[1]))
+.style("left", (d3.event.pageX + 10)+"px")
+.style("top", (d3.event.pageY + 10)+"px")
 }
 var mouseleave = function(d) {
 tooltip

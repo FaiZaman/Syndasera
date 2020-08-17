@@ -18,6 +18,42 @@ function error() {
 
 function visualisation(data) {
   console.log(data);
+
+  var hospital_counts = [];
+  function getunique(){
+    for (i = 0; i < data.length; i++) {
+            if (hospital_counts.indexOf(data[i].admitting_hospital) === -1) {
+              hospital_counts.push(data[i].admitting_hospital)
+  }}}
+
+    console.log(hospital_counts);
+
+  function getItems(input) {
+  var arr = input, obj = [];
+  for (var i = 0; i < arr.length; i++) {
+    if (!obj[arr[i].admitting_hospital]) {
+      obj[arr[i].admitting_hospital] = 1;
+    } else if (obj[arr[i].admitting_hospital]) {
+      obj[arr[i].admitting_hospital] += 1;
+    }
+  }
+  return obj;
+}
+console.log(getItems(data)); // outputs entire object
+
+var hosp_counts = {};
+for (var i = 0; i < data.length; i++) {
+    if (data[i].admitting_hospital in hosp_counts) {
+         hosp_counts[data[i].admitting_hospital] += 1;
+    } else {
+         hosp_counts[data[i].admitting_hospital] = 1;
+    } 
+}
+
+console.log(hosp_counts)
+
+
+
 d3.select("#content")
     .append("div")
       .attr("id","my_first_histogram")
@@ -40,17 +76,26 @@ d3.select("#content")
         .attr("transform",
               "translate(" + margin.left + "," + margin.top + ")");
 
+//var filteredData = data.filter(data.haemoglobin === null);
+// var filtered = data.filter(function (el) {
+//   return el != null;
+// });
+
 // X axis: scale and draw:
     var x = d3.scaleLinear()
 //        .domain([0, 20])     // can use this instead of 1000 to have the max of data: d3.max(data, function(d) { return +d.price })
-        .domain([0, d3.max(data, function(d) { return +d.haemoglobin})])
+        .domain([d3.min(data, function(d) { return +d.haemoglobin}), d3.max(data, function(d) { return +d.haemoglobin})+1])
         .range([0, width]);
     svg.append("g")
         .attr("transform", "translate(0," + height + ")")
         .call(d3.axisBottom(x));
 
     var histogram = d3.histogram()
+//          .value(function(filteredData) { return data.haemoglobin; })   // I need to give the vector of value
+//        .value(function(data) { return data.haemoglobin; return data.heamoglobin != null; })   // I need to give the vector of value
         .value(function(data) { return data.haemoglobin; })   // I need to give the vector of value
+//        .value(function(data))
+//        .value(function(data) { return data.haemoglobin.filter(function(data){data != null}); })
         .domain(x.domain())  // then the domain of the graphic
         .thresholds(x.ticks(40)); // then the numbers of bins
 
@@ -90,3 +135,11 @@ d3.select("#content").append("div").attr("class", "container")
 $(document).ready(function(){ 
 loadData()
  });
+
+
+//for bar charts etc to remove null values, replace .data(data) with:
+// .data(data, function(inptArray) {
+//   return inptArray.filter(function(obj) {
+//    return obj.y != null;
+//   })
+// });
