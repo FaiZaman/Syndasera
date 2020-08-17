@@ -52,7 +52,7 @@ csv.each do |row|
     t.joint_pains = row['Joint pains [SYMP_0000064]']
     t.joint_pains_duration = row['Joint pains duration (days) [EUPATH_0000161]']
     t.malaria_diagnosis = row['Malaria diagnosis [EUPATH_0000090]']
-    t.parasite_status = row['Malaria diagnosis and parasite status [EUPATH_0000338]']
+    t.malaria_diagnosis_and_parasite_status = row['Malaria diagnosis and parasite status [EUPATH_0000338]']
     t.malaria_treatment = row['Malaria treatment [EUPATH_0000740]']
     t.muscle_aches = row['Muscle aches [EUPATH_0000252]']
     t.muscle_aches_duration = row['Muscle aches duration (days) [EUPATH_0000162]']

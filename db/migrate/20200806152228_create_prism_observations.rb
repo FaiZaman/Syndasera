@@ -36,7 +36,7 @@ class CreatePrismObservations < ActiveRecord::Migration[6.0]
       t.string :joint_pains
       t.integer :joint_pains_duration
       t.string :malaria_diagnosis
-      t.string :parasite_status
+      t.string :malaria_diagnosis_and_parasite_status
       t.string :malaria_treatment
       t.string :muscle_aches
       t.integer :muscle_aches_duration
