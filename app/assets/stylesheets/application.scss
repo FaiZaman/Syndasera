@@ -4,6 +4,10 @@ html, body {
     height: 100%;
 }
 
+.scheme {
+    background-color: #efefef;
+}
+
 body {
     display: flex;
     flex-direction: column;
@@ -26,10 +30,32 @@ body {
 .logo {
     font-weight: bold;
     padding-left: 10px;
+    color: #472f91;
+}
+
+.btn-secondary, .btn-secondary:visited  {
+    background-color: white !important;
+    color: black !important;
+}
+
+.btn-secondary:hover, .btn-secondary:active {
+    background-color: rgb(248, 245, 245) !important;
 }
 
 .link-to {
     color: black;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: black;
+}
+
+.navbar-light .navbar-nav .nav-link:hover {
+    font-weight: bold;
+}
+
+.active {
+    font-weight: bold;
 }
 
 .link-to:hover {
@@ -56,7 +82,7 @@ body {
 }
 
 thead tr:nth-child(1) th {
-    background: lightblue;
+    background: #b9dbdf;
     position: sticky;
     top: 0;
     z-index: 10;
@@ -105,7 +131,7 @@ thead tr:nth-child(1) th {
     text-align: left;
     background-color: white;
     border-style: solid;
-    border-color: lightblue;
+    border-color: #b9dbdf;
     border-width: 5px;
     padding-top: 20px;
     padding-left: 10px;
