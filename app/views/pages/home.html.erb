@@ -17,16 +17,22 @@ Program for Resistance, Immunology, Surveillance and Modeling of Malaria (PRISM)
 <hr>
 <%= javascript_include_tag 'home.js' %>
 
-<div class="col-md-4">
-  <div class="card" style="width: 18rem;">
-    <div class="card-header text-center">
-      <b>Filter by Column</b><br>
-      <button class="btn btn-info" type="button" id="select-all">Select All</button>
-      <button class="btn btn-info" type="button" id="select-none">Select None</button>
+<div class="row">
+  <div class="col-md-4">
+    <div class="card" style="width: 18rem;">
+      <div class="card-header text-center">
+        <b>Filter by Column</b><br>
+        <button class="btn btn-info" type="button" id="select-all">Select All</button>
+        <button class="btn btn-info" type="button" id="select-none">Select None</button>
+      </div>
+      <div class="list-group">
+        <!-- rendered from home.js with jquery-->
+      </div>
     </div>
-    <div class="list-group">
-      <!-- rendered from home.js with jquery-->
-    </div>
+  </div>
+
+  <div class="col-md-8 filter">
+    <h3>All row filtering will be done here for the selected column.</h3>
   </div>
 </div>
 
