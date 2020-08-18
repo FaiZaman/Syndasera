@@ -148,9 +148,9 @@ $(document).ready(function(){
 				}
 			}
 
-			$(".list-group").append("<input type='checkbox' id='" + checkboxID + "' class='checkbox'"
-									+ checked + "/><label class='list-group-item'" + "for='"
-									+ checkboxID + "'>" + columnName + "</label>")
+            $(".list-group").append(`<input type='checkbox' id='${checkboxID}' class='checkbox'
+                                    ${checked}/><label class='list-group-item'for='${checkboxID}'>
+                                    ${columnName}<button class="btn btn-secondary>hi</button></label>`)
 
 			columnChecks[id] = $("#" + checkboxID).is(':checked');
 
@@ -180,7 +180,7 @@ $(document).ready(function(){
 
 		$("th").remove();
 		tableHeaders.forEach((columnName) => {
-			$(".header-row").append("<th>" + columnName + "</th>");
+			$(".header-row").append(`<th>${columnName}</th>`);
 		});
 	}
 
