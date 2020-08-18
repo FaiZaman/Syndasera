@@ -19,6 +19,8 @@ function error() {
 function visualisation(data) {
   console.log(data);
 
+//attempts at trying to make a counts table
+
   var hospital_counts = [];
   function getunique(){
     for (i = 0; i < data.length; i++) {
@@ -47,12 +49,10 @@ for (var i = 0; i < data.length; i++) {
          hosp_counts[data[i].admitting_hospital] += 1;
     } else {
          hosp_counts[data[i].admitting_hospital] = 1;
-    } 
+    }
 }
 
 console.log(hosp_counts)
-
-
 
 d3.select("#content")
     .append("div")
@@ -91,11 +91,10 @@ d3.select("#content")
         .call(d3.axisBottom(x));
 
     var histogram = d3.histogram()
-//          .value(function(filteredData) { return data.haemoglobin; })   // I need to give the vector of value
-//        .value(function(data) { return data.haemoglobin; return data.heamoglobin != null; })   // I need to give the vector of value
-        .value(function(data) { return data.haemoglobin; })   // I need to give the vector of value
-//        .value(function(data))
-//        .value(function(data) { return data.haemoglobin.filter(function(data){data != null}); })
+//          .value(function(filteredData) { return data.haemoglobin; })   // Attempt at removing null value
+//        .value(function(data) { return data.haemoglobin; return data.heamoglobin != null; })   // Attempt at removing null value
+//        .value(function(data) { return data.haemoglobin.filter(function(data){data != null}); }) // Attempt at removing null value
+        .value(function(data) { return data.haemoglobin; }) 
         .domain(x.domain())  // then the domain of the graphic
         .thresholds(x.ticks(40)); // then the numbers of bins
 
