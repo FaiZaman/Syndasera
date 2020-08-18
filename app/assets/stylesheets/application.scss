@@ -168,3 +168,15 @@ thead tr:nth-child(1) th {
 #sticky-footer {
     flex-shrink: 0;
 }
+
+@media (min-width: 500px) and (max-width: 1199px) {
+    .banner {
+      display: none;
+    }
+}
+
+@media (min-width: 1200px) and (max-width: 1920px) {
+    .banner {
+      display: block;
+    }
+}
