@@ -9,6 +9,9 @@ class PagesController < ApplicationController
   def about
   end
 
+  def our_methods
+  end
+
   def make_request
   end
 
