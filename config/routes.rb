@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   root 'pages#home'
 
   get '/about' => 'pages#about'
-  get '/make_request' => 'pages#make_request'
+  get 'make_request' => 'syn_data_request#make_request'
   get '/prism_dashboard' => 'pages#prism_dashboard'
   get '/our_methods' => 'pages#our_methods'
 
