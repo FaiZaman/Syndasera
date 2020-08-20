@@ -11,27 +11,53 @@ var loadData = function(){
                     error();
                   }
                 });
-              };
+			  };
+
 function error() {
     console.log("Something went wrong!");
 }
 
+Date.prototype.getWeekNumber = function(){
+    var d = new Date(+this);
+    d.setHours(0,0,0);
+    d.setDate(d.getDate()+4-(d.getDay()||7));
+    return Math.ceil((((d-new Date(d.getFullYear(),0,1))/8.64e7)+1)/7);
+};
+
+
 function visualisation(data) {
-  console.log(data);
-d3.select("#content")
+
+  	var dates = [];
+	for (var i = 0; i < data.length; i++){
+		dates.push(data[i].visit_date);
+	}
+
+	var groupByWeek = {};
+	dates.forEach(function (d, i) {
+		var v = data[i];
+		var weekYear = d.slice(0, 4) + '-' + new Date(d).getWeekNumber();
+		if (groupByWeek.hasOwnProperty(weekYear)) {
+			groupByWeek[weekYear].push(v);
+		} else {
+			groupByWeek[weekYear] = [v];
+		}
+	});
+	console.log(groupByWeek)
+
+	d3.select("#content")
     .append("div")
       .attr("id","my_first_histogram")
 
-d3.select("#content")
+	d3.select("#content")
       .append("div")
         .attr("id","my_second_histogram")
 
-// set the dimensions and margins of the graph
+	// set the dimensions and margins of the graph
     var margin = {top: 10, right: 30, bottom: 30, left: 40},
         width = 460 - margin.left - margin.right,
         height = 400 - margin.top - margin.bottom;
 
-// append the svg object to the body of the page
+	// append the svg object to the body of the page
     var svg = d3.select("#my_first_histogram")
       .append("svg")
         .attr("width", width + margin.left + margin.right)
@@ -40,7 +66,7 @@ d3.select("#content")
         .attr("transform",
               "translate(" + margin.left + "," + margin.top + ")");
 
-// X axis: scale and draw:
+	// X axis: scale and draw:
     var x = d3.scaleLinear()
 //        .domain([0, 20])     // can use this instead of 1000 to have the max of data: d3.max(data, function(d) { return +d.price })
         .domain([0, d3.max(data, function(d) { return +d["Hemoglobin (g/dL) [EUPATH_0000047]"]})])
@@ -76,7 +102,7 @@ d3.select("#content")
             .style("fill", "#69b3a2")
 
 
-    }
+}
 
 d3.select("body").transition().style("background-color", "#f6abb650")
 

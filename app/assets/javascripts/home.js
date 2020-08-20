@@ -39,8 +39,8 @@ $(document).ready(function(){
         'Seizures Duration': "number",
         'Severe Malaria Criteria': "categorical",
         'Subjective Fever': "binary",
-        'Submicroscopic Plasmodium Present': "binary",
-        'Visit Type': "binary",
+        'Submicroscopic Plasmodium Present': "unique-type",
+        'Visit Type': "categorical",
         'Vomiting Duration': "number"
     };
 
@@ -113,10 +113,9 @@ $(document).ready(function(){
         const id = this.id.replace("-filter", "").replace(/-/g, ' ').toLowerCase().capitalize()
                             .replace('Itn', 'ITN').replace('Id', 'ID');
         $(".filter-div").hide();
-        $(".number-id").empty().append(id);
-        $(".date-id").empty().append(id);
 
         const formClass = columnData[id];
+        $("." + formClass + "-id").empty().append(id);
         $("." + formClass).show();
     });
 

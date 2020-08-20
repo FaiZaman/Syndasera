@@ -148,6 +148,13 @@ thead tr:nth-child(1) th {
     padding-right: 20px;
 }
 
+#participant-id-filter {
+    float: right;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
 .btn-info, .btn-secondary {
     margin-top: 5px;
 }
