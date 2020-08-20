@@ -46,7 +46,45 @@ for (var i = 0; i < data.length; i++) {
 
 console.log(plasmodium_present)
 
-plasmodium_present.forEach(element => console.log(element));
+var plasmodium_present1 = [];
+for (var i = 0; i < data.length; i++) {
+  if (plasmodium_present1.some(el => el.category === data[i].asexual_plasmodium_parasite_present)){
+      for (var j = 0; j < plasmodium_present1.length; j++) {
+        if(plasmodium_present1[j].category === data[i].asexual_plasmodium_parasite_present){
+          plasmodium_present1[j].count +=1
+}}
+} else { const category = {
+			category: data[i].asexual_plasmodium_parasite_present,
+			count: 1
+		}
+		plasmodium_present1.push(category);
+}}
+
+console.log(plasmodium_present1)
+
+var countnonull = plasmodium_present1.filter(function(obj) {
+	return obj.category != null;
+});
+console.log(countnonull);
+
+// var plasmodium_present2 = [];
+// for (var i = 0; i < data.length; i++) {
+//    const found = plasmodium_present2.some(el => el.category === data[i].asexual_plasmodium_parasite_present)
+//
+//    if (!found) {plasmodium_present2.count +=1}
+// //   if (!found){console.log(found)}
+// //   if (!found){console.log(data[i].asexual_plasmodium_parasite_present)}
+// //     if (!found){console.log("found it")}
+//      //(!found){plasmodium_present2.push({ count: plasmodium_present2.count ++, category: data[i].asexual_plasmodium_parasite_present })}
+// //  plasmodium_present1.push({ count: plasmodium_present1.count ++, category: data[i].asexual_plasmodium_parasite_present });
+// else { const category = {
+// 			'category': data[i].asexual_plasmodium_parasite_present,
+// 			'count': 1
+// 		}
+// 		plasmodium_present2.push(category);
+// }}
+
+//console.log(plasmodium_present2)
 
 // var newbie=[];
 // for (var i = 0; i < plasmodium_present.length; i++) {
@@ -68,7 +106,6 @@ plasmodium_present.forEach(element => console.log(element));
 // }
 // return obj;
 // }
-// console.log(getItems1("asexual_plasmodium_parasite_present"));
 
 d3.select("#content")
     .append("div")
@@ -89,7 +126,7 @@ console.log(withoutNulls);
 //console.log(Object.keys(data.haemoglobin))
 
 // set the dimensions and margins of the graph
-    var margin = {top: 10, right: 30, bottom: 30, left: 40},
+    var margin = {top: 20, right: 30, bottom: 40, left: 40},
         width = 460 - margin.left - margin.right,
         height = 400 - margin.top - margin.bottom;
 
@@ -114,7 +151,7 @@ console.log(withoutNulls);
 svg.append("text")
 .attr("text-anchor", "end")
 .attr("x", width)
-.attr("y", height + margin.top + 20)
+.attr("y", height + margin.top + 10)
 .text("Haemoglobin (mg/mL)")
 .style("font-size", "10px");
 
@@ -153,87 +190,68 @@ svg.append("text")
             .attr("transform", function(d) { return "translate(" + x(d.x0) + "," + y(d.length) + ")"; })
             .attr("width", function(d) { return x(d.x1) - x(d.x0) -1 ; })
             .attr("height", function(d) { return height - y(d.length); })
-            .style("fill", "#69b3a2")
+            .style("fill", "#0275D8")
 
 
 /////////-------COUNT BAR CHART "CATEGORICAL HISTOGRAM"-------/////////
 
 
-// var svg1 = d3.select("#my_first_cathistogram")
-//       .append("svg")
-//         .attr("width", width + margin.left + margin.right)
-//         .attr("height", height + margin.top + margin.bottom)
-//       .append("g")
-//         .attr("transform",
-//               "translate(" + margin.left + "," + margin.top + ")");
-//
-// //X axis
-// var x1 = d3.scaleBand()
-//           .range([ 0, width ])
-//           .domain(plasmodium_present.map(function(d) { return d[0]; }))
-//           .padding(0.2);
-// svg1.append("g")
-//       .attr("transform", "translate(0," + height + ")")
-//       .call(d3.axisBottom(x))
-//       .selectAll("text")
-//       .attr("transform", "translate(-10,0)rotate(-45)")
-//       .style("text-anchor", "end");
-//
-//
-// // Add X axis label:
-//
-// svg1.append("text")
-//       .attr("text-anchor", "end")
-//       .attr("x", width)
-//       .attr("y", height + margin.top + 10)
-//       .text("variables")
-//       .style("font-size", "10px");
-//
-// //Y axis
-// var y = d3.scaleLinear()
-//   .domain([0, 500])
-//   .range([ height, 0]);
-// svg1.append("g")
-//   .call(d3.axisLeft(y));
-// // Y axis label:
-// svg1.append("text")
-//   .attr("text-anchor", "end")
-//   .attr("transform", "rotate(-90)")
-//   .attr("y", -margin.left + 20)
-//   .attr("x", -margin.top)
-//   .text("count")
-//   .style("font-size", "10px");
-//
-// svg1.selectAll("mybar")
-//   .data(plasmodium_present)
-//   .enter()
-//   .append("rect")
-//     .attr("x", function(d) { return x(d[0]); })
-//     .attr("y", function(d) { return y(d[1]; })
-//     .attr("width", x.bandwidth())
-//     .attr("height", function(d) { return height - y(d.real); })
-//     .attr("fill", "#fa0000")
-//     .attr("opacity", 0.6)
-//     .attr("stroke", "black");
-//
-// svg1.selectAll("mybar")
-//   .data(hist_dummy_fake)
-//   .enter()
-//   .append("rect")
-//     .attr("x", function(d) { return x(d.variable); })
-//     .attr("y", function(d) { return y(d.fake); })
-//     .attr("width", x.bandwidth())
-//     .attr("height", function(d) { return height - y(d.fake); })
-//     .attr("fill", "#417ee0")
-//     .attr("opacity", 0.6)
-//     .attr("stroke", "black");
-//
-//     svg1.append("text").attr("x", 60).attr("y", 0).text("Empirical distribution").style("font-size", "15px").attr("alignment-baseline","middle")
-//     svg1.append("circle").attr("cx",20).attr("cy",10).attr("r", 5).style("fill", "#fa0000").style("opacity", 0.7)
-//     svg1.append("circle").attr("cx",20).attr("cy",30).attr("r", 5).style("fill", "#417ee0").style("opacity", 0.7)
-//     svg1.append("text").attr("x", 35).attr("y", 15).text("original data").style("font-size", "10px").attr("alignment-baseline","middle")
-//     svg1.append("text").attr("x", 35).attr("y", 35).text("synthetic data").style("font-size", "10px").attr("alignment-baseline","middle")
+var svg1 = d3.select("#my_first_cathistogram")
+      .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+        .attr("transform",
+              "translate(" + margin.left + "," + margin.top + ")");
 
+//X axis
+var x1 = d3.scaleBand()
+          .range([ 0, width ])
+          .domain(countnonull.map(function(d) { return d.category; }))
+          .padding(0.2);
+svg1.append("g")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x1))
+      .selectAll("text")
+      .attr("transform", "translate(-10,0)rotate(-45)")
+      .style("text-anchor", "end");
+// Add X axis label:
+svg1.append("text")
+      .attr("text-anchor", "end")
+      .attr("x", width)
+      .attr("y", height + margin.top + 5)
+      .text("variables")
+      .style("font-size", "10px");
+
+//Y axis
+var y1 = d3.scaleLinear()
+  .domain([0, d3.max(countnonull, function(d) { return +d.count})+d3.max(countnonull, function(d) { return +d.count})*0.1])
+  .range([ height, 0]);
+svg1.append("g")
+  .call(d3.axisLeft(y1));
+// Y axis label:
+svg1.append("text")
+  .attr("text-anchor", "end")
+  .attr("transform", "rotate(-90)")
+  .attr("y", -margin.left + 10)
+  .attr("x", -margin.top)
+  .text("count")
+  .style("font-size", "10px");
+
+svg1.selectAll("mybar")
+  .data(countnonull)
+  .enter()
+  .append("rect")
+    .attr("x", function(d) { return x1(d.category); })
+    .attr("y", function(d) { return y1(d.count); })
+    .attr("width", x1.bandwidth())
+    .attr("height", function(d) { return height - y1(d.count); })
+    .attr("fill", "#0275D8")
+//    .attr("opacity", 0.6)
+//    .attr("stroke", "black");
+
+
+    svg1.append("text").attr("x", 100).attr("y", 0).text("Plasmodium Present").style("font-size", "15px").attr("alignment-baseline","middle")
 
     }
 
