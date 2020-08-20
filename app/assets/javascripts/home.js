@@ -2,6 +2,7 @@
 
 $(document).ready(function(){
 
+    $(".date").hide();
     $('[data-toggle="tooltip"]').tooltip(); // PRISM description
 
     const columnData = {
@@ -14,10 +15,10 @@ $(document).ready(function(){
         'Admitting Hospital': "categorical",
         'Anorexia Duration': "number",
         'Plasmodium Parasite Density': "number",
-        'Basis of Complicated Diagnosis': "categorical",
+        'Basis Of Complicated Diagnosis': "categorical",
         'Complicated Malaria': "binary",
         'Cough Duration': "number",
-        'Diagnosis at Hospitalisation': "categorical",
+        'Diagnosis At Hospitalisation': "categorical",
         'Diarrhoea Duration': "number",
         'Fatigue Duration': "number",
         'Fever Duration': "number",
@@ -40,11 +41,10 @@ $(document).ready(function(){
         'Subjective Fever': "binary",
         'Submicroscopic Plasmodium Present': "binary",
         'Visit Type': "binary",
-        'Vomiting Duration:': "number"
+        'Vomiting Duration': "number"
     };
 
     const columnNames = Object.keys(columnData);
-
     generateColumnList(columnNames);
 
     // select all checked columns to display
@@ -110,10 +110,14 @@ $(document).ready(function(){
     // display filtering options for the specific column clicked
     $(".filter-button").on('click', function(){
 
-        const id = this.id.replace("-filter", "").replace(/-/g, ' ');
-        $(".filter").empty();
-        $(".filter").append(`<h3>Filter by ${id}</h3>`);
+        const id = this.id.replace("-filter", "").replace(/-/g, ' ').toLowerCase().capitalize()
+                            .replace('Itn', 'ITN').replace('Id', 'ID');
+        $(".filter-div").hide();
+        $(".number-id").empty().append(id);
+        $(".date-id").empty().append(id);
 
+        const formClass = columnData[id];
+        $("." + formClass).show();
     });
 
     function getSubset(columns){
@@ -196,4 +200,9 @@ $(document).ready(function(){
 		});
 	}
 
+    String.prototype.capitalize = function(){
+        return this.replace( /(^|\s)([a-z])/g , function(m, p1, p2){
+            return p1+p2.toUpperCase(); 
+        });
+    };
 });

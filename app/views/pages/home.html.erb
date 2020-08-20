@@ -33,6 +33,41 @@ Program for Resistance, Immunology, Surveillance and Modeling of Malaria (PRISM)
 
   <div class="col-md-8 filter">
     <!-- rendered from home.js with jquery -->
+    <div class="number filter-div">
+      <h3>Filter by <span class="number-id">age</span></h3>
+      <hr>
+      <form>
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label for="num-from">Select from</label>
+            <input type="number" class="form-control" id="num-from" placeholder="0">
+          </div>
+          <div class="form-group col-md-3">
+            <label for="num-to">to</label>
+            <input type="number" class="form-control" id="num-to" placeholder="100">
+          </div>
+        </div>
+        <button type="button" class="btn btn-success go-filter-button">Go</button>
+      </form>
+    </div>
+
+    <div class="date filter-div">
+      <h3>Filter by <span class="date-id"></span></h3>
+      <hr>
+      <form>
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="date-from">Start Date</label>
+            <input type="date" class="form-control" id="date-from" placeholder="0">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="date-to">End Date</label>
+            <input type="date" class="form-control" id="date-to" placeholder="100">
+          </div>
+        </div>
+        <button type="button" class="btn btn-success go-filter-button">Go</button>
+      </form>
+    </div>
   </div>
 </div>
 
