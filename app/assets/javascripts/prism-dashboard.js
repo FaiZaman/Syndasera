@@ -26,9 +26,9 @@ Date.prototype.getWeekNumber = function(){
 function visualisation(data) {
   console.log(data);
 
-//--week counts table--//
+	//--week counts table--//
 
-var dates = [];
+	var dates = [];
 	for (var i = 0; i < data.length; i++){
 		dates.push(data[i].visit_date);
 	}
@@ -42,8 +42,61 @@ var dates = [];
 		} else {
 			groupByWeek[weekYear] = [v];
 		}
-	});
-	console.log(groupByWeek)
+  });
+  
+	// [{week:“week 1”, variable:“variable 1", count:“count 1”},
+	//{week:“week 1", variable:“variable 2”, count:“count 2"},
+	//{week:“week 1”, variable:“variable x”, count:“count x”}…,
+	//{week:“week 2", variable:“variable 1”, count:“count 1"}…,
+	//{week:“week y”, variable:“variable x”, count:“count x”}]
+	var columns = Object.keys(data[0])
+	columns.splice(columns.indexOf('id'), 1);
+	columns.splice(columns.indexOf('created_at'), 1);
+	columns.splice(columns.indexOf('updated_at'), 1);
+
+	var weeks = Object.keys(groupByWeek);
+	var weekCountArray = [];
+
+	function createWeekCountArray(column){
+		for (var i = 0; i < weeks.length; i++){
+
+			var weekNumber = i + 1;
+			console.log(weekNumber);
+			var weeksObservations = groupByWeek[weeks[i]];
+
+			weeksObservations.forEach((observation) => {
+
+				var value = observation[column];
+				console.log(value);
+				if ((weekCountArray.some(el => el.variable === value)) && (weekCountArray.some(el => el.week != weekNumber))){
+					var result = weekCountArray.find(x => x.variable === value)
+					const index = weekCountArray.map(e => e.variable).indexOf(value);
+					weekCountArray[index]['count']++;
+				}
+				else {
+					console.log(weekNumber);
+					const obj = {
+						'week': weekNumber,
+						'variable': value,
+						'count': 1
+					};
+					weekCountArray.push(obj);
+				}
+			});
+		}
+		console.log(weekCountArray);
+		// check for missing weeks afterwards
+	}
+
+	var column = "subjective_fever"
+	createWeekCountArray(column);
+
+  //columns.forEach((element) => {
+  //  for (var i = 0; i < data.length; i++){
+  //  }
+  //  console.log(element);
+  //});
+
 
 //--count table collapsed by week--//
 
@@ -109,12 +162,12 @@ for (var i = 0; i < data.length; i++) {
 		plasmodium_present1.push(category);
 }}
 
-console.log(plasmodium_present1)
+//console.log(plasmodium_present1)
 
 var countnonull = plasmodium_present1.filter(function(obj) {
 	return obj.category != null;
 });
-console.log(countnonull);
+//console.log(countnonull);
 
 // var plasmodium_present2 = [];
 // for (var i = 0; i < data.length; i++) {
@@ -170,7 +223,7 @@ d3.select("#content")
 var withoutNulls = data.filter(function(obj) {
 	return obj.haemoglobin != null;
 });
-console.log(withoutNulls);
+//console.log(withoutNulls);
 
 //console.log(Object.keys(data.haemoglobin))
 
