@@ -16,35 +16,84 @@ function error() {
     console.log("Something went wrong!");
 }
 
+Date.prototype.getWeekNumber = function(){
+    var d = new Date(+this);
+    d.setHours(0,0,0);
+    d.setDate(d.getDate()+4-(d.getDay()||7));
+    return Math.ceil((((d-new Date(d.getFullYear(),0,1))/8.64e7)+1)/7);
+};
+
 function visualisation(data) {
   console.log(data);
 
-//--counts tables
+//--week counts table--//
 
-  function getItems(input) {
-  var arr = input, obj = [];
-  for (var i = 0; i < arr.length; i++) {
-    if (!obj[arr[i].asexual_plasmodium_parasite_present]) {
-      obj[arr[i].asexual_plasmodium_parasite_present] = 1;
-    } else if (obj[arr[i].asexual_plasmodium_parasite_present]) {
-      obj[arr[i].asexual_plasmodium_parasite_present] += 1;
-    }
-  }
-  return obj;
-}
-console.log(getItems(data));
+var dates = [];
+	for (var i = 0; i < data.length; i++){
+		dates.push(data[i].visit_date);
+	}
 
-//var plasmodium_present = {};
-var plasmodium_present = [];
-for (var i = 0; i < data.length; i++) {
-    if (data[i].asexual_plasmodium_parasite_present in plasmodium_present) {
-         plasmodium_present[data[i].asexual_plasmodium_parasite_present] += 1;
-    } else {
-         plasmodium_present[data[i].asexual_plasmodium_parasite_present] = 1;
-    }
-}
+	var groupByWeek = {};
+	dates.forEach(function (d, i) {
+		var v = data[i];
+		var weekYear = d.slice(0, 4) + '-' + new Date(d).getWeekNumber();
+		if (groupByWeek.hasOwnProperty(weekYear)) {
+			groupByWeek[weekYear].push(v);
+		} else {
+			groupByWeek[weekYear] = [v];
+		}
+	});
+	console.log(groupByWeek)
 
-console.log(plasmodium_present)
+//--count table collapsed by week--//
+
+  //var weekcounter=[]
+  //function (x){ //x is the "column name"
+  // for (var i = 0; i < groupByWeek.length; i++){ //where i is the week YYYY-W, how can we make sure it reads that? and then goes into that array?
+  //for (var k = 0; k < groupByWeek[i].length; k++){ //where k is the array within the week?
+//   if (weekcounter.some(el => el.category === groupByWeek[k].x)){
+//       for (var j = 0; j < weekcounter.length; j++) {
+//         if(weekcounter[j].category === groupByWeek[k].x){
+//           weekcounter[j].count +=1
+// }}
+// } else { const category = {
+//       category: groupByWeek[k].x,
+//       count: 1,
+//       week:indexOf.category[i] //don't know how to get the week.
+//     }
+//     weekcounter.push(category);
+// }}
+// }
+////after this will need to 1) fill in with 0 where there was no entry for that variable for that week. 2) create weeks where there were no visits at all.
+
+
+
+//--counts tables--//
+
+//   function getItems(input) {
+//   var arr = input, obj = [];
+//   for (var i = 0; i < arr.length; i++) {
+//     if (!obj[arr[i].asexual_plasmodium_parasite_present]) {
+//       obj[arr[i].asexual_plasmodium_parasite_present] = 1;
+//     } else if (obj[arr[i].asexual_plasmodium_parasite_present]) {
+//       obj[arr[i].asexual_plasmodium_parasite_present] += 1;
+//     }
+//   }
+//   return obj;
+// }
+// console.log(getItems(data));
+//
+// //var plasmodium_present = {};
+// var plasmodium_present = [];
+// for (var i = 0; i < data.length; i++) {
+//     if (data[i].asexual_plasmodium_parasite_present in plasmodium_present) {
+//          plasmodium_present[data[i].asexual_plasmodium_parasite_present] += 1;
+//     } else {
+//          plasmodium_present[data[i].asexual_plasmodium_parasite_present] = 1;
+//     }
+// }
+//
+// console.log(plasmodium_present)
 
 var plasmodium_present1 = [];
 for (var i = 0; i < data.length; i++) {
