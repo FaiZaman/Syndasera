@@ -12,19 +12,19 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item <%= 'active' if current_page?(root_path) %>">
-        <a class="nav-link" href="/">Home</a>
+        <a class="nav-link" href="<%= root_path %>">Home</a>
       </li>
       <li class="nav-item <%= 'active' if current_page?(about_path) %>">
-        <a class="nav-link" href="/about">About</a>
+        <a class="nav-link" href="<%= about_path %>">About</a>
       </li>
       <li class="nav-item <%= 'active' if current_page?(prism_dashboard_path) %>">
-        <a class="nav-link" href="/prism_dashboard">PRISM Dashboard</a>
+        <a class="nav-link" href="<%= prism_dashboard_path %>">PRISM Dashboard</a>
       </li>
-      <li class="nav-item <%= 'active' if current_page?(make_request_path) %>">
-        <a class="nav-link" href="/make_request">Make A Request</a>
+      <li class="nav-item <%= 'active' if current_page?(requests_new_path) %>">
+        <a class="nav-link" href="<%= requests_new_path %>">Make A Request</a>
       </li>
       <li class="nav-item <%= 'active' if current_page?(our_methods_path) %>">
-        <a class="nav-link" href="/our_methods">Our Methods</a>
+        <a class="nav-link" href="<%= our_methods_path %>">Our Methods</a>
       </li>
     </ul>
 

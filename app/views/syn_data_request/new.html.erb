@@ -1,0 +1,37 @@
+<div class="logsignin">
+	<h2>Make a Request</h2>
+	<p>Make a request to generate synthetic data from a proposed dataset.</p>
+
+	<div class="form-container col-md-12">
+
+		<%= form_with scope: :request, class: "nifty_form" do |f| %>
+
+			<div class="form-row" style="margin-left: 10px;">
+				<div class="field form-group col-md-5">
+					<%= f.label :first_name %><br />
+					<%= f.text_field :first_name, autofocus: true, autocomplete: "first_name", class: "form-control" %>
+				</div>
+
+				<div class="field form-group col-md-5">
+					<%= f.label :last_name %><br />
+					<%= f.text_field :last_name, autocomplete: "last_name", class: "form-control" %>
+				</div>
+			</div>
+
+      <div class="field form-group col-md-10">
+        <%= f.label :company_name %><br />
+        <%= f.text_field :company_name, autocomplete: "company_name", class: "form-control" %>
+      </div>
+
+      <div class="field form-group col-md-10">
+        <%= f.label :dataset_type %><br />
+        <%= f.text_field :dataset_type, autocomplete: "dataset_type", class: "form-control" %>
+      </div>
+
+			<div class="actions form-group col-md-10">
+				<%= f.submit "Create", class: "btn btn-default btn-success" %>
+			</div>
+		<% end %>
+
+	</div>
+</div>

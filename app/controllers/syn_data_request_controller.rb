@@ -1,8 +1,15 @@
 class SynDataRequestController < ApplicationController
 
-  before_action :authenticate_user!, only: [:make_request]
+  before_action :authenticate_user!, only: [:new]
 
-  def make_request
+  def new
+    #@synthetic_request = SynDataRequest.new
+  end
+
+  def show
+  end
+
+  def create
   end
 
 end
