@@ -2,30 +2,67 @@
 
 <h3>Synthetic data generation</h3>
 
-<p>The <i>(Two?)</i> Generative Adversarial Network model developed to generate Synthetic Data is based on recent work (Jarret et al. 2019, Lin et al. 2019, DP papers that helped design the DP in our GAN).
+<p>
+  The <i>(Two?)</i> Generative Adversarial Network model developed to generate Synthetic Data is 
+  based on recent work (Jarret et al. 2019, Lin et al. 2019, DP papers that helped design the
+  DP in our GAN).
 </p>
 
-<p>Briefly <i>...text about how the GAN works/the steps including the differential privacy – have Lulu’s scheme here and reference to it as you go along?) (…the functioning of the GAN can be divided into 4 main sections…)
-<br>… The GAN requires continuous time-series for all individuals. Missing time-series elements are imputed but masked, with the synthetic data produced mimicking the time-series variability. <br> …To ensure privacy and anonymity, differential privacy was embedded in the GAN, based on previous work (references)…</i>
+<p>
+Briefly 
+  <i>
+    ...text about how the GAN works/the steps including the differential privacy 
+    – have Lulu’s scheme here and reference to it as you go along?) (…the functioning of the GAN can be
+    divided into 4 main sections…)
+    <br>
+    … The GAN requires continuous time-series for all individuals. Missing time-series elements are
+    imputed but masked, with the synthetic data produced mimicking the time-series variability. 
+    <br>
+    …To ensure privacy and anonymity, differential privacy was embedded in the GAN, 
+    based on previous work (references)…
+  </i>
 </p>
 
 <h5>Privacy</h5>
-<p>Synthetic data has huge advantages over anonymised data when it comes to privacy. We use differential privacy to guarantee the generated data cannot be used to expose the data of any individual or even to conclude that the individual was in the original dataset. Instead of removing details from real data, synthetic data can accurately preserve the detail/coarseness and distribution to enable query design and refinement.</p>
+<p>
+  Synthetic data has huge advantages over anonymised data when it comes to privacy. 
+  We use differential privacy to guarantee the generated data cannot be used to expose the data of
+  any individual or even to conclude that the individual was in the original dataset. 
+  Instead of removing details from real data, synthetic data can accurately preserve the 
+  detail/coarseness and distribution to enable query design and refinement.
+</p>
+
 <p>Differential privacy is achieved by:</p>
+
 <ul>
   <li>Clipping gradients during training</li>
   <li>Using averages of gradients</li>
   <li>Adding random noise to the gradients before applying changes</li>
 </ul>
-<p>These measures reduce the impact a single individual’s data can have on the weights by being in the training set. As a result, their information is neither retained by the network nor generated in the synthetic data. Using differential privacy during training rather than post processing makes our synthetic data resilient against membership inference attacks even if trained components of the network are exposed.</p>
+
+<p>
+  These measures reduce the impact a single individual’s data can have on the weights by being
+  in the training set. As a result, their information is neither retained by the network nor generated
+  in the synthetic data. Using differential privacy during training rather than post processing makes
+  our synthetic data resilient against membership inference attacks even if trained components of the
+  network are exposed.
+</p>
 <p>We use TensorFlow Privacy (reference) to implement these changes.</p>
 
 <h5>The Data</h5>
-<p>We are able to accommodate static, time-series and mixed data. In the PRISM dataset we present here, each participant had x static and x temporal features including binary, categorical and numerical types. ... add more stuff about how flexible it is...</p>
+<p>
+  We are able to accommodate static, time-series and mixed data. In the PRISM dataset
+  we present here, each participant had x static and x temporal features including binary, 
+  categorical and numerical types. ... add more stuff about how flexible it is...
+</p>
 
 <h5>The Algorithm</h5>
 
-<p>The embedding network consists of the auto-encoder and auto-decoder. The generative adversarial network (GAN) <i>(dictionary)</i> consists of a generator and discriminator. Time-series data is processed by sequential ...</p>
+<p>
+  The embedding network consists of the auto-encoder and auto-decoder. 
+  The generative adversarial network (GAN) <i>(dictionary)</i> consists of a generator and
+  discriminator. Time-series data is processed by sequential ...
+</p>
 <!-- This only works on regular html files <img src="GAN-scheme.jpg" height="500">-->
 <figure>
   <%= image_tag("GAN-scheme.jpg", :alt => "GAN", :height => "500") %>
@@ -33,63 +70,159 @@
 </figure>
 
 <ol>
-  <li><b>Embedder Network training with differential privacy.</b> The encoder takes the original data and reduces its dimension and the decoder does the opposite. This network trains by comparing the imperfect reconstruction to the input and adjusts its parameters to make them more similar. The purpose of the embedder is to distill the data, helping the GAN to train on a representation of the original data. Because this network ‘sees’ the original data during training, we add differential privacy to prevent it from retaining identifying information.<br>(We can also reduce the dimensionality of the data by removing columns and leaving those that are strongly correlated to it...)</li>
+  <li>
+    <b>Embedder Network training with differential privacy.</b> 
+    The encoder takes the original data and reduces its dimension and the decoder does the opposite.
+    This network trains by comparing the imperfect reconstruction to the input and adjusts its
+    parameters to make them more similar. The purpose of the embedder is to distill the data,
+    helping the GAN to train on a representation of the original data. Because this network
+    ‘sees’ the original data during training, we add differential privacy to prevent it from
+    retaining identifying information.
+    <br>
+    (We can also reduce the dimensionality of the data by removing columns and leaving those
+    that are strongly correlated to it...)
+  </li>
   <li><b>Training with supervised loss.</b></li>
-  <li><b>Joint training.</b> The generator approximates a distribution of the encoded data and is fed random noise in order to sample from this distribution. A sample of real data is also encoded. The real and synthetic encoded data are given to the discriminator which is scored on how accurately it is able to distinguish them. The discriminator adjusts its parameters to learn the differences between real and synthetic encoded data. The generator adjusts its to produce more data to fool the discriminator. ... updating encoder...
-  <br>The GAN works only within the (latent) space of representations of the real data. The generator is trained on feedback of the discriminator and does not see the original data so does not need to be trained with differential privacy. Saving on our privacy budget here preserves more utility in the final output.</li>
-  <li><b>Generate the synthetic data.</b> More random noise is used to sample from the final distribution learned by the generator. The decoder then reforms it into the format of the original dataset.</li>
+  <li>
+    <b>Joint training.</b>
+    The generator approximates a distribution of the encoded data and is
+    fed random noise in order to sample from this distribution. A sample of real data is also
+    encoded. The real and synthetic encoded data are given to the discriminator which is scored
+    on how accurately it is able to distinguish them. The discriminator adjusts its parameters
+    to learn the differences between real and synthetic encoded data. The generator adjusts its
+    to produce more data to fool the discriminator. ... updating encoder...
+    <br>
+    The GAN works only within the (latent) space of representations of the real data. 
+    The generator is trained on feedback of the discriminator and does not see the original data
+    so does not need to be trained with differential privacy. Saving on our privacy budget here
+    preserves more utility in the final output.
+  </li>
+  <li>
+    <b>Generate the synthetic data.</b>
+    More random noise is used to sample from the final distribution learned by the generator.
+    The decoder then reforms it into the format of the original dataset.
+  </li>
 </ol>
 
 <hr>
 
 <h3>Evaluation methods</h3>
-<p> The Synthetic Data Generator used by Syndasera was tested on the publicly available Program for Resistance, Immunology, Surveillance and Modelling of Malaria (PRISM) dataset. This dataset includes time-series and static features amongst categorical and numerical variables, with 54 columns and over 1 million rows, providing a robust variety of elements.
+<p>
+  The Synthetic Data Generator used by Syndasera was tested on the publicly available
+  Program for Resistance, Immunology, Surveillance and Modelling of Malaria (PRISM) dataset.
+  This dataset includes time-series and static features amongst categorical and numerical variables,
+  with 54 columns and over 1 million rows, providing a robust variety of elements.
 </p>
 
-<p>Three main things are evaluated in synthesised synthetic data to ensure optimum utility whilst not compromising privacy:
-  1) <u>Fidelity</u> – the synthetic data should capture the diversity, distribution and dependencies between variables of the original data;
-  2) <u>Predictiveness</u> – As the user will always need to confirm observations made on the synthetic data with the original data, synthetic data should behave in a similar way to the original data when applied to algorithms for data analysis;
+<p>
+  Three main things are evaluated in synthesised synthetic data to ensure optimum utility whilst
+  not compromising privacy:
+  1) <u>Fidelity</u> – the synthetic data should capture the diversity, distribution and
+  dependencies between variables of the original data;
+  2) <u>Predictiveness</u> – As the user will always need to confirm observations made on the
+  synthetic data with the original data, synthetic data should behave in a similar way to the
+  original data when applied to algorithms for data analysis;
   3) <u>Privacy</u> – No real individual should be identifiable from the synthetic data.
   <br>
-  To execute the evaluation mehtods, 20% of the original data, not used in the generative model, are set aside (original evaluation sample). An equal size of the synthetic data is used for comparison (synthetic evaluation sample).
+  To execute the evaluation mehtods, 20% of the original data, not used in the generative model,
+  are set aside (original evaluation sample). An equal size of the synthetic data is used for
+  comparison (synthetic evaluation sample).
   <br>
   To see an example of the application of these methods, <a href="/prism_dashboard">click here</a>.
 </p>
 
 <ol>
-  <li><u>Fidelity.</u> To assess fidelity, the following methods are applied:</li>
-      <ol>
-        <li><b>tSNE and PCA plots.</b> tSNE and PCA plots (Jarrett et al. 2019). Need to write a description for this </li>
-<!--tSNE plot-->
-<div id="tSNE_mockup"></div>
-        <li><b>Empirical distributions comparison.</b> The empirical distribution (dictionary) for each variable within the dataset is calculated for the synthetic and the real data set. To compare the datasets, the MSE (mean standard error(dictionary)) is calculated between each empirical distribution for each variable between both datasets and averaged. The lower the averaged MSE, the higher the fidelity.
-            <br>The empirical distribution comparison can also be specifically calculated for a column of interest. For example, in a cancer registry database, it may be of interest to subset the registry by cancer type and then do an empirical distribution comparison across the remaining columns.</li>
-<div id="barchart_mockup"></div>
-<div id="empirical_plot"></div>
-        <li><b>Inter-variable dependencies.</b> To confirm dependencies between variables within columns are maintained, Pearson’s correlation coefficient <i>(link dictionary)</i> is calculated between categorical columns within the original and synthetic data. To compare the datasets, the MSE is calculated between each correlation coefficient. </li>
-        <li><b>Autocorrelation comparison.</b> To confirm the variance in numerical values/counts over time are maintained, autocorrelation graphs are plotted for both datasets and compared.</li>
-<div id="Autocorrelation_mockup"></div>
-      </ol>
-  <li><u>Predictiveness.</u> To assess predictiveness, the following methods are applied:</li>
-      <ol>
-        <li><b>Predictive model performance.</b> The original and synthetic evaluation samples are further divided into a test sample (90% of evaluation sample) and train sample (10% of evaluation sample). Numerical data is transformed to categorical data and all data is one-hot-encoded, including NA values as a category (exception: if NA% &lt3% these rows are excluded). A series of commonly used predictive models (Random Forests, Logistic regression…) are applied to the test samples and trained on the train samples for both the real and the synthetic data (Test-on-real, Train-on-real and Test-on-synthetic, Train-on-synthetic) in accordance to previous studies (reference final papers where the models were taken from). The model attempts to predict a variable based on the rest of the variables and the prediction is given an accuracy score.
-        <br>To compare the datasets, the MSE (mean standard error<i>(dictionary)</i>) is calculated between the accuracy scores for each variable between both datasets and averaged. A low averaged MSE indicates the synthetic and original dataset behaved similarly in the predictive models.
-        <br>Parallel to the averaged MSE, the Synthetic Accuracy Ranking is calculated, where the accuracy scores are used to rank each predictive model. If both datasets behave similarly the ranking will be equal. <i>(still not 100% sure about this description).</i></li>
-<div id="predictive_mockup"></div>
-        <li><b>Next-step predictive model performance (time-series only). </b> This method is identical to previous method with the difference that the predictive model attempts to predict a time series entry based on the previous time steps. </li>
-      </ol>
-  <li><u>Privacy.</u> Including differential privacy within the GAN ensures total anonymity. However, to further test this, the following methods are applied:</li>
-      <ol>
-        <li><b>Hack tests.</b></li>
-      </ol>
+  <li>
+    <u>Fidelity.</u> 
+    To assess fidelity, the following methods are applied:
+  </li>
+  <ol>
+    <li>
+      <b>tSNE and PCA plots.</b>
+      tSNE and PCA plots (Jarrett et al. 2019). Need to write a description for this 
+    </li>
+    <div id="tSNE_mockup"></div>
+      <li>
+        <b>Empirical distributions comparison.</b>
+        The empirical distribution (dictionary) for each variable within the dataset is calculated
+        for the synthetic and the real data set. To compare the datasets, the MSE (mean standard
+        error (dictionary)) is calculated between each empirical distribution for each variable
+        between both datasets and averaged. The lower the averaged MSE, the higher the fidelity.
+        <br>
+        The empirical distribution comparison can also be specifically calculated for a column
+        of interest. For example, in a cancer registry database, it may be of interest to subset
+        the registry by cancer type and then do an empirical distribution comparison across the
+        remaining columns.
+      </li>
+    <div id="barchart_mockup"></div>
+    <div id="empirical_plot"></div>
+      <li>
+        <b>Inter-variable dependencies.</b>
+        To confirm dependencies between variables within columns are maintained, Pearson’s
+        correlation coefficient <i>(link dictionary)</i> is calculated between categorical columns
+        within the original and synthetic data. To compare the datasets, the MSE is calculated
+        between each correlation coefficient.
+      </li>
+      <li>
+        <b>Autocorrelation comparison.</b>
+        To confirm the variance in numerical values/counts over time are maintained,
+        autocorrelation graphs are plotted for both datasets and compared.
+      </li>
+    <div id="Autocorrelation_mockup"></div>
+  </ol>
+  <li>
+    <u>Predictiveness.</u>
+    To assess predictiveness, the following methods are applied:
+  </li>
+    <ol>
+      <li>
+        <b>Predictive model performance.</b>
+        The original and synthetic evaluation samples are further divided into a test sample
+        (90% of evaluation sample) and train sample (10% of evaluation sample). Numerical data
+        is transformed to categorical data and all data is one-hot-encoded, including NA values
+        as a category (exception: if NA% &lt3% these rows are excluded). A series of commonly
+        used predictive models (Random Forests, Logistic regression…) are applied to the test
+        samples and trained on the train samples for both the real and the synthetic data
+        (Test-on-real, Train-on-real and Test-on-synthetic, Train-on-synthetic) in accordance
+        to previous studies (reference final papers where the models were taken from). The model
+        attempts to predict a variable based on the rest of the variables and the prediction is
+        given an accuracy score.
+        <br>
+        To compare the datasets, the MSE (mean standard error<i>(dictionary)</i>) is calculated
+        between the accuracy scores for each variable between both datasets and averaged.
+        A low averaged MSE indicates the synthetic and original dataset behaved similarly in the
+        predictive models.
+        <br>
+        Parallel to the averaged MSE, the Synthetic Accuracy Ranking is calculated, where the
+        accuracy scores are used to rank each predictive model. If both datasets behave similarly
+        the ranking will be equal. <i>(still not 100% sure about this description).</i>
+      </li>
+      <div id="predictive_mockup"></div>
+      <li>
+        <b>Next-step predictive model performance (time-series only).</b>
+        This method is identical to previous method with the difference that the predictive
+        model attempts to predict a time series entry based on the previous time steps.
+      </li>
+    </ol>
+  <li>
+    <u>Privacy.</u>
+    Including differential privacy within the GAN ensures total anonymity. However, to
+    further test this, the following methods are applied:
+  </li>
+  <ol>
+    <li><b>Hack tests.</b></li>
+  </ol>
 </ol>
-<!-- The only method missing is the discriminative score i.e ask a model to distinguish between the real and the fake data. Aisha has it included in the report.-->
+<!-- The only method missing is the discriminative score i.e ask a model to distinguish between
+the real and the fake data. Aisha has it included in the report.-->
 <hr>
 
 <h3>Data handling</h3>
 
 <p>
-  Data shared between users and Syndasera will be held on a Data Access Environment specifically the London Server <i>(I made this bit up)</i>. Generation of Synthetic Data and it’s evaluation will be performed in this secure server, so that no data is transferred onto a local machine.
+  Data shared between users and Syndasera will be held on a Data Access Environment specifically
+  the London Server <i>(I made this bit up)</i>. Generation of Synthetic Data and its evaluation
+  will be performed in this secure server, so that no data is transferred onto a local machine.
   <i>More stuff to say here?</i>
 </p>
 
@@ -98,9 +231,18 @@
 <h3>References</h3>
 
 <ul>
-<li>Jarrett, D., Yoon, J., Van de Schaar, M. (2019), ‘Time-series Generative Adversarial Networks’, Advances in Neural Information Processing Systems 32, Vancouver Canada.</li>
-<li>Lin, Z.,  Jain, A., Wang, C., Fanti, G., Sekar, V. (2019), ‘Generating High-fidelity, Synthetic Time Series Datasets with DoppelGANger’, <i>arXiv e-prints</i>, arXiv:1909.13403</li>
-<li>Jordan, J., Yoon, J., Van de Schaar, M. (2018), ‘Measuring the quality of Synthetic data for use in competitions’ <i>arXiv e-prints</i>, arXiv:1806.11345</li>
+  <li>
+    Jarrett, D., Yoon, J., Van de Schaar, M. (2019), ‘Time-series Generative Adversarial Networks’,
+    Advances in Neural Information Processing Systems 32, Vancouver Canada.
+  </li>
+  <li>
+    Lin, Z.,  Jain, A., Wang, C., Fanti, G., Sekar, V. (2019), ‘Generating High-fidelity,
+    Synthetic Time Series Datasets with DoppelGANger’, <i>arXiv e-prints</i>, arXiv:1909.13403
+  </li>
+  <li>
+    Jordan, J., Yoon, J., Van de Schaar, M. (2018), ‘Measuring the quality of Synthetic data for
+    use in competitions’ <i>arXiv e-prints</i>, arXiv:1806.11345
+  </li>
 </ul>
 
 <!--<a href="/requests/new">text</a>-->
@@ -202,7 +344,8 @@ svg.selectAll("mybar")
     .attr("opacity", 0.6)
     .attr("stroke", "black");
 
-    svg.append("text").attr("x", 60).attr("y", 0).text("Empirical distribution").style("font-size", "15px").attr("alignment-baseline","middle")
+    svg.append("text").attr("x", 60).attr("y", 0).text("Empirical distribution")
+        .style("font-size", "15px").attr("alignment-baseline","middle")
 
 </script>
 
@@ -399,7 +542,8 @@ svg.append("text")
       .style("font-size", "10px");
     // Add Y axis
     var y = d3.scaleLinear()
-      .domain( [d3.min(auto_real_df, function(d) { return +d.real_auto }), d3.max(auto_real_df, function(d) { return +d.real_auto })])
+      .domain( [d3.min(auto_real_df, function(d) { return +d.real_auto }),
+      d3.max(auto_real_df, function(d) { return +d.real_auto })])
       .range([ height, 0 ]);
     svg.append("g")
       .call(d3.axisLeft(y));
@@ -462,11 +606,16 @@ svg.append("text")
         .attr("opacity", 0.7);
 
 // Handmade legend
-svg.append("circle").attr("cx",200).attr("cy",20).attr("r", 5).style("fill", "#fa0000").style("opacity", 0.7)
-svg.append("circle").attr("cx",200).attr("cy",40).attr("r", 5).style("fill", "#417ee0").style("opacity", 0.7)
-svg.append("text").attr("x", 215).attr("y", 25).text("original data").style("font-size", "10px").attr("alignment-baseline","middle")
-svg.append("text").attr("x", 215).attr("y", 45).text("synthetic data").style("font-size", "10px").attr("alignment-baseline","middle")
-svg.append("text").attr("x", 50).attr("y", 0).text("Autocorrelation plot").style("font-size", "15px").attr("alignment-baseline","middle")
+svg.append("circle").attr("cx",200).attr("cy",20).attr("r", 5)
+    .style("fill", "#fa0000").style("opacity", 0.7)
+svg.append("circle").attr("cx",200).attr("cy",40).attr("r", 5)
+    .style("fill", "#417ee0").style("opacity", 0.7)
+svg.append("text").attr("x", 215).attr("y", 25).text("original data")
+    .style("font-size", "10px").attr("alignment-baseline","middle")
+svg.append("text").attr("x", 215).attr("y", 45).text("synthetic data")
+    .style("font-size", "10px").attr("alignment-baseline","middle")
+svg.append("text").attr("x", 50).attr("y", 0).text("Autocorrelation plot")
+    .style("font-size", "15px").attr("alignment-baseline","middle")
 
 </script>
 
@@ -474,7 +623,9 @@ svg.append("text").attr("x", 50).attr("y", 0).text("Autocorrelation plot").style
 
 <script>
 
-var names = ["Age","Height","BMI","Cancer Type","Ethnicity","Visit Date","Admitting Hospital","Tumour Size","Specialist Code","Hospital Duration","Temperature","Drug","Gender"];
+var names = ["Age","Height","BMI","Cancer Type","Ethnicity","Visit Date",
+            "Admitting Hospital","Tumour Size","Specialist Code","Hospital Duration",
+            "Temperature","Drug","Gender"];
 var x_axis = [0.1,0.2,0.3,0.3,0.4,0.5,0.5,0.6,0.7,0.8,0.9,0.95,1.0];
 var y_axis = [0.1,0.35,0.3,0.5,0.65,0.6,0.45,0.4,0.45,0.7,0.9,0.9,0.8];
 accuracy_dummy=[];

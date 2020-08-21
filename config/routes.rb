@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get '/prism_dashboard' => 'pages#prism_dashboard'
   get '/our_methods' => 'pages#our_methods'
   get '/requests/new' => 'syn_data_request#new'
+  get 'user/requests' => 'syn_data_request#show'
 
   get '/get_data' => 'prism#get_data'
   get '/get_data_500' => 'prism#get_data_500'
