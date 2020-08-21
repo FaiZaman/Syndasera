@@ -68,7 +68,7 @@ var dates = [];
 
 
 
-//--counts tables--//
+//--other counts tables--//
 
 //   function getItems(input) {
 //   var arr = input, obj = [];
@@ -95,6 +95,10 @@ var dates = [];
 //
 // console.log(plasmodium_present)
 
+//--END other counts tables--//
+
+//--count table array--//
+
 var plasmodium_present1 = [];
 for (var i = 0; i < data.length; i++) {
   if (plasmodium_present1.some(el => el.category === data[i].asexual_plasmodium_parasite_present)){
@@ -111,10 +115,40 @@ for (var i = 0; i < data.length; i++) {
 
 console.log(plasmodium_present1)
 
+//--END count table array--//
+
+//--remove null entries in count table--//
+
 var countnonull = plasmodium_present1.filter(function(obj) {
 	return obj.category != null;
 });
 console.log(countnonull);
+
+//--END remove null entries in count table--//
+
+//-- Trying to make a function for the count tables--//
+
+// function getcountarray(column, arrayname){
+// var arrayname = [];
+// for (var i = 0; i < data.length; i++) {
+//   if (arrayname.some(el => el.category === data[i].column)){
+//       for (var j = 0; j < arrayname.length; j++) {
+//         if(arrayname[j].category === data[i].column){
+//           arrayname[j].count +=1
+// }}
+// } else { const category = {
+// 			category: data[i].column,
+// 			count: 1
+// 		}
+// 		arrayname.push(category);
+// }}}
+//
+// getcountarray("asexual_plasmodium_parasite_present", plasmodium_present_count)
+// console.log(plasmodium_present_count)
+
+//-- END Trying to make a function for the count tables--//
+
+//--old bits of code--//
 
 // var plasmodium_present2 = [];
 // for (var i = 0; i < data.length; i++) {
@@ -156,6 +190,8 @@ console.log(countnonull);
 // return obj;
 // }
 
+//--END old bits of code--//
+
 d3.select("#content")
     .append("div")
       .attr("id","my_first_histogram")
@@ -163,6 +199,14 @@ d3.select("#content")
 d3.select("#content")
       .append("div")
         .attr("id","my_first_cathistogram")
+
+d3.select("#content")
+      .append("div")
+        .attr("id","autocorrelation")
+
+d3.select("#content")
+      .append("div")
+        .attr("id","autocorrelation2")
 
 /////////-------HISTOGRAM-------/////////
 
@@ -174,63 +218,56 @@ console.log(withoutNulls);
 
 //console.log(Object.keys(data.haemoglobin))
 
-// set the dimensions and margins of the graph
-    var margin = {top: 20, right: 30, bottom: 40, left: 40},
-        width = 460 - margin.left - margin.right,
-        height = 400 - margin.top - margin.bottom;
 
-// append the svg object to the body of the page
-    var svg = d3.select("#my_first_histogram")
-      .append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-      .append("g")
-        .attr("transform",
-              "translate(" + margin.left + "," + margin.top + ")");
+var margin = {top: 20, right: 30, bottom: 40, left: 40}
+var width = 460 - margin.left - margin.right
+var height = 400 - margin.top - margin.bottom;
 
-// X axis: scale and draw:
+function drawHistogram (dom, array){
+
+    var svg = d3.select(dom)
+        .append("svg")
+          .attr("width", width + margin.left + margin.right)
+          .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+// X axis
     var x = d3.scaleLinear()
-//        .domain([0, 20])     // can use this instead of 1000 to have the max of data: d3.max(data, function(d) { return +d.price })
-        .domain([d3.min(withoutNulls, function(d) { return +d.haemoglobin}) -1, d3.max(data, function(d) { return +d.haemoglobin})+1])
+        .domain([d3.min(array, function(d) { return +d.haemoglobin}) -1, d3.max(array, function(d) { return +d.haemoglobin})+1])
         .range([0, width]);
     svg.append("g")
         .attr("transform", "translate(0," + height + ")")
         .call(d3.axisBottom(x));
-// Add X axis label:
-svg.append("text")
-.attr("text-anchor", "end")
-.attr("x", width)
-.attr("y", height + margin.top + 10)
-.text("Haemoglobin (mg/mL)")
-.style("font-size", "10px");
+    svg.append("text")
+        .attr("text-anchor", "end")
+        .attr("x", width)
+        .attr("y", height + margin.top + 10)
+        .text("Haemoglobin (mg/mL)")
+        .style("font-size", "10px");
 
     var histogram = d3.histogram()
-        .value(function(withoutNulls) { return withoutNulls.haemoglobin; })
-        .domain(x.domain())  // then the domain of the graphic
-    //    .thresholds(x.ticks(40)); // then the numbers of bins
-        .thresholds(x.ticks([((d3.max(withoutNulls, function(d) { return +d.haemoglobin}))-(d3.min(withoutNulls, function(d) { return +d.haemoglobin})))*2])); // then the numbers of bins
+        .value(function(array) { return array.haemoglobin; })
+        .domain(x.domain())
+        .thresholds(x.ticks([((d3.max(array, function(d) { return +d.haemoglobin}))-(d3.min(array, function(d) { return +d.haemoglobin})))*2]));
 
-                // And apply this function to data to get the bins
-    var bins = histogram(withoutNulls);
+    var bins = histogram(array);
 
-                  // Y axis: scale and draw:
+// Y axis
     var y = d3.scaleLinear()
         .range([height, 0]);
-        y.domain([0, d3.max(bins, function(withoutNulls) { return withoutNulls.length; })]);   // d3.hist has to be called before the Y axis obviously
-//          y.domain([0, 50])
+        y.domain([0, d3.max(bins, function(array) { return array.length; })]);
     svg.append("g")
         .call(d3.axisLeft(y));
-//
-// Y axis label:
-svg.append("text")
-.attr("text-anchor", "end")
-.attr("transform", "rotate(-90)")
-.attr("y", -margin.left + 10)
-.attr("x", -margin.top)
-.text("count")
-.style("font-size", "10px");
+    svg.append("text")
+        .attr("text-anchor", "end")
+        .attr("transform", "rotate(-90)")
+        .attr("y", -margin.left + 10)
+        .attr("x", -margin.top)
+        .text("count")
+        .style("font-size", "10px");
 
-                  // append the bar rectangles to the svg element
+//bars
     svg.selectAll("rect")
         .data(bins)
         .enter()
@@ -240,12 +277,15 @@ svg.append("text")
             .attr("width", function(d) { return x(d.x1) - x(d.x0) -1 ; })
             .attr("height", function(d) { return height - y(d.length); })
             .style("fill", "#0275D8")
+}
 
+drawHistogram ("#my_first_histogram", withoutNulls)
 
 /////////-------COUNT BAR CHART "CATEGORICAL HISTOGRAM"-------/////////
 
+function drawCatHistogram (dom, array){
 
-var svg1 = d3.select("#my_first_cathistogram")
+var svg = d3.select(dom)
       .append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
@@ -254,18 +294,17 @@ var svg1 = d3.select("#my_first_cathistogram")
               "translate(" + margin.left + "," + margin.top + ")");
 
 //X axis
-var x1 = d3.scaleBand()
-          .range([ 0, width ])
-          .domain(countnonull.map(function(d) { return d.category; }))
-          .padding(0.2);
-svg1.append("g")
+var x = d3.scaleBand()
+      .range([ 0, width ])
+      .domain(array.map(function(d) { return d.category; }))
+      .padding(0.2);
+svg.append("g")
       .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(x1))
+      .call(d3.axisBottom(x))
       .selectAll("text")
       .attr("transform", "translate(-10,0)rotate(-45)")
       .style("text-anchor", "end");
-// Add X axis label:
-svg1.append("text")
+svg.append("text")
       .attr("text-anchor", "end")
       .attr("x", width)
       .attr("y", height + margin.top + 5)
@@ -273,36 +312,140 @@ svg1.append("text")
       .style("font-size", "10px");
 
 //Y axis
-var y1 = d3.scaleLinear()
-  .domain([0, d3.max(countnonull, function(d) { return +d.count})+d3.max(countnonull, function(d) { return +d.count})*0.1])
-  .range([ height, 0]);
-svg1.append("g")
-  .call(d3.axisLeft(y1));
-// Y axis label:
-svg1.append("text")
-  .attr("text-anchor", "end")
-  .attr("transform", "rotate(-90)")
-  .attr("y", -margin.left + 10)
-  .attr("x", -margin.top)
-  .text("count")
-  .style("font-size", "10px");
+var y = d3.scaleLinear()
+      .domain([0, d3.max(array, function(d) { return +d.count})+d3.max(array, function(d) { return +d.count})*0.1])
+      .range([ height, 0]);
+svg.append("g")
+      .call(d3.axisLeft(y));
+svg.append("text")
+      .attr("text-anchor", "end")
+      .attr("transform", "rotate(-90)")
+      .attr("y", -margin.left + 10)
+      .attr("x", -margin.top)
+      .text("count")
+      .style("font-size", "10px");
 
-svg1.selectAll("mybar")
-  .data(countnonull)
-  .enter()
-  .append("rect")
-    .attr("x", function(d) { return x1(d.category); })
-    .attr("y", function(d) { return y1(d.count); })
-    .attr("width", x1.bandwidth())
-    .attr("height", function(d) { return height - y1(d.count); })
-    .attr("fill", "#0275D8")
+//bars
+svg.selectAll("mybar")
+    .data(array)
+    .enter()
+    .append("rect")
+      .attr("x", function(d) { return x(d.category); })
+      .attr("y", function(d) { return y(d.count); })
+      .attr("width", x.bandwidth())
+      .attr("height", function(d) { return height - y(d.count); })
+      .attr("fill", "#0275D8")
 //    .attr("opacity", 0.6)
 //    .attr("stroke", "black");
 
+//labels
+svg.append("text").attr("x", 100).attr("y", 0).text("Plasmodium Present").style("font-size", "15px").attr("alignment-baseline","middle")
 
-    svg1.append("text").attr("x", 100).attr("y", 0).text("Plasmodium Present").style("font-size", "15px").attr("alignment-baseline","middle")
+}
 
-    }
+drawCatHistogram ("#my_first_cathistogram", countnonull)
+
+
+//--Autocorrelation plot--//
+
+var numbers = [];
+for (var i = 0; i <= 40; i++) {
+    numbers.push(i);
+}
+var auto_visits = [ 1.0        ,  0.83194072,  0.60752648,  0.40733211,  0.2393539 ,
+        0.06308392, -0.03042551, -0.00156437,  0.11492175,  0.23156727,
+        0.40431004,  0.587576  ,  0.74329417,  0.73899856,  0.60086223,
+        0.42929339,  0.26445132,  0.08971791, -0.04624491, -0.10146541,
+       -0.05592395,  0.02258253,  0.14953432,  0.32115828,  0.49650044,
+        0.57808745,  0.56546254,  0.45923887,  0.31581384,  0.15070561,
+       -0.00991299, -0.11399981, -0.14651289, -0.12881442, -0.04292734,
+        0.0860217 ,  0.25763288,  0.37661576,  0.4222832 ,  0.39984781,
+        0.30730804]
+var auto_malaria=        [1.0        , 0.83565062, 0.8130502 , 0.76383794, 0.71543807,
+               0.65666914, 0.60501138, 0.57992067, 0.50679016, 0.48354859,
+               0.46075843, 0.41800086, 0.40867032, 0.40286374, 0.4099042 ,
+               0.392492  , 0.42444531, 0.46037841, 0.45126127, 0.49003506,
+               0.50018759, 0.51762959, 0.51669688, 0.52082638, 0.54145072,
+               0.52657665, 0.54105676, 0.54035763, 0.50444073, 0.49208989,
+               0.46402236, 0.44833461, 0.38715839, 0.36331611, 0.33538383,
+               0.29451318, 0.26272362, 0.24484509, 0.2088821 , 0.16698784,
+               0.18895723]
+auto_visits_df=[];
+auto_malaria_df=[];
+for(var i=0; i<numbers.length; i++){
+    var obj = {week_lag: numbers[i], autocorrelation: auto_visits[i]};
+    var obj2 = {week_lag: numbers[i], autocorrelation: auto_malaria[i]};
+    auto_visits_df.push(obj);
+    auto_malaria_df.push(obj2);
+        }
+
+function autocorr (dom, array) {
+
+var svg = d3.select(dom)
+            .append("svg")
+              .attr("width", width + margin.left + margin.right)
+              .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+              .attr("transform",
+                    "translate(" + margin.left + "," + margin.top + ")");
+
+// Add X axis
+    var x = d3.scaleLinear()
+      .domain(d3.extent(array, function(d) { return d.week_lag; }))
+      .range([ 0, width ]);
+    svg.append("g")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x));
+    svg.append("text")
+      .attr("text-anchor", "end")
+      .attr("x", width)
+      .attr("y", height + margin.top + 10)
+      .text("time-lag(weeks)")
+      .style("font-size", "10px");
+
+    //Y axis
+    var y = d3.scaleLinear()
+      .domain( [d3.min(array, function(d) { return +d.autocorrelation }), d3.max(array, function(d) { return +d.autocorrelation })])
+      .range([ height, 0 ]);
+    svg.append("g")
+      .call(d3.axisLeft(y));
+    svg.append("text")
+      .attr("text-anchor", "end")
+      .attr("transform", "rotate(-90)")
+      .attr("y", -margin.left + 10)
+      .attr("x", -margin.top)
+      .text("Autocorrelation")
+      .style("font-size", "10px");
+
+// Add the line
+    svg.append("path")
+      .datum(array)
+      .attr("fill", "none")
+      .attr("stroke", "#0275D8")
+      .attr("opacity", 0.7)
+      .attr("stroke-width", 1.5)
+      .attr("d", d3.line()
+        .x(function(d) { return x(d.week_lag) })
+        .y(function(d) { return y(d.autocorrelation) })
+        )
+    // Add the points
+    svg.append("g")
+      .selectAll("dot")
+      .data(array)
+      .enter()
+      .append("circle")
+        .attr("cx", function(d) { return x(d.week_lag) } )
+        .attr("cy", function(d) { return y(d.autocorrelation) } )
+        .attr("r", 3)
+        .attr("fill", "#0275D8")
+//        .attr("opacity", 0.7);
+
+// Handmade legend
+svg.append("text").attr("x", 50).attr("y", 0).text("Autocorrelation plot for number of visits per week").style("font-size", "15px").attr("alignment-baseline","middle")
+}
+autocorr("#autocorrelation", auto_visits_df)
+autocorr("#autocorrelation2", auto_malaria_df)
+}
 
 d3.select("body").transition().style("background-color", "#f6abb650")
 

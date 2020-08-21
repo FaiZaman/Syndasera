@@ -1,11 +1,5 @@
 //--histogram for numerical data--//
 
-//removes Nulls to draw histogram that would otherwise replace null with 0.
-var withoutNulls = data.filter(function(obj) {
-	return obj.haemoglobin != null;
-});
-console.log(withoutNulls);
-
 
 //-- tSNE and PCA plot--//
 //upload the output from PCA and tSNE plot ipynb for tGAN and DoppelGANger

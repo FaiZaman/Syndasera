@@ -28,7 +28,7 @@
 <p>The embedding network consists of the auto-encoder and auto-decoder. The generative adversarial network (GAN) <i>(dictionary)</i> consists of a generator and discriminator. Time-series data is processed by sequential ...</p>
 <!-- This only works on regular html files <img src="GAN-scheme.jpg" height="500">-->
 <figure>
-  <%= image_tag("GAN-scheme.jpg", :alt => "GAN", :height => "500") %>
+  <%= image_tag("GAN-scheme-2.png", :alt => "GAN", :height => "500") %>
   <figcaption><i>Schematic of the synthetic data generator</i></figcaption>
 </figure>
 
@@ -53,8 +53,11 @@
   <br>
   To execute the evaluation mehtods, 20% of the original data, not used in the generative model, are set aside (original evaluation sample). An equal size of the synthetic data is used for comparison (synthetic evaluation sample).
   <br>
+    <%= image_tag("DWPPre.png", :alt => "GAN", :height => "400") %>
+  <br>
   To see an example of the application of these methods, <a href="/prism_dashboard">click here</a>.
 </p>
+
 
 <ol>
   <li><u>Fidelity.</u> To assess fidelity, the following methods are applied:</li>
@@ -515,7 +518,7 @@ var svg = d3.select("#predictive_mockup")
       .attr("text-anchor", "end")
       .attr("x", width)
       .attr("y", height + margin.top + 10)
-      .text("accuacry score - original data")
+      .text("accuracy score - original data")
       .style("font-size", "10px");
 
              // Add Y axis
