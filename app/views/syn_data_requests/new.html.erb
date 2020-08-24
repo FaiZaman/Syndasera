@@ -4,29 +4,48 @@
 
 	<div class="form-container col-md-12">
 
+		<% if @syn_data_request.errors.any? %>
+			<div id="error_explanation" class="warning">
+				<h4 style="color: black;">
+					<%= pluralize(@syn_data_request.errors.count, "error") %> 
+					prohibited this request from being submitted:
+				</h4>
+				<ul>
+					<% @syn_data_request.errors.full_messages.each do |msg| %>
+						<li><%= msg %></li>
+					<% end %>
+				</ul>
+			</div>
+		<% end %>
+
 		<%= form_with scope: :syn_data_request, url: user_syn_data_requests_path(current_user),
 		local: true do |f| %>
 
 			<div class="form-row" style="margin-left: 10px;">
 				<div class="field form-group col-md-5">
-					<%= f.label :first_name %><br />
+					<%= f.label :first_name %>
 					<%= f.text_field :first_name, autofocus: true,
 					autocomplete: "first_name", class: "form-control" %>
 				</div>
 
 				<div class="field form-group col-md-5">
-					<%= f.label :last_name %><br />
+					<%= f.label :last_name %>
 					<%= f.text_field :last_name, autocomplete: "last_name", class: "form-control" %>
 				</div>
 			</div>
 
       <div class="field form-group col-md-10">
-        <%= f.label :company_name %><br />
+        <%= f.label :company_name %>
         <%= f.text_field :company_name, autocomplete: "company_name", class: "form-control" %>
       </div>
 
       <div class="field form-group col-md-10">
-        <%= f.label :dataset_type %><br />
+        <%= f.label :dataset_name %>
+        <%= f.text_field :dataset_name, autocomplete: "dataset_name", class: "form-control" %>
+      </div>
+
+      <div class="field form-group col-md-10">
+        <%= f.label :dataset_type %>
         <%= f.text_field :dataset_type, autocomplete: "dataset_type", class: "form-control" %>
       </div>
 
