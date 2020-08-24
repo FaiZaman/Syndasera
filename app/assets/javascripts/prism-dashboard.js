@@ -44,37 +44,48 @@ function visualisation(data) {
 		}
   });
   
+  	// the format we want
 	// [{week:“week 1”, variable:“variable 1", count:“count 1”},
 	//{week:“week 1", variable:“variable 2”, count:“count 2"},
 	//{week:“week 1”, variable:“variable x”, count:“count x”}…,
 	//{week:“week 2", variable:“variable 1”, count:“count 1"}…,
 	//{week:“week y”, variable:“variable x”, count:“count x”}]
 	var columns = Object.keys(data[0])
+
+	// groupByWeek current format is [2011-39: {{}, {}, ...}, 2011-40: ...] 
+	// where {} is an observation and 2011-39 is the 39th week of 2011 (52 in total per year)
+
+	// getting rid of unnecessary columns
 	columns.splice(columns.indexOf('id'), 1);
 	columns.splice(columns.indexOf('created_at'), 1);
 	columns.splice(columns.indexOf('updated_at'), 1);
 
 	var weeks = Object.keys(groupByWeek);
-	var weekCountArray = [];
 
+	// creates the data structure we want for a specific column
 	function createWeekCountArray(column){
+
+		var weekCountArray = [];
+
+		// looping by weeks
 		for (var i = 0; i < weeks.length; i++){
 
 			var weekNumber = i + 1;
-			console.log(weekNumber);
 			var weeksObservations = groupByWeek[weeks[i]];
 
+			// looking at each observation in each week
 			weeksObservations.forEach((observation) => {
 
-				var value = observation[column];
-				console.log(value);
-				if ((weekCountArray.some(el => el.variable === value)) && (weekCountArray.some(el => el.week != weekNumber))){
-					var result = weekCountArray.find(x => x.variable === value)
+				var value = observation[column];	// column value for current observation
+
+				// check if the value is already in the array in the current week
+				if ((weekCountArray.some(el => el.variable === value && el.week === weekNumber))){
+					// increase the count by 1 for this week-value if so
 					const index = weekCountArray.map(e => e.variable).indexOf(value);
 					weekCountArray[index]['count']++;
 				}
 				else {
-					console.log(weekNumber);
+					// create an entry for this week-value with default count 1 as first appearance
 					const obj = {
 						'week': weekNumber,
 						'variable': value,
