@@ -4,7 +4,8 @@
 
 	<div class="form-container col-md-12">
 
-		<%= form_with scope: :request, class: "nifty_form" do |f| %>
+		<%= form_with scope: :syn_data_request, url: user_syn_data_requests_path(current_user),
+		local: true do |f| %>
 
 			<div class="form-row" style="margin-left: 10px;">
 				<div class="field form-group col-md-5">
