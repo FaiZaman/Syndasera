@@ -26,7 +26,7 @@ Date.prototype.getWeekNumber = function(){
 function visualisation(data) {
   console.log(data);
 
-	//--week counts table--//
+	//--adding week column and grouping by week--//
 
 	var dates = [];
 	for (var i = 0; i < data.length; i++){
@@ -44,95 +44,74 @@ function visualisation(data) {
 		}
   });
 
-  console.log(groupByWeek)
+console.log("These are the visits clustered by week")
+console.log(groupByWeek)
 
-  	// the format we want
-	// [{week:“week 1”, variable:“variable 1", count:“count 1”},
-	//{week:“week 1", variable:“variable 2”, count:“count 2"},
-	//{week:“week 1”, variable:“variable x”, count:“count x”}…,
-	//{week:“week 2", variable:“variable 1”, count:“count 1"}…,
-	//{week:“week y”, variable:“variable x”, count:“count x”}]
-	var columns = Object.keys(data[0])
+  // 	// the format we want
+	// // [{week:“week 1”, variable:“variable 1", count:“count 1”},
+	// //{week:“week 1", variable:“variable 2”, count:“count 2"},
+	// //{week:“week 1”, variable:“variable x”, count:“count x”}…,
+	// //{week:“week 2", variable:“variable 1”, count:“count 1"}…,
+	// //{week:“week y”, variable:“variable x”, count:“count x”}]
+	// var columns = Object.keys(data[0])
+  //
+	// // groupByWeek current format is [2011-39: {{}, {}, ...}, 2011-40: ...]
+	// // where {} is an observation and 2011-39 is the 39th week of 2011 (52 in total per year)
+  //
+	// // getting rid of unnecessary columns
+	// columns.splice(columns.indexOf('id'), 1);
+	// columns.splice(columns.indexOf('created_at'), 1);
+	// columns.splice(columns.indexOf('updated_at'), 1);
+  //
+	// var weeks = Object.keys(groupByWeek);
+  //
+	// // creates the data structure we want for a specific column
+	// function createWeekCountArray(column){
+  //
+	// 	var weekCountArray = [];
+  //
+	// 	// looping by weeks
+	// 	for (var i = 0; i < weeks.length; i++){
+  //
+	// 		var weekNumber = i + 1;
+	// 		var weeksObservations = groupByWeek[weeks[i]];
+  //
+	// 		// looking at each observation in each week
+	// 		weeksObservations.forEach((observation) => {
+  //
+	// 			var value = observation[column];	// column value for current observation
+  //
+	// 			// check if the value is already in the array in the current week
+	// 			if ((weekCountArray.some(el => el.variable === value && el.week === weekNumber))){
+	// 				// increase the count by 1 for this week-value if so
+	// 				const index = weekCountArray.map(e => e.variable).indexOf(value);
+	// 				weekCountArray[index]['count']++;
+	// 			}
+	// 			else {
+	// 				// create an entry for this week-value with default count 1 as first appearance
+	// 				const obj = {
+	// 					'week': weekNumber,
+	// 					'variable': value,
+	// 					'count': 1
+	// 				};
+	// 				weekCountArray.push(obj);
+	// 			}
+	// 		});
+	// 	}
+	// 	console.log(weekCountArray);
+	// 	// check for missing weeks afterwards
+	// }
+  //
+	// var column = "subjective_fever"
+	// createWeekCountArray(column);
+  //
+  // //columns.forEach((element) => {
+  // //  for (var i = 0; i < data.length; i++){
+  // //  }
+  // //  console.log(element);
+  // //});
 
-	// groupByWeek current format is [2011-39: {{}, {}, ...}, 2011-40: ...]
-	// where {} is an observation and 2011-39 is the 39th week of 2011 (52 in total per year)
-
-	// getting rid of unnecessary columns
-	columns.splice(columns.indexOf('id'), 1);
-	columns.splice(columns.indexOf('created_at'), 1);
-	columns.splice(columns.indexOf('updated_at'), 1);
-
-	var weeks = Object.keys(groupByWeek);
-
-	// creates the data structure we want for a specific column
-	function createWeekCountArray(column){
-
-		var weekCountArray = [];
-
-		// looping by weeks
-		for (var i = 0; i < weeks.length; i++){
-
-			var weekNumber = i + 1;
-			var weeksObservations = groupByWeek[weeks[i]];
-
-			// looking at each observation in each week
-			weeksObservations.forEach((observation) => {
-
-				var value = observation[column];	// column value for current observation
-
-				// check if the value is already in the array in the current week
-				if ((weekCountArray.some(el => el.variable === value && el.week === weekNumber))){
-					// increase the count by 1 for this week-value if so
-					const index = weekCountArray.map(e => e.variable).indexOf(value);
-					weekCountArray[index]['count']++;
-				}
-				else {
-					// create an entry for this week-value with default count 1 as first appearance
-					const obj = {
-						'week': weekNumber,
-						'variable': value,
-						'count': 1
-					};
-					weekCountArray.push(obj);
-				}
-			});
-		}
-		console.log(weekCountArray);
-		// check for missing weeks afterwards
-	}
-
-	var column = "subjective_fever"
-	createWeekCountArray(column);
-
-  //columns.forEach((element) => {
-  //  for (var i = 0; i < data.length; i++){
-  //  }
-  //  console.log(element);
-  //});
-
-
-//--count table collapsed by week--//
-
-  //var weekcounter=[]
-  //function (x){ //x is the "column name"
-  // for (var i = 0; i < groupByWeek.length; i++){ //where i is the week YYYY-W, how can we make sure it reads that? and then goes into that array?
-  //for (var k = 0; k < groupByWeek[i].length; k++){ //where k is the array within the week?
-//   if (weekcounter.some(el => el.category === groupByWeek[k].x)){
-//       for (var j = 0; j < weekcounter.length; j++) {
-//         if(weekcounter[j].category === groupByWeek[k].x){
-//           weekcounter[j].count +=1
-// }}
-// } else { const category = {
-//       category: groupByWeek[k].x,
-//       count: 1,
-//       week:indexOf.category[i] //don't know how to get the week.
-//     }
-//     weekcounter.push(category);
-// }}
-// }
-////after this will need to 1) fill in with 0 where there was no entry for that variable for that week. 2) create weeks where there were no visits at all.
-
-
+//-- END Faiz week collapse week--//
 
 //--other counts tables--//
 
@@ -163,7 +142,7 @@ function visualisation(data) {
 
 //--END other counts tables--//
 
-//--count table array--//
+//--START specific column count array--//
 
 var plasmodium_present1 = [];
 for (var i = 0; i < data.length; i++) {
@@ -179,77 +158,145 @@ for (var i = 0; i < data.length; i++) {
 		plasmodium_present1.push(category);
 }}
 
-//console.log(plasmodium_present1)
+console.log(plasmodium_present1)
 
-//--END count table array--//
+//--END specific column count array--//
 
 //--remove null entries in count table--//
 
 var countnonull = plasmodium_present1.filter(function(obj) {
 	return obj.category != null;
 });
-//console.log(countnonull);
+console.log(countnonull);
 
 //--END remove null entries in count table--//
 
-//-- Function for the count tables--//
+//-- START specific column count table function--//
 
-function getcountarray(dataset, column, arrayname){
+var plasmodium_present_count = [];
+function getcountarray(dataset, column){
   for (var i = 0; i < dataset.length; i++) {
-    if (arrayname.some(el => el.category === dataset[i][column])){
-      for (var j = 0; j < arrayname.length; j++) {
-        if(arrayname[j].category === dataset[i][column]){
-          arrayname[j].count +=1
+    if (plasmodium_present_count.some(el => el.category === dataset[i][column])){
+      for (var j = 0; j < plasmodium_present_count.length; j++) {
+        if(plasmodium_present_count[j].category === dataset[i][column]){
+          plasmodium_present_count[j].count +=1
         }
       }
     } else {
-      const category = {
+      var category = {
   			category: dataset[i][column],
   			count: 1
   		}
-  		arrayname.push(category);
+  		plasmodium_present_count.push(category);
+    }
+  }
+}
+getcountarray(data, "plasmodium_gametocytes_present", plasmodium_present_count)
+//getcountarray(data, "asexual_plasmodium_parasite_present", plasmodium_present_count)
+console.log(plasmodium_present_count)
+//-- END specific column count table--//
+
+//-- START Function for giant count table function--//
+
+var allcount = [];
+function getcountarray3(dataset, column){
+  for (var i = 0; i < dataset.length; i++) {
+    if (allcount.some(el => el.variable === dataset[i][column])){
+      for (var j = 0; j < allcount.length; j++) {
+        if(allcount[j].variable === dataset[i][column]){
+          allcount[j].count +=1
+        }
+      }
+    } else {
+      var add = {
+  			variable: dataset[i][column],
+        colname: column,
+  			count: 1
+  		}
+  		allcount.push(add);
     }
   }
 }
 
-var plasmodium_present_count = [];
-getcountarray(data, "asexual_plasmodium_parasite_present", plasmodium_present_count)
-console.log(plasmodium_present_count)
+var all_cols1 = Object.keys(data[0])
+  all_cols1.forEach((column) => {
+    getcountarray3(data, column)
+  })
+console.log("These are the total counts")
+console.log(allcount)
+console.log(allcount.filter(e=>e.colname=="visit_type"))
 
-//-- END Function for the count tables--//
+//-- END Function for giant count tables--//
 
 //-- Giant week count table--//
 
-function getcountarray2(dataset, column, arrayname, dates){
+// function getcountarray2(dataset, column, arrayname, dates){
+//   for (var i = 0; i < dataset.length; i++) {
+//     if (arrayname.some(el => el.category === dataset[i][column])){
+//       for (var j = 0; j < arrayname.length; j++) {
+//         if(arrayname[j].category === dataset[i][column] & arrayname[j].dates === dataset[i][dates]){
+//           arrayname[j].count +=1
+//         }
+//       }
+//     } else {
+//       const add = {
+//         dates: dates,
+//         colName: column,
+//   			category: dataset[i][column],
+//   			count: 1
+//   		}
+//   		arrayname.push(add);
+//     }
+//   }
+// }
+//
+// var allweekcounts=[]
+// var all_cols = Object.keys(data[0])
+// Object.keys(groupByWeek).forEach(function(dates){
+//   all_cols.forEach((column) => {
+//     getcountarray2(groupByWeek[dates], column, allweekcounts, dates)
+//   })
+// })
+// console.log("These are the counts per week")
+// console.log(allweekcounts)
+// console.log(allweekcounts.filter(e=>e.colName=="visit_type"))
+// console.log(Object.keys(groupByWeek))
+
+//-- END Giant week count table--//
+
+var allweekcounts=[]
+function getcountarray2(dataset, column, dates){
   for (var i = 0; i < dataset.length; i++) {
-    if (arrayname.some(el => el.category === dataset[i][column])){
-      for (var j = 0; j < arrayname.length; j++) {
-        if(arrayname[j].category === dataset[i][column]){
-          arrayname[j].count +=1
+    if (allweekcounts.some(el => el.category === dataset[i][column])){
+      for (var j = 0; j < allweekcounts.length; j++) {
+        if(allweekcounts[j].category === dataset[i][column] & allweekcounts[j].date === dataset[i][dates]){
+          allweekcounts[j].count +=1
         }
       }
     } else {
       const add = {
-        dates: dates,
+        date: dates,
         colName: column,
   			category: dataset[i][column],
   			count: 1
   		}
-  		arrayname.push(add);
+  		allweekcounts.push(add);
     }
   }
 }
 
-var allweekcounts=[]
 var all_cols = Object.keys(data[0])
-Object.keys(groupByWeek).forEach(function(dates){
+var all_weeks = Object.keys(groupByWeek)
+all_weeks.forEach((dates)=> {
   all_cols.forEach((column) => {
-    getcountarray2(groupByWeek[dates], column, allweekcounts, dates)
+    getcountarray2(groupByWeek[dates], column, dates)
   })
-//  console.log(groupByWeek[i])
 })
-debugger
-//-- END Giant week count table--//
+console.log("These are the counts per week")
+console.log(allweekcounts)
+console.log(allweekcounts.filter(e=>e.colName=="visit_type"))
+console.log(Object.keys(groupByWeek))
+console.log(groupByWeek["2011-31"])
 
 //--old bits of code--//
 
@@ -300,6 +347,10 @@ d3.select("#content")
       .attr("id","my_first_histogram")
 
 d3.select("#content")
+    .append("div")
+      .attr("id","my_second_histogram")
+
+d3.select("#content")
       .append("div")
         .attr("id","my_first_cathistogram")
 
@@ -314,10 +365,26 @@ d3.select("#content")
 /////////-------HISTOGRAM-------/////////
 
 //removes Nulls to draw histogram that would otherwise replace null with 0.
-var withoutNulls = data.filter(function(obj) {
-	return obj.haemoglobin != null;
-});
-//console.log(withoutNulls);
+
+//why doesn't this work????
+// function removenulls(column, arrayNa){
+//   arrayNa = data.filter(function(obj) {
+// 	   return obj[column] != null;
+//   })
+// }
+// var withoutNulls=[]
+// removenulls("haemoglobin",withoutNulls)
+
+var withoutNulls=[]
+function removenulls(column){
+  withoutNulls = data.filter(function(obj) {
+	   return obj[column] != null;
+  })
+}
+
+removenulls("haemoglobin")
+console.log("I've removed the nulls from haemoglobin")
+console.log(withoutNulls);
 
 //console.log(Object.keys(data.haemoglobin))
 
@@ -326,7 +393,7 @@ var margin = {top: 20, right: 30, bottom: 40, left: 40}
 var width = 460 - margin.left - margin.right
 var height = 400 - margin.top - margin.bottom;
 
-function drawHistogram (dom, array){
+function drawHistogram (dom, array, column){
 
     var svg = d3.select(dom)
         .append("svg")
@@ -337,7 +404,7 @@ function drawHistogram (dom, array){
 
 // X axis
     var x = d3.scaleLinear()
-        .domain([d3.min(array, function(d) { return +d.haemoglobin}) -1, d3.max(array, function(d) { return +d.haemoglobin})+1])
+        .domain([d3.min(array, function(d) { return +d[column]}) -1, d3.max(array, function(d) { return +d[column]})+1])
         .range([0, width]);
     svg.append("g")
         .attr("transform", "translate(0," + height + ")")
@@ -346,13 +413,13 @@ function drawHistogram (dom, array){
         .attr("text-anchor", "end")
         .attr("x", width)
         .attr("y", height + margin.top + 10)
-        .text("Haemoglobin (mg/mL)")
+        .text(column)
         .style("font-size", "10px");
 
     var histogram = d3.histogram()
-        .value(function(array) { return array.haemoglobin; })
+        .value(function(array) { return array[column]; })
         .domain(x.domain())
-        .thresholds(x.ticks([((d3.max(array, function(d) { return +d.haemoglobin}))-(d3.min(array, function(d) { return +d.haemoglobin})))*2]));
+        .thresholds(x.ticks([((d3.max(array, function(d) { return +d[column]}))-(d3.min(array, function(d) { return +d[column]})))*2]));
 
     var bins = histogram(array);
 
@@ -380,13 +447,17 @@ function drawHistogram (dom, array){
             .attr("width", function(d) { return x(d.x1) - x(d.x0) -1 ; })
             .attr("height", function(d) { return height - y(d.length); })
             .style("fill", "#0275D8")
+
+//legends
+svg.append("text").attr("x", 200).attr("y", 0).text(column).style("font-size", "15px").attr("alignment-baseline","middle")
 }
 
-drawHistogram ("#my_first_histogram", withoutNulls)
+drawHistogram ("#my_first_histogram", withoutNulls, "haemoglobin")
+drawHistogram ("#my_second_histogram", data, "Temperature (C) [EUPATH_0000110]")
 
 /////////-------COUNT BAR CHART "CATEGORICAL HISTOGRAM"-------/////////
 
-function drawCatHistogram (dom, array){
+function drawCatHistogram (dom, array, columnx, columny){
 
 var svg = d3.select(dom)
       .append("svg")
@@ -399,7 +470,7 @@ var svg = d3.select(dom)
 //X axis
 var x = d3.scaleBand()
       .range([ 0, width ])
-      .domain(array.map(function(d) { return d.category; }))
+      .domain(array.map(function(d) { return d[columnx]; }))
       .padding(0.2);
 svg.append("g")
       .attr("transform", "translate(0," + height + ")")
@@ -416,7 +487,7 @@ svg.append("text")
 
 //Y axis
 var y = d3.scaleLinear()
-      .domain([0, d3.max(array, function(d) { return +d.count})+d3.max(array, function(d) { return +d.count})*0.1])
+      .domain([0, d3.max(array, function(d) { return +d[columny]})+d3.max(array, function(d) { return +d[columny]})*0.1])
       .range([ height, 0]);
 svg.append("g")
       .call(d3.axisLeft(y));
@@ -433,10 +504,10 @@ svg.selectAll("mybar")
     .data(array)
     .enter()
     .append("rect")
-      .attr("x", function(d) { return x(d.category); })
-      .attr("y", function(d) { return y(d.count); })
+      .attr("x", function(d) { return x(d[columnx]); })
+      .attr("y", function(d) { return y(d[columny]); })
       .attr("width", x.bandwidth())
-      .attr("height", function(d) { return height - y(d.count); })
+      .attr("height", function(d) { return height - y(d[columny]); })
       .attr("fill", "#0275D8")
 //    .attr("opacity", 0.6)
 //    .attr("stroke", "black");
@@ -446,8 +517,9 @@ svg.append("text").attr("x", 100).attr("y", 0).text("Plasmodium Present").style(
 
 }
 
-drawCatHistogram ("#my_first_cathistogram", countnonull)
-
+//drawCatHistogram ("#my_first_cathistogram", countnonull, "category", "count")
+drawCatHistogram ("#my_first_cathistogram", allcount.filter(e=>e.colname=="asexual_plasmodium_parasite_present"), "variable", "count")
+console.log(allcount.filter(e=>e.colname=="asexual_plasmodium_parasite_present"))
 
 //--Autocorrelation plot--//
 
