@@ -33,7 +33,7 @@ function visualisation(data) {
 		dates.push(data[i].visit_date);
 	}
 
-	var groupByWeek = {};
+	var groupByWeek = [];
 	dates.forEach(function (d, i) {
 		var v = data[i];
 		var weekYear = d.slice(0, 4) + '-' + new Date(d).getWeekNumber();
@@ -43,7 +43,9 @@ function visualisation(data) {
 			groupByWeek[weekYear] = [v];
 		}
   });
-  
+
+  console.log(groupByWeek)
+
   	// the format we want
 	// [{week:“week 1”, variable:“variable 1", count:“count 1”},
 	//{week:“week 1", variable:“variable 2”, count:“count 2"},
@@ -52,7 +54,7 @@ function visualisation(data) {
 	//{week:“week y”, variable:“variable x”, count:“count x”}]
 	var columns = Object.keys(data[0])
 
-	// groupByWeek current format is [2011-39: {{}, {}, ...}, 2011-40: ...] 
+	// groupByWeek current format is [2011-39: {{}, {}, ...}, 2011-40: ...]
 	// where {} is an observation and 2011-39 is the 39th week of 2011 (52 in total per year)
 
 	// getting rid of unnecessary columns
@@ -190,27 +192,64 @@ var countnonull = plasmodium_present1.filter(function(obj) {
 
 //--END remove null entries in count table--//
 
-//-- Trying to make a function for the count tables--//
+//-- Function for the count tables--//
 
-// function getcountarray(column, arrayname){
-// var arrayname = [];
-// for (var i = 0; i < data.length; i++) {
-//   if (arrayname.some(el => el.category === data[i].column)){
-//       for (var j = 0; j < arrayname.length; j++) {
-//         if(arrayname[j].category === data[i].column){
-//           arrayname[j].count +=1
-// }}
-// } else { const category = {
-// 			category: data[i].column,
-// 			count: 1
-// 		}
-// 		arrayname.push(category);
-// }}}
-//
-// getcountarray("asexual_plasmodium_parasite_present", plasmodium_present_count)
-// console.log(plasmodium_present_count)
+function getcountarray(dataset, column, arrayname){
+  for (var i = 0; i < dataset.length; i++) {
+    if (arrayname.some(el => el.category === dataset[i][column])){
+      for (var j = 0; j < arrayname.length; j++) {
+        if(arrayname[j].category === dataset[i][column]){
+          arrayname[j].count +=1
+        }
+      }
+    } else {
+      const category = {
+  			category: dataset[i][column],
+  			count: 1
+  		}
+  		arrayname.push(category);
+    }
+  }
+}
 
-//-- END Trying to make a function for the count tables--//
+var plasmodium_present_count = [];
+getcountarray(data, "asexual_plasmodium_parasite_present", plasmodium_present_count)
+console.log(plasmodium_present_count)
+
+//-- END Function for the count tables--//
+
+//-- Giant week count table--//
+
+function getcountarray2(dataset, column, arrayname, dates){
+  for (var i = 0; i < dataset.length; i++) {
+    if (arrayname.some(el => el.category === dataset[i][column])){
+      for (var j = 0; j < arrayname.length; j++) {
+        if(arrayname[j].category === dataset[i][column]){
+          arrayname[j].count +=1
+        }
+      }
+    } else {
+      const add = {
+        dates: dates,
+        colName: column,
+  			category: dataset[i][column],
+  			count: 1
+  		}
+  		arrayname.push(add);
+    }
+  }
+}
+
+var allweekcounts=[]
+var all_cols = Object.keys(data[0])
+Object.keys(groupByWeek).forEach(function(dates){
+  all_cols.forEach((column) => {
+    getcountarray2(groupByWeek[dates], column, allweekcounts, dates)
+  })
+//  console.log(groupByWeek[i])
+})
+debugger
+//-- END Giant week count table--//
 
 //--old bits of code--//
 
