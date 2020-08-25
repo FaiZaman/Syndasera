@@ -44,8 +44,56 @@ function visualisation(data) {
 		}
   });
 
-console.log("These are the visits clustered by week")
-console.log(groupByWeek)
+  // Simpler code to create week week groupings in a different data structure
+  var weekGroupings = []
+  // For each unique week
+  _.uniq(dates).forEach((d, i) => {
+    var date = d
+    var weekYear = date.slice(0, 4) + '-' + new Date(date).getWeekNumber();
+    var all_data = _.filter(data, (e) => {
+      // Find all entries with that week as `visit_date`
+      return e['visit_date'].slice(0, 4) + '-' + new Date(e['visit_date']).getWeekNumber() == weekYear
+    })
+    weekGroupings[i] = {'week' : weekYear, 'data' : all_data}
+  })
+
+  // Counting frequency in an array
+  function getCounts(arr){
+    var a = [], b = 0, prev;
+    arr.sort();
+    arr.forEach((e, i) => {
+      if(e !== prev){
+        b = 1;
+        a.push({variable: arr[i], count: b});
+      } else {
+        _.find(a, e => e.variable == arr[i])['count'] += 1
+      }
+      prev = e
+    })
+    return a;
+  }
+
+  var allWeekCounts = []
+  var all_cols = Object.keys(data[0])
+  // Creating the nested data structure for columns
+  all_cols.forEach(col => {
+    allWeekCounts.push({column: col, data: []})
+  })
+  // Counting variable frequency by date and appending it to the nested data
+  weekGroupings.forEach((datum, i) => {
+    all_cols.forEach((column) => {
+      var values = []
+      datum.data.forEach(e => values.push(e[column]))
+      var counts = getCounts(values)
+      _.find(allWeekCounts, e => e.column == column)['data'].push({week: datum.week, variables: counts})
+    })
+  })
+
+  console.log("These are the visits clustered by week")
+  console.log(groupByWeek)
+
+  console.log("Nested data structure")
+  console.log(allWeekCounts)
 
 	//--Noo adding week column and grouping by week--//
 
@@ -301,6 +349,7 @@ function getcountarray2(dataset, column, dates){
 
 var all_cols = Object.keys(data[0])
 var all_weeks = Object.keys(groupByWeek)
+debugger
 all_weeks.forEach((dates)=> {
   all_cols.forEach((column) => {
     getcountarray2(groupByWeek[dates], column, dates)
@@ -311,6 +360,8 @@ console.log(allweekcounts)
 console.log(allweekcounts.filter(e=>e.colName=="visit_type"))
 console.log(Object.keys(groupByWeek))
 console.log(groupByWeek["2011-31"])
+
+
 
 //--old bits of code--//
 
@@ -817,6 +868,7 @@ autocorr("#autocorrelation", auto_visits_df)
 autocorr("#autocorrelation2", auto_malaria_df)
 }
 
+<<<<<<< HEAD
 //d3.select("body").transition().style("background-color", "#f6abb650")
 
 d3.select("#content").append("div").attr("class", "container")
@@ -824,6 +876,15 @@ d3.select("#content").append("div").attr("class", "container")
                     For the time being please use dummy data defined as an object in this file. \
                     Once we get the rails model with the data in it I might become a .js.erb so you\
                     can query the model from here :D.")
+=======
+// d3.select("body").transition().style("background-color", "#f6abb650")
+//
+// d3.select("#content").append("div").attr("class", "container")
+// .append("p").text("Hello, welcome to the d3 playground. Everything should be possible in here <3.\
+//                     For the time being please use dummy data defined as an object in this file. \
+//                     Once we get the rails model with the data in it I might become a .js.erb so you\
+//                     can query the model from here :D.")
+>>>>>>> 22f6de4c6e61851d82a3e8907bd81aa8864ee983
 
 $(document).ready(function(){ 
 loadData()
