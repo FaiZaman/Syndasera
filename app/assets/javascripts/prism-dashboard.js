@@ -47,6 +47,20 @@ function visualisation(data) {
 console.log("These are the visits clustered by week")
 console.log(groupByWeek)
 
+	//--Noo adding week column and grouping by week--//
+
+var groupByWeekNewShape = []
+dates.forEach((d, i) => {
+  var date = d
+  var weekYear = date.slice(0, 4) + '-' + new Date(date).getWeekNumber();
+  var all_data = _.filter(data, (e) => {
+    return e['visit_date'].slice(0, 4) + '-' + new Date(e['visit_date']).getWeekNumber() == weekYear
+  })
+  groupByWeekNewShape[i] = {'week' : weekYear, 'data' : all_data}
+})
+
+console.log(groupByWeekNewShape)
+
   // 	// the format we want
 	// // [{week:“week 1”, variable:“variable 1", count:“count 1”},
 	// //{week:“week 1", variable:“variable 2”, count:“count 2"},
@@ -342,17 +356,79 @@ console.log(groupByWeek["2011-31"])
 
 //--END old bits of code--//
 
-d3.select("#content")
-    .append("div")
-      .attr("id","my_first_histogram")
+//--HISTOGRAM divs--//
 
 d3.select("#content")
     .append("div")
-      .attr("id","my_second_histogram")
+      .attr("id","haemoglobin_histogram")
+
+d3.select("#content")
+    .append("div")
+      .attr("id","temparature_histogram")
+
+d3.select("#content")
+    .append("div")
+      .attr("id","muscle_aches_duration_histogram")
+
+d3.select("#content")
+    .append("div")
+      .attr("id","fatigue_duration_histogram")
+
+d3.select("#content")
+    .append("div")
+      .attr("id","fever_duration_histogram")
+
+d3.select("#content")
+    .append("div")
+      .attr("id","joint_pains_duration_histogram")
+
+d3.select("#content")
+    .append("div")
+      .attr("id","plasmodium_parasite_density_histogram")
+
+//-- BAR CHART DIVS --//
 
 d3.select("#content")
       .append("div")
-        .attr("id","my_first_cathistogram")
+        .attr("id","visit_type_cathistogram")
+
+d3.select("#content")
+      .append("div")
+        .attr("id","admitting_hospital_cathistogram")
+
+d3.select("#content")
+      .append("div")
+        .attr("id","asexual_plasmodium_parasite_present_cathistogram")
+
+d3.select("#content")
+      .append("div")
+        .attr("id","plasmodium_gametocytes_present_cathistogram")
+
+d3.select("#content")
+      .append("div")
+        .attr("id","submicroscopic_plasmodium_present_cathistogram")
+
+d3.select("#content")
+      .append("div")
+        .attr("id","malaria_diagnosis_cathistogram")
+
+d3.select("#content")
+      .append("div")
+        .attr("id","malaria_diagnosis_and_parasite_status_cathistogram")
+
+d3.select("#content")
+      .append("div")
+        .attr("id","malaria_treatment_cathistogram")
+
+d3.select("#content")
+      .append("div")
+        .attr("id","complicated_malaria_cathistogram")
+
+d3.select("#content")
+      .append("div")
+        .attr("id","febrile_cathistogram")
+
+//--AUTOCORRELATION DIVS--//
 
 d3.select("#content")
       .append("div")
@@ -362,9 +438,10 @@ d3.select("#content")
       .append("div")
         .attr("id","autocorrelation2")
 
+
+
 /////////-------HISTOGRAM-------/////////
 
-//removes Nulls to draw histogram that would otherwise replace null with 0.
 
 //why doesn't this work????
 // function removenulls(column, arrayNa){
@@ -375,19 +452,20 @@ d3.select("#content")
 // var withoutNulls=[]
 // removenulls("haemoglobin",withoutNulls)
 
-var withoutNulls=[]
 function removenulls(column){
   withoutNulls = data.filter(function(obj) {
 	   return obj[column] != null;
   })
 }
 
-removenulls("haemoglobin")
-console.log("I've removed the nulls from haemoglobin")
-console.log(withoutNulls);
-
-//console.log(Object.keys(data.haemoglobin))
-
+function removezerosnulls(column){
+  withoutZerosNulls = data.filter(function(obj) {
+	  return obj[column] !== 0;
+  })
+  withoutZerosNulls = withoutZerosNulls.filter(function(obj){
+    return obj[column] != null;
+  })
+}
 
 var margin = {top: 20, right: 30, bottom: 40, left: 40}
 var width = 460 - margin.left - margin.right
@@ -449,15 +527,71 @@ function drawHistogram (dom, array, column){
             .style("fill", "#0275D8")
 
 //legends
-svg.append("text").attr("x", 200).attr("y", 0).text(column).style("font-size", "15px").attr("alignment-baseline","middle")
+svg.append("text").attr("x", 150).attr("y", 0).text(column+" "+array).style("font-size", "12px").attr("alignment-baseline","middle")
 }
 
-drawHistogram ("#my_first_histogram", withoutNulls, "haemoglobin")
-drawHistogram ("#my_second_histogram", data, "Temperature (C) [EUPATH_0000110]")
+//removes Nulls to draw histogram that would otherwise replace null with 0.
+var withoutNulls=[]
+removenulls("haemoglobin")
+drawHistogram ("#haemoglobin_histogram", withoutNulls, "haemoglobin")
+
+var withoutNulls=[]
+removenulls("temperature")
+drawHistogram ("#temparature_histogram", withoutNulls, "temperature")
+
+//removing zeros and nulls before plotting.
+//If don't want this, replace withoutZerosNulls with function withoutNulls for just removing nulls (because nulls are replaced with zero) or replace with data
+//the reason for doing this is because zeros are very prevelant so can't see the more "interesting data"
+var withoutZerosNulls=[]
+removezerosnulls("muscle_aches_duration")
+drawHistogram ("#muscle_aches_duration_histogram", withoutZerosNulls, "muscle_aches_duration")
+
+var withoutZerosNulls=[]
+removezerosnulls("fatigue_duration")
+drawHistogram ("#fatigue_duration_histogram", withoutZerosNulls, "fatigue_duration")
+
+var withoutZerosNulls=[]
+removezerosnulls("fever_duration")
+drawHistogram ("#fever_duration_histogram", withoutZerosNulls, "fever_duration")
+
+var withoutZerosNulls=[]
+removezerosnulls("joint_pains_duration")
+drawHistogram ("#joint_pains_duration_histogram", withoutZerosNulls, "joint_pains_duration")
+
+//i think there is no plasmodium_parasite_density that are different to 0 or null in data500 hence why it's empty
+var withoutZerosNulls=[]
+removenulls("plasmodium_parasite_density")
+// console.log("removed nulls from density")
+// console.log(withoutNulls)
+drawHistogram ("#plasmodium_parasite_density_histogram", withoutZerosNulls, "plasmodium_parasite_density")
 
 /////////-------COUNT BAR CHART "CATEGORICAL HISTOGRAM"-------/////////
 
-function drawCatHistogram (dom, array, columnx, columny){
+function getcountarrayboo(dataset, column){
+  for (var i = 0; i < dataset.length; i++) {
+    if (spec_count_array.some(el => el.category === dataset[i][column])){
+      for (var j = 0; j < spec_count_array.length; j++) {
+        if(spec_count_array[j].category === dataset[i][column]){
+          spec_count_array[j].count +=1
+        }
+      }
+    } else {
+      var add = {
+  			category: dataset[i][column],
+  			count: 1
+  		}
+  		spec_count_array.push(add);
+    }
+  }
+}
+
+function removenullscount(column){
+  withoutNulls = spec_count_array.filter(function(obj) {
+	   return obj[column] != null;
+  })
+}
+
+function drawCatHistogram (dom, array, columnx, columny, name){
 
 var svg = d3.select(dom)
       .append("svg")
@@ -478,12 +612,12 @@ svg.append("g")
       .selectAll("text")
       .attr("transform", "translate(-10,0)rotate(-45)")
       .style("text-anchor", "end");
-svg.append("text")
-      .attr("text-anchor", "end")
-      .attr("x", width)
-      .attr("y", height + margin.top + 5)
-      .text("variables")
-      .style("font-size", "10px");
+// svg.append("text")
+//       .attr("text-anchor", "end")
+//       .attr("x", width)
+//       .attr("y", height + margin.top + 5)
+//       .text("variables")
+//       .style("font-size", "10px");
 
 //Y axis
 var y = d3.scaleLinear()
@@ -508,18 +642,79 @@ svg.selectAll("mybar")
       .attr("y", function(d) { return y(d[columny]); })
       .attr("width", x.bandwidth())
       .attr("height", function(d) { return height - y(d[columny]); })
-      .attr("fill", "#0275D8")
+      .attr("fill", "#B9DBDF")
 //    .attr("opacity", 0.6)
 //    .attr("stroke", "black");
 
 //labels
-svg.append("text").attr("x", 100).attr("y", 0).text("Plasmodium Present").style("font-size", "15px").attr("alignment-baseline","middle")
-
+svg.append("text").attr("x", 100).attr("y", 0).text(name).style("font-size", "15px").attr("alignment-baseline","middle")
 }
 
-//drawCatHistogram ("#my_first_cathistogram", countnonull, "category", "count")
-drawCatHistogram ("#my_first_cathistogram", allcount.filter(e=>e.colname=="asexual_plasmodium_parasite_present"), "variable", "count")
-console.log(allcount.filter(e=>e.colname=="asexual_plasmodium_parasite_present"))
+//the data prep before drawCatHistogram is temporary until the code for the total count table is resolved.
+var spec_count_array = []
+getcountarrayboo(data, "visit_type")
+var withoutNulls=[]
+removenullscount("category")
+drawCatHistogram ("#visit_type_cathistogram", withoutNulls, "category", "count", "Visit Type")
+
+//note: i think there are no hospital admissions in the data500 hence why it's empty.
+var spec_count_array = []
+getcountarrayboo(data, "admitting_hospital")
+var withoutNulls=[]
+removenullscount("category")
+drawCatHistogram ("#admitting_hospital_cathistogram", withoutNulls, "category", "count", "Admitting hospital")
+
+var spec_count_array = []
+getcountarrayboo(data, "asexual_plasmodium_parasite_present")
+var withoutNulls=[]
+removenullscount("category")
+drawCatHistogram ("#asexual_plasmodium_parasite_present_cathistogram", withoutNulls, "category", "count", "Asexual plasmodium present")
+
+var spec_count_array = []
+getcountarrayboo(data, "plasmodium_gametocytes_present")
+var withoutNulls=[]
+removenullscount("category")
+drawCatHistogram ("#plasmodium_gametocytes_present_cathistogram", withoutNulls, "category", "count", "Plasmodium gametocytes present")
+
+var spec_count_array = []
+getcountarrayboo(data, "submicroscopic_plasmodium_present")
+var withoutNulls=[]
+removenullscount("category")
+drawCatHistogram ("#submicroscopic_plasmodium_present_cathistogram", withoutNulls, "category", "count", "Submicroscopic plasmodium present")
+
+var spec_count_array = []
+getcountarrayboo(data, "malaria_diagnosis")
+var withoutNulls=[]
+removenullscount("category")
+drawCatHistogram ("#malaria_diagnosis_cathistogram", withoutNulls, "category", "count","Malaria diagnosis")
+
+var spec_count_array = []
+getcountarrayboo(data, "malaria_diagnosis_and_parasite_status")
+var withoutNulls=[]
+removenullscount("category")
+drawCatHistogram ("#malaria_diagnosis_and_parasite_status_cathistogram", withoutNulls, "category", "count","Malaria diagnosis and parasite status")
+
+var spec_count_array = []
+getcountarrayboo(data, "malaria_treatment")
+var withoutNulls=[]
+removenullscount("category")
+drawCatHistogram ("#malaria_treatment_cathistogram", withoutNulls, "category", "count","malaria treatment")
+
+var spec_count_array = []
+getcountarrayboo(data, "complicated_malaria")
+var withoutNulls=[]
+removenullscount("category")
+drawCatHistogram ("#complicated_malaria_cathistogram", withoutNulls, "category", "count","complicated malaria")
+
+var spec_count_array = []
+getcountarrayboo(data, "febrile")
+var withoutNulls=[]
+removenullscount("category")
+drawCatHistogram ("#febrile_cathistogram", withoutNulls, "category", "count","febrile")
+
+//to be replaced with filtering of allcount which i believe has no nulls.
+//drawCatHistogram ("#asexual_plasmodium_parasite_present_cathistogram", allcount.filter(e=>e.colname=="asexual_plasmodium_parasite_present"), "variable", "count")
+//console.log(allcount.filter(e=>e.colname=="asexual_plasmodium_parasite_present"))
 
 //--Autocorrelation plot--//
 
@@ -552,7 +747,7 @@ for(var i=0; i<numbers.length; i++){
     var obj2 = {week_lag: numbers[i], autocorrelation: auto_malaria[i]};
     auto_visits_df.push(obj);
     auto_malaria_df.push(obj2);
-        }
+    }
 
 function autocorr (dom, array) {
 
@@ -622,7 +817,7 @@ autocorr("#autocorrelation", auto_visits_df)
 autocorr("#autocorrelation2", auto_malaria_df)
 }
 
-d3.select("body").transition().style("background-color", "#f6abb650")
+//d3.select("body").transition().style("background-color", "#f6abb650")
 
 d3.select("#content").append("div").attr("class", "container")
 .append("p").text("Hello, welcome to the d3 playground. Everything should be possible in here <3.\

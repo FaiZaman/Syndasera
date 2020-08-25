@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
   get '/about' => 'pages#about'
   get '/make_request' => 'pages#make_request'
+  get '/prism_evaluation' => 'pages#prism_evaluation'
   get '/prism_dashboard' => 'pages#prism_dashboard'
   get '/get_data' => 'prism#get_data'
   get '/get_data_500' => 'prism#get_data_500'
