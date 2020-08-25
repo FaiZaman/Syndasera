@@ -1,3 +1,13 @@
-<h2>Request #requestID</h2>
+<h2>Request</h2>
 
-Box with request info here
+<p>
+  <strong>Name:</strong>
+  <%= @request.dataset_name %>
+</p>
+ 
+<p>
+  <strong>Type:</strong>
+  <%= @request.dataset_type %>
+</p>
+
+<%= link_to 'Back', user_syn_data_requests_path(current_user), :class => "btn btn-info" %>
