@@ -1,8 +1,9 @@
 class SynDataRequestsController < ApplicationController
 
-  before_action :authenticate_user!, only: [:new, :show]
+  before_action :authenticate_user!
 
   def index
+    @requests = current_user.syn_data_requests.all
   end
 
   def new

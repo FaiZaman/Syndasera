@@ -1,3 +1,22 @@
 <h2>My Requests</h2>
 
-List of requests goes here. If no requests, render 'no requests made' or something.
+<table>
+  <tr>
+  	<th>Dataset Name</th>
+		<th>Company Name</th>
+		<th>Dataset Type</th>
+    <th>Created</th>
+		<th>Status</th>
+    <th></th>
+  </tr>
+ 
+  <% @requests.each do |request| %>
+    <tr>
+      <td><%= request.dataset_name %></td>
+			<td><%= request.company_name %></td>
+      <td><%= request.dataset_type %></td>
+      <td><%= "#{(Time.now.to_i - Time.at(request.created_at.to_i).to_i)/(60*60*24)} days ago" %></td>
+			<td><%= request.status.capitalize %></td>
+    </tr>
+  <% end %>
+</table>
