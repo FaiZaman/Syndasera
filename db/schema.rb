@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_13_131321) do
+ActiveRecord::Schema.define(version: 2020_08_24_152203) do
 
   create_table "prism_observations", force: :cascade do |t|
     t.integer "observation_id"
@@ -71,6 +71,19 @@ ActiveRecord::Schema.define(version: 2020_08_13_131321) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "syn_data_requests", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "company_name"
+    t.string "dataset_type"
+    t.integer "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "dataset_name"
+    t.string "status", default: "received"
+    t.index ["user_id"], name: "index_syn_data_requests_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -83,4 +96,5 @@ ActiveRecord::Schema.define(version: 2020_08_13_131321) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "syn_data_requests", "users"
 end

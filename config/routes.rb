@@ -1,12 +1,20 @@
 Rails.application.routes.draw do
 
   devise_for :users
+  resources :users do
+    resources :syn_data_requests
+  end
+
   root 'pages#home'
 
   get '/about' => 'pages#about'
-  get '/make_request' => 'pages#make_request'
   get '/prism_evaluation' => 'pages#prism_evaluation'
   get '/prism_dashboard' => 'pages#prism_dashboard'
+  get '/our_methods' => 'pages#our_methods'
+  get '/requests/new' => 'syn_data_requests#new'
+  get 'user/requests' => 'syn_data_requests#index'
+  get 'user/requests/show' => 'syn_data_requests#show'
+
   get '/get_data' => 'prism#get_data'
   get '/get_data_500' => 'prism#get_data_500'
   post '/get_subset' => 'prism#get_subset'

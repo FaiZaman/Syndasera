@@ -11,7 +11,8 @@ var loadData = function(){
                     error();
                   }
                 });
-              };
+			  };
+
 function error() {
     console.log("Something went wrong!");
 }
@@ -23,17 +24,20 @@ Date.prototype.getWeekNumber = function(){
     return Math.ceil((((d-new Date(d.getFullYear(),0,1))/8.64e7)+1)/7);
 };
 
+
 function visualisation(data) {
   console.log(data);
 
 	//--Faiz: adding week column and grouping by week--//
 
 	var dates = [];
+
 	for (var i = 0; i < data.length; i++){
 		dates.push(data[i].visit_date);
 	}
 
 	var groupByWeek = [];
+
 	dates.forEach(function (d, i) {
 		var v = data[i];
 		var weekYear = d.slice(0, 4) + '-' + new Date(d).getWeekNumber();
@@ -246,6 +250,10 @@ d3.select("#content")
       .attr("id","fatigue_duration_histogram")
 
 d3.select("#content")
+	});
+	console.log(groupByWeek)
+
+	d3.select("#content")
     .append("div")
       .attr("id","fever_duration_histogram")
 
@@ -263,7 +271,7 @@ d3.select("#content")
       .append("div")
         .attr("id","visit_type_cathistogram")
 
-d3.select("#content")
+	d3.select("#content")
       .append("div")
         .attr("id","admitting_hospital_cathistogram")
 
@@ -343,6 +351,7 @@ function drawHistogram (dom, array, column, name){
           .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 // X axis
+
     var x = d3.scaleLinear()
         .domain([d3.min(array, function(d) { return +d[column]}) -1, d3.max(array, function(d) { return +d[column]})+1])
         .range([0, width]);

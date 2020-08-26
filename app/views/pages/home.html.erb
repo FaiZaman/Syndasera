@@ -1,4 +1,4 @@
-<h2>Project Summary</h2>
+<h3>Project Summary</h3>
 
 Syndasera is a dynamic synthetic data service allowing users like yourselves to create requests
 for synthetic data generation from a real time-series patient dataset. We use sophisticated machine
@@ -17,16 +17,23 @@ Program for Resistance, Immunology, Surveillance and Modeling of Malaria (PRISM)
 <hr>
 <%= javascript_include_tag 'home.js' %>
 
-<div class="col-md-4">
-  <div class="card" style="width: 18rem;">
-    <div class="card-header text-center">
-      <b>Filter by Column</b><br>
-      <button class="btn btn-info" type="button" id="select-all">Select All</button>
-      <button class="btn btn-info" type="button" id="select-none">Select None</button>
+<div class="row">
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-header text-center">
+        <b>Subset by Column</b><br>
+        <button class="btn btn-info" type="button" id="select-all">Select All</button>
+        <button class="btn btn-info" type="button" id="select-none">Select None</button>
+      </div>
+      <div class="list-group subset-group">
+        <!-- rendered from home.js with jquery-->
+      </div>
     </div>
-    <div class="list-group">
-      <!-- rendered from home.js with jquery-->
-    </div>
+  </div>
+
+  <div class="col-md-8 filter">
+    <!-- rendered from home.js with jquery -->
+    <%= render 'pages/filter_forms' %>
   </div>
 </div>
 

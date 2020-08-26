@@ -1,7 +1,5 @@
 class PagesController < ApplicationController
 
-  before_action :authenticate_user!, only: [:make_request]
-
   def home
     @observations = PrismObservation.paginate(page: params[:page])
   end
@@ -9,7 +7,7 @@ class PagesController < ApplicationController
   def about
   end
 
-  def make_request
+  def our_methods
   end
 
   def prism_dashboard

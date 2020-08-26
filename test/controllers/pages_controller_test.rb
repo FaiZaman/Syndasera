@@ -11,8 +11,13 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should get make_request" do
-    get pages_make_request_url
+  test "should get prism_dashboard" do
+    get pages_prism_dashboard_url
+    assert_response :success
+  end
+
+  test "should get our_methods" do
+    get pages_our_methods
     assert_response :success
   end
 

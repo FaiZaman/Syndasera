@@ -1,0 +1,27 @@
+<h2>My Requests</h2>
+
+<br>
+<h5 class="instructions">Please click on a request to display more information about it.</h5>
+<br>
+<%= javascript_include_tag 'requests.js' %>
+
+<div class="list-group requests-list">
+  <% @requests.each do |request| %>
+    <a href="<%= user_syn_data_request_path(current_user, request) %>" 
+    class="list-group-item list-group-item-action flex-column align-items-start">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1"><%= request.dataset_name %> - <%= request.dataset_type %></h5>
+        <small>
+          <%= "#{(Time.now.to_i - Time.at(request.created_at.to_i).to_i)/(60*60*24)} days ago" %>
+        </small>
+      </div>
+      <p class="mb-1"><%= request.company_name %></p>
+      <small>Status: <%= request.status.capitalize %></small>
+    </a>
+  <% end %>
+</div>
+
+<div class="no-requests">
+  <h5>You haven't made any requests yet! Head over to 
+  <a href="<%= requests_new_path %>">new requests</a> to submit a new request.</h5>
+</div>
