@@ -11,16 +11,22 @@ class SynDataRequestsController < ApplicationController
   end
 
   def new
-    @syn_data_request = SynDataRequest.new
+    @request = SynDataRequest.new
   end
 
   def create
-    @syn_data_request = current_user.syn_data_requests.create(request_params)
-    if @syn_data_request.save
-      redirect_to user_syn_data_request_path(current_user, @syn_data_request)
+    @request = current_user.syn_data_requests.create(request_params)
+    if @request.save
+      redirect_to user_syn_data_request_path(current_user, @request)
     else
       render 'new'
     end
+  end
+
+  def destroy
+    @request = SynDataRequest.find(params[:id])
+    @request.destroy
+    redirect_to user_syn_data_requests_path(current_user)
   end
 
   private

@@ -4,14 +4,14 @@
 
 	<div class="form-container col-md-12">
 
-		<% if @syn_data_request.errors.any? %>
+		<% if @request.errors.any? %>
 			<div id="error_explanation" class="warning">
 				<h4 style="color: black;">
-					<%= pluralize(@syn_data_request.errors.count, "error") %> 
+					<%= pluralize(@request.errors.count, "error") %> 
 					prohibited this request from being submitted:
 				</h4>
 				<ul>
-					<% @syn_data_request.errors.full_messages.each do |msg| %>
+					<% @request.errors.full_messages.each do |msg| %>
 						<li><%= msg %></li>
 					<% end %>
 				</ul>
