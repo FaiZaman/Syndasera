@@ -26,7 +26,7 @@ Date.prototype.getWeekNumber = function(){
 function visualisation(data) {
   console.log(data);
 
-	//--adding week column and grouping by week--//
+	//--Faiz: adding week column and grouping by week--//
 
 	var dates = [];
 	for (var i = 0; i < data.length; i++){
@@ -44,6 +44,10 @@ function visualisation(data) {
 		}
   });
 
+//--END Faiz part I: adding week column and grouping by week. This is used by Noo--//
+
+  //--Noo: adding week column and grouping by week--//
+
   // Simpler code to create week week groupings in a different data structure
   var weekGroupings = []
   // For each unique week
@@ -56,6 +60,9 @@ function visualisation(data) {
     })
     weekGroupings[i] = {'week' : weekYear, 'data' : all_data}
   })
+
+console.log("These are the visits clustered by week")
+console.log(weekGroupings)
 
   // Counting frequency in an array
   function getCounts(arr){
@@ -89,25 +96,15 @@ function visualisation(data) {
     })
   })
 
-  console.log("These are the visits clustered by week")
-  console.log(groupByWeek)
-
-  console.log("Nested data structure")
+  // console.log("Nested data structure")
+  console.log("These are the counts by week")
   console.log(allWeekCounts)
 
-	//--Noo adding week column and grouping by week--//
+console.log(allWeekCounts.filter(e=>e.column=="visit_type"))
 
-var groupByWeekNewShape = []
-dates.forEach((d, i) => {
-  var date = d
-  var weekYear = date.slice(0, 4) + '-' + new Date(date).getWeekNumber();
-  var all_data = _.filter(data, (e) => {
-    return e['visit_date'].slice(0, 4) + '-' + new Date(e['visit_date']).getWeekNumber() == weekYear
-  })
-  groupByWeekNewShape[i] = {'week' : weekYear, 'data' : all_data}
-})
+    //-- END Noo: adding week column and grouping by week--//
 
-console.log(groupByWeekNewShape)
+//--Faiz part II--//
 
   // 	// the format we want
 	// // [{week:“week 1”, variable:“variable 1", count:“count 1”},
@@ -173,239 +170,62 @@ console.log(groupByWeekNewShape)
   // //  console.log(element);
   // //});
 
-//-- END Faiz week collapse week--//
-
-//--other counts tables--//
-
-//   function getItems(input) {
-//   var arr = input, obj = [];
-//   for (var i = 0; i < arr.length; i++) {
-//     if (!obj[arr[i].asexual_plasmodium_parasite_present]) {
-//       obj[arr[i].asexual_plasmodium_parasite_present] = 1;
-//     } else if (obj[arr[i].asexual_plasmodium_parasite_present]) {
-//       obj[arr[i].asexual_plasmodium_parasite_present] += 1;
-//     }
-//   }
-//   return obj;
-// }
-// console.log(getItems(data));
-//
-// //var plasmodium_present = {};
-// var plasmodium_present = [];
-// for (var i = 0; i < data.length; i++) {
-//     if (data[i].asexual_plasmodium_parasite_present in plasmodium_present) {
-//          plasmodium_present[data[i].asexual_plasmodium_parasite_present] += 1;
-//     } else {
-//          plasmodium_present[data[i].asexual_plasmodium_parasite_present] = 1;
-//     }
-// }
-//
-// console.log(plasmodium_present)
-
-//--END other counts tables--//
+//-- END Faiz part II collapse week--//
 
 //--START specific column count array--//
 
-var plasmodium_present1 = [];
-for (var i = 0; i < data.length; i++) {
-  if (plasmodium_present1.some(el => el.category === data[i].asexual_plasmodium_parasite_present)){
-      for (var j = 0; j < plasmodium_present1.length; j++) {
-        if(plasmodium_present1[j].category === data[i].asexual_plasmodium_parasite_present){
-          plasmodium_present1[j].count +=1
-}}
-} else { const category = {
-			category: data[i].asexual_plasmodium_parasite_present,
-			count: 1
-		}
-		plasmodium_present1.push(category);
-}}
-
-console.log(plasmodium_present1)
+// var plasmodium_present1 = [];
+// for (var i = 0; i < data.length; i++) {
+//   if (plasmodium_present1.some(el => el.category === data[i].asexual_plasmodium_parasite_present)){
+//       for (var j = 0; j < plasmodium_present1.length; j++) {
+//         if(plasmodium_present1[j].category === data[i].asexual_plasmodium_parasite_present){
+//           plasmodium_present1[j].count +=1
+// }}
+// } else { const category = {
+// 			category: data[i].asexual_plasmodium_parasite_present,
+// 			count: 1
+// 		}
+// 		plasmodium_present1.push(category);
+// }}
+//
+// console.log(plasmodium_present1)
 
 //--END specific column count array--//
 
 //--remove null entries in count table--//
 
-var countnonull = plasmodium_present1.filter(function(obj) {
-	return obj.category != null;
-});
-console.log(countnonull);
-
-//--END remove null entries in count table--//
-
-//-- START specific column count table function--//
-
-var plasmodium_present_count = [];
-function getcountarray(dataset, column){
-  for (var i = 0; i < dataset.length; i++) {
-    if (plasmodium_present_count.some(el => el.category === dataset[i][column])){
-      for (var j = 0; j < plasmodium_present_count.length; j++) {
-        if(plasmodium_present_count[j].category === dataset[i][column]){
-          plasmodium_present_count[j].count +=1
-        }
-      }
-    } else {
-      var category = {
-  			category: dataset[i][column],
-  			count: 1
-  		}
-  		plasmodium_present_count.push(category);
-    }
-  }
-}
-getcountarray(data, "plasmodium_gametocytes_present", plasmodium_present_count)
-//getcountarray(data, "asexual_plasmodium_parasite_present", plasmodium_present_count)
-console.log(plasmodium_present_count)
-//-- END specific column count table--//
-
-//-- START Function for giant count table function--//
-
-var allcount = [];
-function getcountarray3(dataset, column){
-  for (var i = 0; i < dataset.length; i++) {
-    if (allcount.some(el => el.variable === dataset[i][column])){
-      for (var j = 0; j < allcount.length; j++) {
-        if(allcount[j].variable === dataset[i][column]){
-          allcount[j].count +=1
-        }
-      }
-    } else {
-      var add = {
-  			variable: dataset[i][column],
-        colname: column,
-  			count: 1
-  		}
-  		allcount.push(add);
-    }
-  }
-}
-
-var all_cols1 = Object.keys(data[0])
-  all_cols1.forEach((column) => {
-    getcountarray3(data, column)
-  })
-console.log("These are the total counts")
-console.log(allcount)
-console.log(allcount.filter(e=>e.colname=="visit_type"))
-
-//-- END Function for giant count tables--//
-
-//-- Giant week count table--//
-
-// function getcountarray2(dataset, column, arrayname, dates){
+// var countnonull = plasmodium_present1.filter(function(obj) {
+// 	return obj.category != null;
+// });
+// //console.log(countnonull);
+//
+// //--END remove null entries in count table--//
+//
+// //-- START specific column count table function--//
+//
+// var plasmodium_present_count = [];
+// function getcountarray(dataset, column){
 //   for (var i = 0; i < dataset.length; i++) {
-//     if (arrayname.some(el => el.category === dataset[i][column])){
-//       for (var j = 0; j < arrayname.length; j++) {
-//         if(arrayname[j].category === dataset[i][column] & arrayname[j].dates === dataset[i][dates]){
-//           arrayname[j].count +=1
+//     if (plasmodium_present_count.some(el => el.category === dataset[i][column])){
+//       for (var j = 0; j < plasmodium_present_count.length; j++) {
+//         if(plasmodium_present_count[j].category === dataset[i][column]){
+//           plasmodium_present_count[j].count +=1
 //         }
 //       }
 //     } else {
-//       const add = {
-//         dates: dates,
-//         colName: column,
+//       var category = {
 //   			category: dataset[i][column],
 //   			count: 1
 //   		}
-//   		arrayname.push(add);
+//   		plasmodium_present_count.push(category);
 //     }
 //   }
 // }
-//
-// var allweekcounts=[]
-// var all_cols = Object.keys(data[0])
-// Object.keys(groupByWeek).forEach(function(dates){
-//   all_cols.forEach((column) => {
-//     getcountarray2(groupByWeek[dates], column, allweekcounts, dates)
-//   })
-// })
-// console.log("These are the counts per week")
-// console.log(allweekcounts)
-// console.log(allweekcounts.filter(e=>e.colName=="visit_type"))
-// console.log(Object.keys(groupByWeek))
+// getcountarray(data, "plasmodium_gametocytes_present", plasmodium_present_count)
+//getcountarray(data, "asexual_plasmodium_parasite_present", plasmodium_present_count)
+//console.log(plasmodium_present_count)
 
-//-- END Giant week count table--//
-
-var allweekcounts=[]
-function getcountarray2(dataset, column, dates){
-  for (var i = 0; i < dataset.length; i++) {
-    if (allweekcounts.some(el => el.category === dataset[i][column])){
-      for (var j = 0; j < allweekcounts.length; j++) {
-        if(allweekcounts[j].category === dataset[i][column] & allweekcounts[j].date === dataset[i][dates]){
-          allweekcounts[j].count +=1
-        }
-      }
-    } else {
-      const add = {
-        date: dates,
-        colName: column,
-  			category: dataset[i][column],
-  			count: 1
-  		}
-  		allweekcounts.push(add);
-    }
-  }
-}
-
-var all_cols = Object.keys(data[0])
-var all_weeks = Object.keys(groupByWeek)
-debugger
-all_weeks.forEach((dates)=> {
-  all_cols.forEach((column) => {
-    getcountarray2(groupByWeek[dates], column, dates)
-  })
-})
-console.log("These are the counts per week")
-console.log(allweekcounts)
-console.log(allweekcounts.filter(e=>e.colName=="visit_type"))
-console.log(Object.keys(groupByWeek))
-console.log(groupByWeek["2011-31"])
-
-
-
-//--old bits of code--//
-
-// var plasmodium_present2 = [];
-// for (var i = 0; i < data.length; i++) {
-//    const found = plasmodium_present2.some(el => el.category === data[i].asexual_plasmodium_parasite_present)
-//
-//    if (!found) {plasmodium_present2.count +=1}
-// //   if (!found){console.log(found)}
-// //   if (!found){console.log(data[i].asexual_plasmodium_parasite_present)}
-// //     if (!found){console.log("found it")}
-//      //(!found){plasmodium_present2.push({ count: plasmodium_present2.count ++, category: data[i].asexual_plasmodium_parasite_present })}
-// //  plasmodium_present1.push({ count: plasmodium_present1.count ++, category: data[i].asexual_plasmodium_parasite_present });
-// else { const category = {
-// 			'category': data[i].asexual_plasmodium_parasite_present,
-// 			'count': 1
-// 		}
-// 		plasmodium_present2.push(category);
-// }}
-
-//console.log(plasmodium_present2)
-
-// var newbie=[];
-// for (var i = 0; i < plasmodium_present.length; i++) {
-//   var object = { count: plasmodium_present[i]};
-//   newbie.push(object);
-// }
-//
-// console.log(newbie)
-
-//--why doesn't this work?
-// function getItems1(input) {
-// var vari = input, obj = [];
-// for (var i = 0; i < data.length; i++) {
-//   if (!obj[data[i].vari]) {
-//     obj[data[i].vari] = 1;
-//   } else if (obj[data[i].vari]) {
-//     obj[data[i].vari] += 1;
-//   }
-// }
-// return obj;
-// }
-
-//--END old bits of code--//
+//-- END specific column count table--//
 
 //--HISTOGRAM divs--//
 
@@ -494,15 +314,6 @@ d3.select("#content")
 /////////-------HISTOGRAM-------/////////
 
 
-//why doesn't this work????
-// function removenulls(column, arrayNa){
-//   arrayNa = data.filter(function(obj) {
-// 	   return obj[column] != null;
-//   })
-// }
-// var withoutNulls=[]
-// removenulls("haemoglobin",withoutNulls)
-
 function removenulls(column){
   withoutNulls = data.filter(function(obj) {
 	   return obj[column] != null;
@@ -518,11 +329,11 @@ function removezerosnulls(column){
   })
 }
 
-var margin = {top: 20, right: 30, bottom: 40, left: 40}
-var width = 460 - margin.left - margin.right
-var height = 400 - margin.top - margin.bottom;
+var margin = {top: 60, right: 30, bottom: 60, left: 50}
+var width = 345 - margin.left - margin.right
+var height = 300 - margin.top - margin.bottom;
 
-function drawHistogram (dom, array, column){
+function drawHistogram (dom, array, column, name){
 
     var svg = d3.select(dom)
         .append("svg")
@@ -541,8 +352,8 @@ function drawHistogram (dom, array, column){
     svg.append("text")
         .attr("text-anchor", "end")
         .attr("x", width)
-        .attr("y", height + margin.top + 10)
-        .text(column)
+        .attr("y", height + margin.top - 15)
+        .text(name)
         .style("font-size", "10px");
 
     var histogram = d3.histogram()
@@ -578,43 +389,41 @@ function drawHistogram (dom, array, column){
             .style("fill", "#0275D8")
 
 //legends
-svg.append("text").attr("x", 150).attr("y", 0).text(column+" "+array).style("font-size", "12px").attr("alignment-baseline","middle")
+svg.append("text").attr("x", 0).attr("y", -20).text(name).style("font-size", "12px").attr("alignment-baseline","middle")
 }
 
 //removes Nulls to draw histogram that would otherwise replace null with 0.
 var withoutNulls=[]
 removenulls("haemoglobin")
-drawHistogram ("#haemoglobin_histogram", withoutNulls, "haemoglobin")
+drawHistogram ("#haemoglobin_histogram", withoutNulls, "haemoglobin", "Haemoglobin mg/mL")
 
 var withoutNulls=[]
 removenulls("temperature")
-drawHistogram ("#temparature_histogram", withoutNulls, "temperature")
+drawHistogram ("#temparature_histogram", withoutNulls, "temperature", "Temperature (Celsius)")
 
 //removing zeros and nulls before plotting.
 //If don't want this, replace withoutZerosNulls with function withoutNulls for just removing nulls (because nulls are replaced with zero) or replace with data
 //the reason for doing this is because zeros are very prevelant so can't see the more "interesting data"
 var withoutZerosNulls=[]
 removezerosnulls("muscle_aches_duration")
-drawHistogram ("#muscle_aches_duration_histogram", withoutZerosNulls, "muscle_aches_duration")
+drawHistogram ("#muscle_aches_duration_histogram", withoutZerosNulls, "muscle_aches_duration", "Muscle aches duration")
 
 var withoutZerosNulls=[]
 removezerosnulls("fatigue_duration")
-drawHistogram ("#fatigue_duration_histogram", withoutZerosNulls, "fatigue_duration")
+drawHistogram ("#fatigue_duration_histogram", withoutZerosNulls, "fatigue_duration", "Fatigue duration")
 
 var withoutZerosNulls=[]
 removezerosnulls("fever_duration")
-drawHistogram ("#fever_duration_histogram", withoutZerosNulls, "fever_duration")
+drawHistogram ("#fever_duration_histogram", withoutZerosNulls, "fever_duration", "Fever duration")
 
 var withoutZerosNulls=[]
 removezerosnulls("joint_pains_duration")
-drawHistogram ("#joint_pains_duration_histogram", withoutZerosNulls, "joint_pains_duration")
+drawHistogram ("#joint_pains_duration_histogram", withoutZerosNulls, "joint_pains_duration", "Joint pains duration")
 
 //i think there is no plasmodium_parasite_density that are different to 0 or null in data500 hence why it's empty
 var withoutZerosNulls=[]
 removenulls("plasmodium_parasite_density")
-// console.log("removed nulls from density")
-// console.log(withoutNulls)
-drawHistogram ("#plasmodium_parasite_density_histogram", withoutZerosNulls, "plasmodium_parasite_density")
+drawHistogram ("#plasmodium_parasite_density_histogram", withoutZerosNulls, "plasmodium_parasite_density", "Plasmodium Parasite Density")
 
 /////////-------COUNT BAR CHART "CATEGORICAL HISTOGRAM"-------/////////
 
@@ -647,7 +456,7 @@ function drawCatHistogram (dom, array, columnx, columny, name){
 var svg = d3.select(dom)
       .append("svg")
         .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
+        .attr("height", height + margin.top + margin.bottom + 80)
       .append("g")
         .attr("transform",
               "translate(" + margin.left + "," + margin.top + ")");
@@ -698,15 +507,16 @@ svg.selectAll("mybar")
 //    .attr("stroke", "black");
 
 //labels
-svg.append("text").attr("x", 100).attr("y", 0).text(name).style("font-size", "15px").attr("alignment-baseline","middle")
+svg.append("text").attr("x", 0).attr("y", -20).text(name).style("font-size", "12px").attr("alignment-baseline","middle")
 }
 
 //the data prep before drawCatHistogram is temporary until the code for the total count table is resolved.
+//might not be possible before friday though.
 var spec_count_array = []
 getcountarrayboo(data, "visit_type")
 var withoutNulls=[]
 removenullscount("category")
-drawCatHistogram ("#visit_type_cathistogram", withoutNulls, "category", "count", "Visit Type")
+drawCatHistogram ("#visit_type_cathistogram", withoutNulls, "category", "count", "Hospital visit type")
 
 //note: i think there are no hospital admissions in the data500 hence why it's empty.
 var spec_count_array = []
@@ -719,25 +529,25 @@ var spec_count_array = []
 getcountarrayboo(data, "asexual_plasmodium_parasite_present")
 var withoutNulls=[]
 removenullscount("category")
-drawCatHistogram ("#asexual_plasmodium_parasite_present_cathistogram", withoutNulls, "category", "count", "Asexual plasmodium present")
+drawCatHistogram ("#asexual_plasmodium_parasite_present_cathistogram", withoutNulls, "category", "count", "Asexual plasmodium test")
 
 var spec_count_array = []
 getcountarrayboo(data, "plasmodium_gametocytes_present")
 var withoutNulls=[]
 removenullscount("category")
-drawCatHistogram ("#plasmodium_gametocytes_present_cathistogram", withoutNulls, "category", "count", "Plasmodium gametocytes present")
+drawCatHistogram ("#plasmodium_gametocytes_present_cathistogram", withoutNulls, "category", "count", "Plasmodium gametocytes present?")
 
 var spec_count_array = []
 getcountarrayboo(data, "submicroscopic_plasmodium_present")
 var withoutNulls=[]
 removenullscount("category")
-drawCatHistogram ("#submicroscopic_plasmodium_present_cathistogram", withoutNulls, "category", "count", "Submicroscopic plasmodium present")
+drawCatHistogram ("#submicroscopic_plasmodium_present_cathistogram", withoutNulls, "category", "count", "Submicroscopic plasmodium test")
 
 var spec_count_array = []
 getcountarrayboo(data, "malaria_diagnosis")
 var withoutNulls=[]
 removenullscount("category")
-drawCatHistogram ("#malaria_diagnosis_cathistogram", withoutNulls, "category", "count","Malaria diagnosis")
+drawCatHistogram ("#malaria_diagnosis_cathistogram", withoutNulls, "category", "count","Positive malaria diagnosis?")
 
 var spec_count_array = []
 getcountarrayboo(data, "malaria_diagnosis_and_parasite_status")
@@ -749,19 +559,19 @@ var spec_count_array = []
 getcountarrayboo(data, "malaria_treatment")
 var withoutNulls=[]
 removenullscount("category")
-drawCatHistogram ("#malaria_treatment_cathistogram", withoutNulls, "category", "count","malaria treatment")
+drawCatHistogram ("#malaria_treatment_cathistogram", withoutNulls, "category", "count","Malaria treatment")
 
 var spec_count_array = []
 getcountarrayboo(data, "complicated_malaria")
 var withoutNulls=[]
 removenullscount("category")
-drawCatHistogram ("#complicated_malaria_cathistogram", withoutNulls, "category", "count","complicated malaria")
+drawCatHistogram ("#complicated_malaria_cathistogram", withoutNulls, "category", "count","Complicated malaria?")
 
 var spec_count_array = []
 getcountarrayboo(data, "febrile")
 var withoutNulls=[]
 removenullscount("category")
-drawCatHistogram ("#febrile_cathistogram", withoutNulls, "category", "count","febrile")
+drawCatHistogram ("#febrile_cathistogram", withoutNulls, "category", "count","Febrile?")
 
 //to be replaced with filtering of allcount which i believe has no nulls.
 //drawCatHistogram ("#asexual_plasmodium_parasite_present_cathistogram", allcount.filter(e=>e.colname=="asexual_plasmodium_parasite_present"), "variable", "count")
@@ -800,7 +610,7 @@ for(var i=0; i<numbers.length; i++){
     auto_malaria_df.push(obj2);
     }
 
-function autocorr (dom, array) {
+function autocorr (dom, array, name) {
 
 var svg = d3.select(dom)
             .append("svg")
@@ -862,29 +672,17 @@ var svg = d3.select(dom)
 //        .attr("opacity", 0.7);
 
 // Handmade legend
-svg.append("text").attr("x", 50).attr("y", 0).text("Autocorrelation plot for number of visits per week").style("font-size", "15px").attr("alignment-baseline","middle")
+svg.append("text").attr("x", 0).attr("y", -20).text(name).style("font-size", "12px").attr("alignment-baseline","middle")
 }
-autocorr("#autocorrelation", auto_visits_df)
-autocorr("#autocorrelation2", auto_malaria_df)
+autocorr("#autocorrelation", auto_visits_df, "Autocorrelation plot of number of visits per week")
+autocorr("#autocorrelation2", auto_malaria_df, "Autocorrelation plot of number of positive Malaria diagnosis per week")
 }
 
-<<<<<<< HEAD
-//d3.select("body").transition().style("background-color", "#f6abb650")
-
-d3.select("#content").append("div").attr("class", "container")
-.append("p").text("Hello, welcome to the d3 playground. Everything should be possible in here <3.\
-                    For the time being please use dummy data defined as an object in this file. \
-                    Once we get the rails model with the data in it I might become a .js.erb so you\
-                    can query the model from here :D.")
-=======
-// d3.select("body").transition().style("background-color", "#f6abb650")
-//
 // d3.select("#content").append("div").attr("class", "container")
 // .append("p").text("Hello, welcome to the d3 playground. Everything should be possible in here <3.\
 //                     For the time being please use dummy data defined as an object in this file. \
 //                     Once we get the rails model with the data in it I might become a .js.erb so you\
 //                     can query the model from here :D.")
->>>>>>> 22f6de4c6e61851d82a3e8907bd81aa8864ee983
 
 $(document).ready(function(){ 
 loadData()
