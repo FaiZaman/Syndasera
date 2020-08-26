@@ -92,8 +92,8 @@ thead tr:nth-child(1) th {
     white-space: nowrap;
 }
 
-.list-group{
-    max-height: 300px;
+.subset-group {
+    max-height: 220px;
     overflow: scroll;
     -webkit-overflow-scrolling: touch;
 }
@@ -104,6 +104,19 @@ thead tr:nth-child(1) th {
   
 .list-group input[type="checkbox"] {
     display: none;
+}
+
+.list-group-item-action {
+    margin-bottom: 10px;
+    border-radius: 20px;
+    background-color: lightblue;
+    color: black;
+}
+
+.list-group-item-action:hover {
+    background-color: rgb(35, 160, 202);
+    color: black;
+    cursor: pointer;
 }
 
 .list-group input[type="checkbox"] + .list-group-item {
@@ -138,19 +151,24 @@ thead tr:nth-child(1) th {
 }
 
 .form-container, .filter {
-    margin-top: -2px;
     text-align: left;
-    background-color: white;
     border-style: solid;
     border-color: #b9dbdf;
     border-width: 10px;
     padding-top: 20px;
     padding-bottom: 10px;
     padding-left: 50px;
-    padding-right: 0px;
-  }
+    padding-right: 20px;
+}
 
-.btn-info, .btn-secondary {
+#participant-id-filter {
+    float: right;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.btn-info, .btn-secondary, .btn-danger {
     margin-top: 5px;
 }
 
@@ -167,4 +185,16 @@ thead tr:nth-child(1) th {
 
 #sticky-footer {
     flex-shrink: 0;
+}
+
+@media (min-width: 500px) and (max-width: 1199px) {
+    .banner {
+      display: none;
+    }
+}
+
+@media (min-width: 1200px) and (max-width: 1920px) {
+    .banner {
+      display: block;
+    }
 }

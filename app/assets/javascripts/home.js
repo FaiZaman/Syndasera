@@ -2,47 +2,49 @@
 
 $(document).ready(function(){
 
+    $(".date").hide();
     $('[data-toggle="tooltip"]').tooltip(); // PRISM description
 
-    const columnNames = [
-        'Household ID',
-        'Visit Date',
-        'Age',
-        'Weight',
-        'Temperature',
-        'Abdominal Pain Duration',
-        'Admitting Hospital',
-        'Anorexia Duration',
-        'Plasmodium Parasite Density',
-        'Basis of Complicated Diagnosis',
-        'Complicated Malaria',
-        'Cough Duration',
-        'Diagnosis at Hospitalisation',
-        'Diarrhoea Duration',
-        'Fatigue Duration',
-        'Fever Duration',
-        'Headache Duration',
-        'Hospital Admission Date',
-        'Hospital Discharge Date',
-        'ITN Last Night',
-        'Jaundice Duration',
-        'Joint Pains Duration',
-        'Malaria Diagnosis',
-        'Malaria Diagnosis and Parasite Status',
-        'Malaria Treatment',
-        'Muscle Aches Duration',
-        'Non Malaria Medication',
-        'Other Diagnosis',
-        'Other Medical Complaint',
-        'Plasmodium Gametocytes Present',
-        'Seizures Duration',
-        'Severe Malaria Criteria',
-        'Subjective Fever',
-        'Submicroscopic Plasmodium Present',
-        'Visit Type',
-        'Vomiting Duration'
-    ]
+    const columnData = {
+        'Household ID': "categorical",
+        'Visit Date': "date",
+        'Age': "number",
+        'Weight': "number",
+        'Temperature': "number",
+        'Abdominal Pain Duration': "number",
+        'Admitting Hospital': "categorical",
+        'Anorexia Duration': "number",
+        'Plasmodium Parasite Density': "number",
+        'Basis Of Complicated Diagnosis': "categorical",
+        'Complicated Malaria': "binary",
+        'Cough Duration': "number",
+        'Diagnosis At Hospitalisation': "categorical",
+        'Diarrhoea Duration': "number",
+        'Fatigue Duration': "number",
+        'Fever Duration': "number",
+        'Headache Duration': "number",
+        'Hospital Admission Date': "date",
+        'Hospital Discharge Date': "date",
+        'ITN Last Night': "binary",
+        'Jaundice Duration': "number",
+        'Joint Pains Duration': "number",
+        'Malaria Diagnosis': "binary",
+        'Malaria Diagnosis and Parasite Status': "categorical",
+        'Malaria Treatment': "categorical",
+        'Muscle Aches Duration': "number",
+        'Non Malaria Medication': "categorical",
+        'Other Diagnosis': "categorical",
+        'Other Medical Complaint': "categorical",
+        'Plasmodium Gametocytes Present': "binary",
+        'Seizures Duration': "number",
+        'Severe Malaria Criteria': "categorical",
+        'Subjective Fever': "binary",
+        'Submicroscopic Plasmodium Present': "unique-type",
+        'Visit Type': "categorical",
+        'Vomiting Duration': "number"
+    };
 
+    const columnNames = Object.keys(columnData);
     generateColumnList(columnNames);
 
     // select all checked columns to display
@@ -105,6 +107,18 @@ $(document).ready(function(){
 
     });
 
+    // display filtering options for the specific column clicked
+    $(".filter-button").on('click', function(){
+
+        const id = this.id.replace("-filter", "").replace(/-/g, ' ').toLowerCase().capitalize()
+                            .replace('Itn', 'ITN').replace('Id', 'ID');
+        $(".filter-div").hide();
+
+        const formClass = columnData[id];
+        $("." + formClass + "-id").empty().append(id);
+        $("." + formClass).show();
+    });
+
     function getSubset(columns){
         $.ajax({
             type: "POST",
@@ -148,9 +162,10 @@ $(document).ready(function(){
 				}
 			}
 
-			$(".list-group").append("<input type='checkbox' id='" + checkboxID + "' class='checkbox'"
-									+ checked + "/><label class='list-group-item'" + "for='"
-									+ checkboxID + "'>" + columnName + "</label>")
+            $(".list-group").append(`<input type='checkbox' id='${checkboxID}' class='checkbox'
+                                    ${checked}/><label class='list-group-item' for='${checkboxID}'>
+                                    ${columnName}<button class="btn btn-dark filter-button" 
+                                    id=${id}-filter style="float:right;">Filter</button></label>`)
 
 			columnChecks[id] = $("#" + checkboxID).is(':checked');
 
@@ -167,7 +182,7 @@ $(document).ready(function(){
         
         var tableHeaders = ['Participant ID']
         $('input[type=checkbox]:checked').next().each(function(){
-            tableHeaders.push($(this).text());
+            tableHeaders.push($(this).text().replace('Filter', ''));
         });
 
         return tableHeaders;
@@ -180,8 +195,13 @@ $(document).ready(function(){
 
 		$("th").remove();
 		tableHeaders.forEach((columnName) => {
-			$(".header-row").append("<th>" + columnName + "</th>");
+			$(".header-row").append(`<th>${columnName}</th>`);
 		});
 	}
 
+    String.prototype.capitalize = function(){
+        return this.replace( /(^|\s)([a-z])/g , function(m, p1, p2){
+            return p1+p2.toUpperCase(); 
+        });
+    };
 });
