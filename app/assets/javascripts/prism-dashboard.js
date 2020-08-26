@@ -249,10 +249,6 @@ d3.select("#content")
     .append("div")
       .attr("id","fatigue_duration_histogram")
 
-d3.select("#content")
-	});
-	console.log(groupByWeek)
-
 	d3.select("#content")
     .append("div")
       .attr("id","fever_duration_histogram")
