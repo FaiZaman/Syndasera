@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   root 'pages#home'
 
   get '/about' => 'pages#about'
+  get '/prism_evaluation' => 'pages#prism_evaluation'
   get '/prism_dashboard' => 'pages#prism_dashboard'
   get '/our_methods' => 'pages#our_methods'
   get '/requests/new' => 'syn_data_requests#new'

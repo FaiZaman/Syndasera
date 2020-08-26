@@ -13,4 +13,7 @@ class PagesController < ApplicationController
   def prism_dashboard
   end
 
+  def prism_evaluation
+  end
+
 end
