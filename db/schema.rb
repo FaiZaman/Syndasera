@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_24_152203) do
+ActiveRecord::Schema.define(version: 2020_08_27_210456) do
 
   create_table "prism_observations", force: :cascade do |t|
     t.integer "observation_id"
@@ -79,8 +79,8 @@ ActiveRecord::Schema.define(version: 2020_08_24_152203) do
     t.integer "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "status", default: "Received"
     t.string "dataset_name"
-    t.string "status", default: "received"
     t.index ["user_id"], name: "index_syn_data_requests_on_user_id"
   end
 

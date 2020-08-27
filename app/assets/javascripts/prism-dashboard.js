@@ -6,9 +6,11 @@ var loadData = function(){
                   dataType: 'json',
                   beforeSend: function(){
                     $('#loader').show()
+                    $('.graph-display').hide();
                   },
                   success: function(data){
                     $('#loader').hide()
+                    $('.graph-display').show();
                     visualisation(data);
                   },
                   failure: function(result){
@@ -180,7 +182,7 @@ divs_to_add.forEach((e, i)=> {
   d3.select("#dashboard")
     .append("div")
     .attr("id", `row-for-dashboard${i}`)
-    .attr("class", "row")
+    .attr("class", "row default-graphs")
   e.forEach((f) => {
     d3.select(`#row-for-dashboard${i}`)
         .append("div")
@@ -188,6 +190,7 @@ divs_to_add.forEach((e, i)=> {
           .attr("class", "col-md-4")
   })
 })
+$(".default-graphs").hide();
 
 
 /////////-------HISTOGRAM-------/////////
@@ -214,6 +217,10 @@ var height = 300 - margin.top - margin.bottom;
 
 function drawHistogram (dom, array, column, name){
 
+
+    var text = d3.select(dom)
+        .append("div")
+        .html("<b>Original Graph</b>")
 
     var svg = d3.select(dom)
         .append("svg")
@@ -341,6 +348,9 @@ function removenullscount(column){
 
 function drawCatHistogram (dom, array, columnx, columny, name){
 
+var text = d3.select(dom)
+    .append("div")
+    .html("<b>Original Graph</b>")
 var svg = d3.select(dom)
       .append("svg")
         .attr("width", width + margin.left + margin.right)

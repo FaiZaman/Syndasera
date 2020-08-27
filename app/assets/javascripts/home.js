@@ -221,15 +221,25 @@ $(document).ready(function(){
         });
     };
 
+    // shows and hides graphs
+    $(".graph-display").on('click', function(){
+        
+        var text = $(this).text();
+        if (text == "Show Graphs"){
+            $(".default-graphs").show();
+            $(this).text("Hide Graphs");
+        }
+        else if (text == "Hide Graphs"){
+            $(".default-graphs").hide();
+            $(this).text("Show Graphs");
+        }
+    });
+
     function visualisation(data){
 
         // ==========================================================================
         // rebeca's visualisations
         //--HISTOGRAM divs--//
-
-        d3.select("#content")
-        .append("div")
-        .html("<br>From here to there")
 
         d3.select("#content")
         .append("div")
@@ -337,6 +347,10 @@ $(document).ready(function(){
 
         function drawHistogram (dom, array, column, name){
 
+        var text = d3.select(dom)
+            .append("div")
+            .html("<b>Filtered Graph</b>")
+
         var svg = d3.select(dom)
             .append("svg")
             .attr("width", width + margin.left + margin.right)
@@ -426,7 +440,7 @@ $(document).ready(function(){
         //i think there is no plasmodium_parasite_density that are different to 0 or null in data500 hence why it's empty
         var withoutZerosNulls=[]
         removenulls("plasmodium_parasite_density")
-        //drawHistogram ("#plasmodium_parasite_density_histogram", withoutZerosNulls, "plasmodium_parasite_density", "Plasmodium Parasite Density")
+        drawHistogram ("#plasmodium_parasite_density_histogram", withoutZerosNulls, "plasmodium_parasite_density", "Plasmodium Parasite Density")
 
         /////////-------COUNT BAR CHART "CATEGORICAL HISTOGRAM"-------/////////
 
@@ -455,6 +469,10 @@ $(document).ready(function(){
         }
 
         function drawCatHistogram (dom, array, columnx, columny, name){
+
+        var text = d3.select(dom)
+            .append("div")
+            .html("<b>Filtered Graph</b>")
 
         var svg = d3.select(dom)
         .append("svg")
@@ -526,7 +544,7 @@ $(document).ready(function(){
         getcountarrayboo(data, "admitting_hospital")
         var withoutNulls=[]
         removenullscount("category")
-        drawCatHistogram ("#admitting_hospital_cathistogram", withoutNulls, "category", "count", "Admitting hospital")
+        //drawCatHistogram ("#admitting_hospital_cathistogram", withoutNulls, "category", "count", "Admitting hospital")
 
         var spec_count_array = []
         getcountarrayboo(data, "asexual_plasmodium_parasite_present")
@@ -574,6 +592,6 @@ $(document).ready(function(){
         getcountarrayboo(data, "febrile")
         var withoutNulls=[]
         removenullscount("category")
-        drawCatHistogram ("#febrile_cathistogram", withoutNulls, "category", "count","Febrile?")
+        //drawCatHistogram ("#febrile_cathistogram", withoutNulls, "category", "count","Febrile?")
     }
 });
