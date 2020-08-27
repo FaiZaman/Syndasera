@@ -119,12 +119,23 @@ $(document).ready(function(){
         $("." + formClass).show();
     });
 
-    function getSubset(columns){
+    // query data based on filtering parameters
+    $(".go-filter-button").on('click', function(){
+
+        var name = $(this).attr('name') + "-id";
+        var columnName = $("." + name).text().toLowerCase().replace(/\s/g , "_");
+        var filters = $('.' + this.id).serializeArray();
+        filterData(columnName, filters);
+
+    });
+
+    function filterData(columnName, filters){
         $.ajax({
             type: "POST",
-            url: "/get_subset",
+            url: "/filter_data",
             data: {
-                cols: columns
+                column: columnName,
+                filter: filters
             },
             dataType: "json",
             success: function(response) {
