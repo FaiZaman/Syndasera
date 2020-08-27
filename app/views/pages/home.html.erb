@@ -39,17 +39,27 @@ Program for Resistance, Immunology, Surveillance and Modeling of Malaria (PRISM)
   </div>
 </div>
 
+<br>
+
+<div id="dashboard">
+  <%= image_tag "loader.gif", id:"loader", class:"loader-img" %>
+</div>
+<%= javascript_include_tag 'prism-dashboard.js' %>
+
+<div class="notes col-md-12 text-muted">
+  <p>*Graphs drawn on 1000 rows for performance</p>
+</div>
+
 <div id="content">
   <div class="loading">
     <br>
-    <div class="text-center"><b>Loading Filtered Graphs</b>
+    <div class="text-center">
+      <b>Loading Filtered Graphs</b>
       <div class="spinner-border text-info" role="status"></div>
     </div>
   </div>
   <!-- rendered from home.js with d3 -->
 </div>
-<br />
-
 <div class="data-table">
   <%= render 'pages/table' %>
 </div>

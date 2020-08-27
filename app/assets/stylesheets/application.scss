@@ -205,6 +205,13 @@ thead tr:nth-child(1) th {
     height: 50px;
 }
 
+.loader-img{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50px;
+}
+
 #sticky-footer {
     flex-shrink: 0;
 }

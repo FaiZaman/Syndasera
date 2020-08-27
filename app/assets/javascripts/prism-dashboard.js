@@ -2,9 +2,13 @@ var loadData = function(){
                 $.ajax({
                   type: 'GET',
                   contentType: 'application/json; charset=utf-8',
-                  url: '/get_data_500',
+                  url: '/get_data_1000',
                   dataType: 'json',
+                  beforeSend: function(){
+                    $('#loader').show()
+                  },
                   success: function(data){
+                    $('#loader').hide()
                     visualisation(data);
                   },
                   failure: function(result){
@@ -26,9 +30,53 @@ Date.prototype.getWeekNumber = function(){
 
 
 function visualisation(data) {
-  d3.selectAll('#content div').remove()
-  console.log(data);
+  // Three function that change the tooltip when user hover / move / leave a cell
 
+  d3.selectAll('#dashboard div').remove()
+  // console.log(data);
+  var tooltip = d3.select('#dashboard')
+    .append("div")
+    .style("opacity", 0)
+    .attr("class", "tooltip")
+    .style("position", "absolute")
+    .style("background-color", "#f8f9fa")
+    .style("border", "solid")
+    .style("border-color", "#343a40")
+    .style("border-width", "1px")
+    .style("border-radius", "5px")
+    .style("padding", "2px 8px 2px 8px")
+
+  var mouseover = function(d) {
+    tooltip
+      .style("opacity", 1)
+    d3.select(this)
+      .style("opacity", 0.8)
+  }
+
+  var mousemove = function(d) {
+    tooltip
+      .html(d.length)
+      .style("left", (d3.event.pageX + 10) + "px")
+      .style("top", (d3.event.pageY - 30) + "px");
+  }
+  var mousemoveBar = function(d) {
+    tooltip
+      .html(d["count"])
+      .style("left", (d3.event.pageX + 10) + "px")
+      .style("top", (d3.event.pageY - 30) + "px");
+  }
+  var mousemoveScatter = function(d) {
+    tooltip
+      .html(d.autocorrelation)
+      .style("left", (d3.event.pageX + 10) + "px")
+      .style("top", (d3.event.pageY - 30) + "px");
+  }
+  var mouseleave = function(d) {
+    tooltip
+      .style("opacity", 0)
+    d3.select(this)
+      .style("opacity", 1)
+  }
 	//--Faiz: adding week column and grouping by week--//
 
 	var dates = [];
@@ -66,8 +114,8 @@ function visualisation(data) {
     weekGroupings[i] = {'week' : weekYear, 'data' : all_data}
   })
 
-console.log("These are the visits clustered by week")
-console.log(weekGroupings)
+  // console.log("These are the visits clustered by week")
+  // console.log(weekGroupings)
 
   // Counting frequency in an array
   function getCounts(arr){
@@ -102,218 +150,44 @@ console.log(weekGroupings)
   })
 
   // console.log("Nested data structure")
-  console.log("These are the counts by week")
-  console.log(allWeekCounts)
-
-console.log(allWeekCounts.filter(e=>e.column=="visit_type"))
-
-    //-- END Noo: adding week column and grouping by week--//
-
-//--Faiz part II--//
-
-  // 	// the format we want
-	// // [{week:“week 1”, variable:“variable 1", count:“count 1”},
-	// //{week:“week 1", variable:“variable 2”, count:“count 2"},
-	// //{week:“week 1”, variable:“variable x”, count:“count x”}…,
-	// //{week:“week 2", variable:“variable 1”, count:“count 1"}…,
-	// //{week:“week y”, variable:“variable x”, count:“count x”}]
-	// var columns = Object.keys(data[0])
-  //
-	// // groupByWeek current format is [2011-39: {{}, {}, ...}, 2011-40: ...]
-	// // where {} is an observation and 2011-39 is the 39th week of 2011 (52 in total per year)
-  //
-	// // getting rid of unnecessary columns
-	// columns.splice(columns.indexOf('id'), 1);
-	// columns.splice(columns.indexOf('created_at'), 1);
-	// columns.splice(columns.indexOf('updated_at'), 1);
-  //
-	// var weeks = Object.keys(groupByWeek);
-  //
-	// // creates the data structure we want for a specific column
-	// function createWeekCountArray(column){
-  //
-	// 	var weekCountArray = [];
-  //
-	// 	// looping by weeks
-	// 	for (var i = 0; i < weeks.length; i++){
-  //
-	// 		var weekNumber = i + 1;
-	// 		var weeksObservations = groupByWeek[weeks[i]];
-  //
-	// 		// looking at each observation in each week
-	// 		weeksObservations.forEach((observation) => {
-  //
-	// 			var value = observation[column];	// column value for current observation
-  //
-	// 			// check if the value is already in the array in the current week
-	// 			if ((weekCountArray.some(el => el.variable === value && el.week === weekNumber))){
-	// 				// increase the count by 1 for this week-value if so
-	// 				const index = weekCountArray.map(e => e.variable).indexOf(value);
-	// 				weekCountArray[index]['count']++;
-	// 			}
-	// 			else {
-	// 				// create an entry for this week-value with default count 1 as first appearance
-	// 				const obj = {
-	// 					'week': weekNumber,
-	// 					'variable': value,
-	// 					'count': 1
-	// 				};
-	// 				weekCountArray.push(obj);
-	// 			}
-	// 		});
-	// 	}
-	// 	console.log(weekCountArray);
-	// 	// check for missing weeks afterwards
-	// }
-  //
-	// var column = "subjective_fever"
-	// createWeekCountArray(column);
-  //
-  // //columns.forEach((element) => {
-  // //  for (var i = 0; i < data.length; i++){
-  // //  }
-  // //  console.log(element);
-  // //});
-
-//-- END Faiz part II collapse week--//
-
-//--START specific column count array--//
-
-// var plasmodium_present1 = [];
-// for (var i = 0; i < data.length; i++) {
-//   if (plasmodium_present1.some(el => el.category === data[i].asexual_plasmodium_parasite_present)){
-//       for (var j = 0; j < plasmodium_present1.length; j++) {
-//         if(plasmodium_present1[j].category === data[i].asexual_plasmodium_parasite_present){
-//           plasmodium_present1[j].count +=1
-// }}
-// } else { const category = {
-// 			category: data[i].asexual_plasmodium_parasite_present,
-// 			count: 1
-// 		}
-// 		plasmodium_present1.push(category);
-// }}
-//
-// console.log(plasmodium_present1)
-
-//--END specific column count array--//
-
-//--remove null entries in count table--//
-
-// var countnonull = plasmodium_present1.filter(function(obj) {
-// 	return obj.category != null;
-// });
-// //console.log(countnonull);
-//
-// //--END remove null entries in count table--//
-//
-// //-- START specific column count table function--//
-//
-// var plasmodium_present_count = [];
-// function getcountarray(dataset, column){
-//   for (var i = 0; i < dataset.length; i++) {
-//     if (plasmodium_present_count.some(el => el.category === dataset[i][column])){
-//       for (var j = 0; j < plasmodium_present_count.length; j++) {
-//         if(plasmodium_present_count[j].category === dataset[i][column]){
-//           plasmodium_present_count[j].count +=1
-//         }
-//       }
-//     } else {
-//       var category = {
-//   			category: dataset[i][column],
-//   			count: 1
-//   		}
-//   		plasmodium_present_count.push(category);
-//     }
-//   }
-// }
-// getcountarray(data, "plasmodium_gametocytes_present", plasmodium_present_count)
-//getcountarray(data, "asexual_plasmodium_parasite_present", plasmodium_present_count)
-//console.log(plasmodium_present_count)
-
-//-- END specific column count table--//
+  // console.log("These are the counts by week")
+  // console.log(allWeekCounts)
+  // console.log(allWeekCounts.filter(e=>e.column=="visit_type"))
 
 //--HISTOGRAM divs--//
+var divs_to_add = [
+  ["haemoglobin_histogram",
+  "temparature_histogram",
+  "muscle_aches_duration_histogram"],
+  ["fatigue_duration_histogram",
+  "fever_duration_histogram",
+  "joint_pains_duration_histogram"],
+  ["plasmodium_parasite_density_histogram",
+  "visit_type_cathistogram",
+  "asexual_plasmodium_parasite_present_cathistogram"],
+  ["plasmodium_gametocytes_present_cathistogram",
+  "submicroscopic_plasmodium_present_cathistogram",
+  "malaria_diagnosis_cathistogram"],
+  ["malaria_diagnosis_and_parasite_status_cathistogram",
+  "malaria_treatment_cathistogram",
+  "complicated_malaria_cathistogram"],
+  ["febrile_cathistogram",
+  "autocorrelation",
+  "autocorrelation2"]
+]
 
-d3.select("#content")
+divs_to_add.forEach((e, i)=> {
+  d3.select("#dashboard")
     .append("div")
-      .attr("id","haemoglobin_histogram")
-
-d3.select("#content")
-    .append("div")
-      .attr("id","temparature_histogram")
-
-d3.select("#content")
-    .append("div")
-      .attr("id","muscle_aches_duration_histogram")
-
-d3.select("#content")
-    .append("div")
-      .attr("id","fatigue_duration_histogram")
-
-	d3.select("#content")
-    .append("div")
-      .attr("id","fever_duration_histogram")
-
-d3.select("#content")
-    .append("div")
-      .attr("id","joint_pains_duration_histogram")
-
-d3.select("#content")
-    .append("div")
-      .attr("id","plasmodium_parasite_density_histogram")
-
-//-- BAR CHART DIVS --//
-
-d3.select("#content")
-      .append("div")
-        .attr("id","visit_type_cathistogram")
-
-	d3.select("#content")
-      .append("div")
-        .attr("id","admitting_hospital_cathistogram")
-
-d3.select("#content")
-      .append("div")
-        .attr("id","asexual_plasmodium_parasite_present_cathistogram")
-
-d3.select("#content")
-      .append("div")
-        .attr("id","plasmodium_gametocytes_present_cathistogram")
-
-d3.select("#content")
-      .append("div")
-        .attr("id","submicroscopic_plasmodium_present_cathistogram")
-
-d3.select("#content")
-      .append("div")
-        .attr("id","malaria_diagnosis_cathistogram")
-
-d3.select("#content")
-      .append("div")
-        .attr("id","malaria_diagnosis_and_parasite_status_cathistogram")
-
-d3.select("#content")
-      .append("div")
-        .attr("id","malaria_treatment_cathistogram")
-
-d3.select("#content")
-      .append("div")
-        .attr("id","complicated_malaria_cathistogram")
-
-d3.select("#content")
-      .append("div")
-        .attr("id","febrile_cathistogram")
-
-//--AUTOCORRELATION DIVS--//
-
-d3.select("#content")
-      .append("div")
-        .attr("id","autocorrelation")
-
-d3.select("#content")
-      .append("div")
-        .attr("id","autocorrelation2")
-
+    .attr("id", `row-for-dashboard${i}`)
+    .attr("class", "row")
+  e.forEach((f) => {
+    d3.select(`#row-for-dashboard${i}`)
+        .append("div")
+          .attr("id",f)
+          .attr("class", "col-md-4")
+  })
+})
 
 
 /////////-------HISTOGRAM-------/////////
@@ -340,6 +214,7 @@ var height = 300 - margin.top - margin.bottom;
 
 function drawHistogram (dom, array, column, name){
 
+
     var svg = d3.select(dom)
         .append("svg")
           .attr("width", width + margin.left + margin.right)
@@ -349,6 +224,11 @@ function drawHistogram (dom, array, column, name){
 
 // X axis
 
+
+
+    // var domain = [d3.min(array, function(d) { return +d[column]}) -1, d3.max(array, function(d) { return +d[column]})+1]
+    // var step = Math.round(domain[1])/Math.round(domain[0])
+    // domain[1] = domain[1]+step
     var x = d3.scaleLinear()
         .domain([d3.min(array, function(d) { return +d[column]}) -1, d3.max(array, function(d) { return +d[column]})+1])
         .range([0, width]);
@@ -367,12 +247,12 @@ function drawHistogram (dom, array, column, name){
         .domain(x.domain())
         .thresholds(x.ticks([((d3.max(array, function(d) { return +d[column]}))-(d3.min(array, function(d) { return +d[column]})))*2]));
 
-    var bins = histogram(array);
 
+    var bins = histogram(array);
 // Y axis
     var y = d3.scaleLinear()
+        .domain([0, d3.max(bins, function(array) { return array.length; })])
         .range([height, 0]);
-        y.domain([0, d3.max(bins, function(array) { return array.length; })]);
     svg.append("g")
         .call(d3.axisLeft(y));
     svg.append("text")
@@ -382,7 +262,6 @@ function drawHistogram (dom, array, column, name){
         .attr("x", -margin.top)
         .text("count")
         .style("font-size", "10px");
-
 //bars
     svg.selectAll("rect")
         .data(bins)
@@ -393,6 +272,9 @@ function drawHistogram (dom, array, column, name){
             .attr("width", function(d) { return x(d.x1) - x(d.x0) -1 ; })
             .attr("height", function(d) { return height - y(d.length); })
             .style("fill", "#0275D8")
+            .on("mouseover", mouseover)
+            .on("mousemove", mousemove)
+            .on("mouseleave", mouseleave);
 
 //legends
 svg.append("text").attr("x", 0).attr("y", -20).text(name).style("font-size", "12px").attr("alignment-baseline","middle")
@@ -509,6 +391,9 @@ svg.selectAll("mybar")
       .attr("width", x.bandwidth())
       .attr("height", function(d) { return height - y(d[columny]); })
       .attr("fill", "#B9DBDF")
+      .on("mouseover", mouseover)
+      .on("mousemove", mousemoveBar)
+      .on("mouseleave", mouseleave);
 //    .attr("opacity", 0.6)
 //    .attr("stroke", "black");
 
@@ -675,6 +560,9 @@ var svg = d3.select(dom)
         .attr("cy", function(d) { return y(d.autocorrelation) } )
         .attr("r", 3)
         .attr("fill", "#0275D8")
+        .on("mouseover", mouseover)
+        .on("mousemove", mousemoveScatter)
+        .on("mouseleave", mouseleave);
 //        .attr("opacity", 0.7);
 
 // Handmade legend
@@ -694,17 +582,18 @@ autocorr("#autocorrelation2", auto_malaria_df, "Autocorrelation plot of number o
 
 
 
-var svg = d3.select("Weekcollapse1")
-            .append("svg")
-              .attr("width", width + margin.left + margin.right)
-              .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-              .attr("transform",
-                    "translate(" + margin.left + "," + margin.top + ")");
+// var svg = d3.select("Weekcollapse1")
+//             .append("svg")
+//               .attr("width", width + margin.left + margin.right)
+//               .attr("height", height + margin.top + margin.bottom)
+//             .append("g")
+//               .attr("transform",
+//                     "translate(" + margin.left + "," + margin.top + ")");
 
 
 $(document).ready(function(){ 
-loadData()
+  // debugger
+  loadData()
  });
 
 

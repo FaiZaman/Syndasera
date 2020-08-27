@@ -12,13 +12,18 @@ class PrismController < ApplicationController
     column = params[:column]
     start = params[:filter]['0']['value']
     final = params[:filter]['1']['value']
-    
+
     @filtered = PrismObservation.where(column => start..final)
     render json: @filtered
   end
 
   def get_data_500
     @prism_data = PrismObservation.first(500).to_json()
+    render json: @prism_data
+  end
+
+  def get_data_1000
+    @prism_data = PrismObservation.first(1000).to_json()
     render json: @prism_data
   end
 

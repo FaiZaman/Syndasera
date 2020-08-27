@@ -17,6 +17,7 @@ Rails.application.routes.draw do
 
   get '/get_data' => 'prism#get_data'
   get '/get_data_500' => 'prism#get_data_500'
+  get '/get_data_1000' => 'prism#get_data_1000'
   post '/filter_data' => 'prism#filter_data'
 
   devise_scope :user do
