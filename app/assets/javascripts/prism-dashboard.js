@@ -26,6 +26,7 @@ Date.prototype.getWeekNumber = function(){
 
 
 function visualisation(data) {
+  d3.selectAll('#content div').remove()
   console.log(data);
 
 	//--Faiz: adding week column and grouping by week--//
