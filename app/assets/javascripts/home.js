@@ -177,15 +177,16 @@ $(document).ready(function(){
 				}
 			}
 
-            $(".list-group").append(`<input type='checkbox' id='${checkboxID}' class='checkbox'
-                                    ${checked}/><label class='list-group-item' for='${checkboxID}'>
-                                    ${columnName}<button class="btn btn-dark filter-button" 
-                                    id=${id}-filter style="float:right;">Filter</button></label>`)
+            $(".list-group").append(` <div class="btn-group list-group-div">
+                                      <input type='checkbox' id='${checkboxID}' class='checkbox' ${checked}/>
+                                      <label class='list-group-item col-sm-8' for='${checkboxID}'>${columnName}</label>
+                                      <button class="btn btn-light list-group-filter-button filter-button col-sm-4" id=${id}-filter style="float:right;">Filter</button>
+                                      </div>`)
 
 			columnChecks[id] = $("#" + checkboxID).is(':checked');
 
 		}
-        
+
         if (columnCheckedCookie == null){
             sessionStorage.setItem('columnCheckedCookie', JSON.stringify(columnChecks));
         }
@@ -194,7 +195,7 @@ $(document).ready(function(){
 
     // gets the current table header names
     function getTableHeaders(){
-        
+
         var tableHeaders = ['Participant ID']
         $('input[type=checkbox]:checked').next().each(function(){
             tableHeaders.push($(this).text().replace('Filter', ''));
@@ -202,7 +203,7 @@ $(document).ready(function(){
 
         return tableHeaders;
 	}
-	
+
 	// removes all headers and readds them based on checked checkboxes
 	function removeHeaders(tableHeaders){
 
@@ -216,7 +217,7 @@ $(document).ready(function(){
 
     String.prototype.capitalize = function(){
         return this.replace( /(^|\s)([a-z])/g , function(m, p1, p2){
-            return p1+p2.toUpperCase(); 
+            return p1+p2.toUpperCase();
         });
     };
 

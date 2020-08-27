@@ -4,15 +4,16 @@ Syndasera is a dynamic synthetic data service allowing users like yourselves to 
 for synthetic data generation from a real time-series patient dataset. We use sophisticated machine
 learning algorithms and effective privacy evaluations to make sure that your synthesised data is as
 realistic as possible whist protecting the privacy of your patients, which is of utmost importance.
-Please see below for an example of data synthesised from the 
-<span data-toggle="tooltip" style="color:blue; font-weight:bold;" 
-title="PRISM was a longitudinal cohort study conducted in different transmission settings in Uganda. 
-All children 6 months to 10 years old within a household and up to one primary caregiver were 
-enrolled in a dynamic cohort, and children were excluded from follow-up after reaching 11 years of age.
-Participants had routine clinic visits roughly every 3 months and attended a study clinic any 
-time they became ill."> 
-Program for Resistance, Immunology, Surveillance and Modeling of Malaria (PRISM) dataset
-</span>.
+Please see below for an example of data synthesised from the
+<a target="_blank" href="https://clinepidb.org/ce/app/record/dataset/DS_0ad509829e">
+  <span data-toggle="tooltip" style="font-weight:bold;" data-placement="right"
+        title="PRISM was a longitudinal cohort study conducted in different transmission settings in Uganda.
+        All children 6 months to 10 years old within a household and up to one primary caregiver were
+        enrolled in a dynamic cohort, and children were excluded from follow-up after reaching 11 years of age.
+        Participants had routine clinic visits roughly every 3 months and attended a study clinic any
+        time they became ill.">
+Program for Resistance, Immunology, Surveillance and Modeling of Malaria (PRISM) dataset.
+</span></a>
 
 <hr>
 <%= javascript_include_tag 'home.js' %>
@@ -21,7 +22,8 @@ Program for Resistance, Immunology, Surveillance and Modeling of Malaria (PRISM)
   <div class="col-md-4">
     <div class="card">
       <div class="card-header text-center">
-        <b>Subset by Column</b><br>
+        <b>Subset by Column</b>
+        <br>
         <button class="btn btn-info" type="button" id="select-all">Select All</button>
         <button class="btn btn-info" type="button" id="select-none">Select None</button>
       </div>
@@ -48,11 +50,6 @@ Program for Resistance, Immunology, Surveillance and Modeling of Malaria (PRISM)
 </div>
 <br />
 
-<div class="notes col-md-10">
-  <p>All durations are in days; all dates are in the form yyyy/mm/dd; all weights are in kg,
-  and all temperatures are measured in &#8451;</p>
-</div>
-
 <div class="data-table">
   <%= render 'pages/table' %>
 </div>
@@ -62,7 +59,11 @@ Program for Resistance, Immunology, Surveillance and Modeling of Malaria (PRISM)
   <div class="page_info">
     <%= page_entries_info @observations %>
   </div>
-  <%= will_paginate @observations, :container => false, 
-  renderer: WillPaginate::ActionView::BootstrapLinkRenderer, 
+  <%= will_paginate @observations, :container => false,
+  renderer: WillPaginate::ActionView::BootstrapLinkRenderer,
   list_classes: %w(pagination justify-content-center) %>
+  <div class="notes col-md-12 text-muted">
+    <p>*All durations are in days, all dates are in the form YYYY/MM/DD, all weights are in kg,
+    and all temperatures are measured in &#8451;</p>
+  </div>
 </div>
