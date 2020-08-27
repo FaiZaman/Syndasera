@@ -1,52 +1,65 @@
-<div class="number filter-div">
+<div class="container number filter-div">
 	<div class="row">
-		<h3>Filter by <span class="number-id">age</span></h3>
+		<div class="col-sm-8">
+			<h3>Filter by <span class="number-id">Age</span></h3>
+		</div>
 		<button class="btn btn-dark filter-button" id="participant-id-filter">
 			Filter by Participant ID
 		</button>
 	</div>
 	<hr>
-	<form>
+
+	<form class="number-form filter-form">
 		<div class="form-row">
 			<div class="form-group col-md-3">
 				<label for="num-from">Select from</label>
-				<input type="number" class="form-control" id="num-from" placeholder="0">
+				<input type="number" class="form-control" id="num-from" name="number-start" placeholder="0">
 			</div>
+
 			<div class="form-group col-md-3">
 				<label for="num-to">to</label>
-				<input type="number" class="form-control" id="num-to" placeholder="100">
+				<input type="number" class="form-control" id="num-to" name="number-end" placeholder="100">
 			</div>
 		</div>
-		<div class="form-check">
-			<input class="form-check-input" type="checkbox" value="" id="null-values">
-			<label class="form-check-label" for="null-values">
-				Include null values
-			</label>
+		<div class="form-row">
+			<div class="form-group col-md-3">
+				<div class="form-check">
+					<label class="form-check-label checkbox-inline" for="null-values">
+						<input class="form-check-input" type="checkbox" value="" id="null-values">
+						Include null values
+					</label>
+				</div>
+			</div>
+			<div class="form-group col-md-3">
+				<button type="button" class="btn btn-success go-filter-button" id="number-form" name="number">Go</button>
+			</div>
 		</div>
-		<br>
-		<button type="button" class="btn btn-success go-filter-button">Go</button>
 	</form>
 </div>
 
-<div class="date filter-div">
+<div class="container date filter-div">
 	<div class="row">
-		<h3>Filter by <span class="date-id"></span></h3>
+		<div class="col-sm-8">
+			<h3>Filter by <span class="date-id"></span></h3>
+		</div>
 		<button class="btn btn-dark filter-button" id="participant-id-filter">
 			Filter by Participant ID
 		</button>
 	</div>
+
 	<hr>
-	<form>
+
+	<form class="date-form filter-form">
 		<div class="form-row">
 			<div class="form-group col-md-4">
 				<label for="date-from">Start Date</label>
-				<input type="date" class="form-control" id="date-from" placeholder="0">
+				<input type="date" class="form-control" id="date-from" name="date-start" placeholder="0">
 			</div>
 			<div class="form-group col-md-4">
 				<label for="date-to">End Date</label>
-				<input type="date" class="form-control" id="date-to" placeholder="100">
+				<input type="date" class="form-control" id="date-to" name="date-end" placeholder="100">
 			</div>
 		</div>
-		<button type="button" class="btn btn-success go-filter-button">Go</button>
+		<button type="button" class="btn btn-success go-filter-button" id="date-form" name='date'>Go</button>
 	</form>
 </div>

@@ -17,7 +17,7 @@ Rails.application.routes.draw do
 
   get '/get_data' => 'prism#get_data'
   get '/get_data_500' => 'prism#get_data_500'
-  post '/get_subset' => 'prism#get_subset'
+  post '/filter_data' => 'prism#filter_data'
 
   devise_scope :user do
     get '/sign-in' => "devise/sessions#new", :as => :login

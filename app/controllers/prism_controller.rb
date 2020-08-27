@@ -8,9 +8,13 @@ class PrismController < ApplicationController
     render json: @prism_data
   end
 
-  def get_subset
-    @subset = PrismObservation.select(params[:cols])
-    render json: @subset
+  def filter_data
+    column = params[:column]
+    start = params[:filter]['0']['value']
+    final = params[:filter]['1']['value']
+    
+    @filtered = PrismObservation.where(column => start..final)
+    render json: @filtered
   end
 
   def get_data_500
