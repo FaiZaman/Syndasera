@@ -4,7 +4,7 @@ html, body {
     height: 100%;
 }
 
-.scheme {
+.scheme, .no-progress {
     background-color: #efefef;
 }
 
@@ -42,11 +42,7 @@ body {
     background-color: rgb(248, 245, 245) !important;
 }
 
-.link-to {
-    color: black;
-}
-
-.navbar-light .navbar-nav .nav-link {
+.navbar-light .navbar-nav .nav-link, .link-to {
     color: black;
 }
 
@@ -181,6 +177,16 @@ thead tr:nth-child(1) th {
 .warning {
     color: red;
     font-weight: bold;
+}
+
+.progress-text {
+    color: black;
+    font-weight: bold;
+}
+
+.progress-break {
+    border-left: 2px solid lightblue;
+    height: 50px;
 }
 
 #sticky-footer {
