@@ -430,19 +430,19 @@ var withoutZerosNulls=[]
 removenulls("plasmodium_parasite_density")
 drawHistogram ("#plasmodium_parasite_density_histogram", withoutZerosNulls, "plasmodium_parasite_density", "Plasmodium Parasite Density")
 
-/////////-------COUNT BAR CHART "CATEGORICAL HISTOGRAM"-------/////////
+/////////------- BAR CHART "CATEGORICAL HISTOGRAM"-------/////////
 
-function getcountarrayboo(dataset, column){
-  for (var i = 0; i < dataset.length; i++) {
-    if (spec_count_array.some(el => el.category === dataset[i][column])){
+function getcountarrayboo(column){
+  for (var i = 0; i < data.length; i++) {
+    if (spec_count_array.some(el => el.category === data[i][column])){
       for (var j = 0; j < spec_count_array.length; j++) {
-        if(spec_count_array[j].category === dataset[i][column]){
+        if(spec_count_array[j].category === data[i][column]){
           spec_count_array[j].count +=1
         }
       }
     } else {
       var add = {
-  			category: dataset[i][column],
+  			category: data[i][column],
   			count: 1
   		}
   		spec_count_array.push(add);
@@ -518,62 +518,62 @@ svg.append("text").attr("x", 0).attr("y", -20).text(name).style("font-size", "12
 //the data prep before drawCatHistogram is temporary until the code for the total count table is resolved.
 //might not be possible before friday though.
 var spec_count_array = []
-getcountarrayboo(data, "visit_type")
+getcountarrayboo("visit_type")
 var withoutNulls=[]
 removenullscount("category")
 drawCatHistogram ("#visit_type_cathistogram", withoutNulls, "category", "count", "Hospital visit type")
 
 //note: i think there are no hospital admissions in the data500 hence why it's empty.
 var spec_count_array = []
-getcountarrayboo(data, "admitting_hospital")
+getcountarrayboo("admitting_hospital")
 var withoutNulls=[]
 removenullscount("category")
 drawCatHistogram ("#admitting_hospital_cathistogram", withoutNulls, "category", "count", "Admitting hospital")
 
 var spec_count_array = []
-getcountarrayboo(data, "asexual_plasmodium_parasite_present")
+getcountarrayboo("asexual_plasmodium_parasite_present")
 var withoutNulls=[]
 removenullscount("category")
 drawCatHistogram ("#asexual_plasmodium_parasite_present_cathistogram", withoutNulls, "category", "count", "Asexual plasmodium test")
 
 var spec_count_array = []
-getcountarrayboo(data, "plasmodium_gametocytes_present")
+getcountarrayboo("plasmodium_gametocytes_present")
 var withoutNulls=[]
 removenullscount("category")
 drawCatHistogram ("#plasmodium_gametocytes_present_cathistogram", withoutNulls, "category", "count", "Plasmodium gametocytes present?")
 
 var spec_count_array = []
-getcountarrayboo(data, "submicroscopic_plasmodium_present")
+getcountarrayboo("submicroscopic_plasmodium_present")
 var withoutNulls=[]
 removenullscount("category")
 drawCatHistogram ("#submicroscopic_plasmodium_present_cathistogram", withoutNulls, "category", "count", "Submicroscopic plasmodium test")
 
 var spec_count_array = []
-getcountarrayboo(data, "malaria_diagnosis")
+getcountarrayboo("malaria_diagnosis")
 var withoutNulls=[]
 removenullscount("category")
 drawCatHistogram ("#malaria_diagnosis_cathistogram", withoutNulls, "category", "count","Positive malaria diagnosis?")
 
 var spec_count_array = []
-getcountarrayboo(data, "malaria_diagnosis_and_parasite_status")
+getcountarrayboo("malaria_diagnosis_and_parasite_status")
 var withoutNulls=[]
 removenullscount("category")
 drawCatHistogram ("#malaria_diagnosis_and_parasite_status_cathistogram", withoutNulls, "category", "count","Malaria diagnosis and parasite status")
 
 var spec_count_array = []
-getcountarrayboo(data, "malaria_treatment")
+getcountarrayboo("malaria_treatment")
 var withoutNulls=[]
 removenullscount("category")
 drawCatHistogram ("#malaria_treatment_cathistogram", withoutNulls, "category", "count","Malaria treatment")
 
 var spec_count_array = []
-getcountarrayboo(data, "complicated_malaria")
+getcountarrayboo("complicated_malaria")
 var withoutNulls=[]
 removenullscount("category")
 drawCatHistogram ("#complicated_malaria_cathistogram", withoutNulls, "category", "count","Complicated malaria?")
 
 var spec_count_array = []
-getcountarrayboo(data, "febrile")
+getcountarrayboo("febrile")
 var withoutNulls=[]
 removenullscount("category")
 drawCatHistogram ("#febrile_cathistogram", withoutNulls, "category", "count","Febrile?")
@@ -688,6 +688,19 @@ autocorr("#autocorrelation2", auto_malaria_df, "Autocorrelation plot of number o
 //                     For the time being please use dummy data defined as an object in this file. \
 //                     Once we get the rails model with the data in it I might become a .js.erb so you\
 //                     can query the model from here :D.")
+
+/////////-------WEEk COLLAPSE BAR CHART-------/////////
+
+
+
+var svg = d3.select("Weekcollapse1")
+            .append("svg")
+              .attr("width", width + margin.left + margin.right)
+              .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+              .attr("transform",
+                    "translate(" + margin.left + "," + margin.top + ")");
+
 
 $(document).ready(function(){ 
 loadData()

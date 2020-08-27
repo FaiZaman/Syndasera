@@ -85,3 +85,88 @@ svg.append('g')
   svg.append("text").attr("x", 35).attr("y", 15).text("original data").style("font-size", "10px").attr("alignment-baseline","middle")
   svg.append("text").attr("x", 35).attr("y", 35).text("synthetic data").style("font-size", "10px").attr("alignment-baseline","middle")
   svg.append("text").attr("x", 100).attr("y", 0).text("tSNE plot").style("font-size", "15px").attr("alignment-baseline","middle")
+
+
+//   hist_dummy=[];
+//   hist_numbers=[];
+//   variables = ["week1","week2","week3","week4"];
+//   count_real = [25,25,30,27];
+//   count_fake=[20,15,45,20];
+//
+//   for(var i=0; i<variables.length; i++){
+//     var obj_total = {variable: variables[i], real: count_real[i], fake:count_fake[i]};
+//     var numbers = {real: count_real[i], fake:count_fake[i]}
+//     hist_dummy.push(obj_total);
+//     hist_numbers.push(numbers)
+//   }
+//
+//   var svg = d3.select("#barchart_mockup")
+//         .append("svg")
+//           .attr("width", width + margin.left + margin.right)
+//           .attr("height", height + margin.top + margin.bottom)
+//         .append("g")
+//           .attr("transform",
+//                 "translate(" + margin.left + "," + margin.top + ")");
+//
+// //var subgroups = hist_dummy.slice(1) //this removes the first "row"
+// //var subgroups = delete hist_dummy.variable
+// var subgroups = ["real","fake"]
+// console.log("subgroups")
+// console.log(subgroups)
+//
+//   // List of groups = species here = value of the first column called group -> I show them on the X axis
+//   var groups = d3.map(hist_dummy, function(d){return(d.variable)}).keys()
+//
+// //X axis
+//   var x = d3.scaleBand()
+//       .domain(groups)
+//       .range([0, width])
+//       .padding([0.2])
+//   svg.append("g")
+//     .attr("transform", "translate(0," + height + ")")
+//     .call(d3.axisBottom(x).tickSize(0));
+//
+// //Y axis
+// var y = d3.scaleLinear()
+// //    .domain([0, (d3.max(hist_dummy, function(d) { return +d.real})])
+//     .domain([0,50])
+//     .range([ height, 0 ]);
+//   svg.append("g")
+//     .call(d3.axisLeft(y));
+//
+// // Another scale for subgroup position?
+//   var xSubgroup = d3.scaleBand()
+//     .domain(subgroups)
+//     .range([0, x.bandwidth()])
+//     .padding([0.05])
+//
+//     // color palette = one color per subgroup
+//     var color = d3.scaleOrdinal()
+//       .domain(subgroups)
+//       .range(['#fa0000','#417ee0'])
+//
+//
+//
+//       // Show the bars
+// svg.append("g")
+//   .selectAll("g")
+//   // Enter in data = loop group per group
+//   .data(hist_dummy)
+//   .enter()
+//   .append("g")
+//     .attr("transform", function(d) { return "translate(" + x(d.variable) + ",0)"; })
+//   .selectAll("rect")
+//   .data(function(d) { return subgroups.map(function(key) { return {key: key, value: d[key]}; }); })
+//   .enter().append("rect")
+//     .attr("x", function(d) { return xSubgroup(d.key); })
+//     .attr("y", function(d) { return y(d.value); })
+//     .attr("width", xSubgroup.bandwidth())
+//     .attr("height", function(d) { return height - y(d.value); })
+//     .attr("fill", function(d) { return color(d.key); })
+//     .attr("opacity", 0.7);
+//
+//     svg.append("circle").attr("cx",30).attr("cy",20).attr("r", 5).style("fill", "#fa0000").style("opacity", 0.7)
+//     svg.append("circle").attr("cx",30).attr("cy",40).attr("r", 5).style("fill", "#417ee0").style("opacity", 0.7)
+//     svg.append("text").attr("x", 40).attr("y", 25).text("Yes").style("font-size", "10px").attr("alignment-baseline","middle")
+//     svg.append("text").attr("x", 40).attr("y", 45).text("No").style("font-size", "10px").attr("alignment-baseline","middle")
+//     svg.append("text").attr("x", 50).attr("y", 0).text("Positive malaria diagnosis?").style("font-size", "15px").attr("alignment-baseline","middle")
