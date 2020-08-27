@@ -3,6 +3,7 @@
 $(document).ready(function(){
 
     $(".date").hide();
+    $(".loading").hide();
     $('[data-toggle="tooltip"]').tooltip(); // PRISM description
 
     const columnData = {
@@ -122,6 +123,7 @@ $(document).ready(function(){
     // query data based on filtering parameters
     $(".go-filter-button").on('click', function(){
 
+        $(".loading").show();
         var name = $(this).attr('name') + "-id";
         var columnName = $("." + name).text().toLowerCase().replace(/\s/g , "_");
         var filters = $('.' + this.id).serializeArray();
@@ -140,6 +142,7 @@ $(document).ready(function(){
             dataType: "json",
             success: function(data) {
               console.log(data);
+              $(".loading").hide();
               visualisation(data);
             },
             failure: function(response){
@@ -222,6 +225,10 @@ $(document).ready(function(){
         // ==========================================================================
         // rebeca's visualisations
         //--HISTOGRAM divs--//
+
+        d3.select("#content")
+        .append("div")
+        .html("<br>From here to there")
 
         d3.select("#content")
         .append("div")
