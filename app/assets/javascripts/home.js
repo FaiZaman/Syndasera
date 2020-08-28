@@ -349,7 +349,8 @@ $(document).ready(function(){
 
         var text = d3.select(dom)
             .append("div")
-            .html("<b>Filtered Graph</b>")
+            .style("font-weight", "bold")
+            .text(`Filtered ${name}`)
 
         var svg = d3.select(dom)
             .append("svg")
@@ -472,7 +473,8 @@ $(document).ready(function(){
 
         var text = d3.select(dom)
             .append("div")
-            .html("<b>Filtered Graph</b>")
+            .style("font-weight", "bold")
+            .text(`Filtered ${name}`)
 
         var svg = d3.select(dom)
         .append("svg")

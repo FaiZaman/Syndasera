@@ -220,7 +220,8 @@ function drawHistogram (dom, array, column, name){
 
     var text = d3.select(dom)
         .append("div")
-        .html("<b>Original Graph</b>")
+        .style("font-weight", "bold")
+        .text(`Original ${name}`)
 
     var svg = d3.select(dom)
         .append("svg")
@@ -350,7 +351,8 @@ function drawCatHistogram (dom, array, columnx, columny, name){
 
 var text = d3.select(dom)
     .append("div")
-    .html("<b>Original Graph</b>")
+    .style("font-weight", "bold")
+    .text(`Original ${name}`)
 var svg = d3.select(dom)
       .append("svg")
         .attr("width", width + margin.left + margin.right)
