@@ -1,4 +1,4 @@
-$(document).ready(function(){ 
+$(document).ready(function(){
     var loadData = function(){
                     $.ajax({
                         type: 'GET',
@@ -195,7 +195,7 @@ $(document).ready(function(){ 
                     .attr("class", "col-md-4");
             });
         });
-        $(".default-graphs").hide();
+        //$(".default-graphs").hide(); 
 
 
         /////////-------HISTOGRAM-------/////////
@@ -609,7 +609,7 @@ $(document).ready(function(){ 
 
       // debugger
     loadData();
- });
+});
 
 
 //for bar charts etc to remove null values, replace .data(data) with:
