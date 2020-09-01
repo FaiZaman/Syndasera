@@ -26,14 +26,13 @@ var svg = d3.select("#tSNE_mockup")
       .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")");
 
-            // Add X axis
+// Add X axis
 var x = d3.scaleLinear()
-    .domain([0, 20])
-    .range([ 0, width ]);
+            .domain([0, 20])
+            .range([ 0, width ]);
 svg.append("g")
     .attr("transform", "translate(0," + height + ")")
     .call(d3.axisBottom(x));
-    // Add X axis label:
 svg.append("text")
     .attr("text-anchor", "end")
     .attr("x", width)
@@ -41,13 +40,12 @@ svg.append("text")
     .text("x-tSNE")
     .style("font-size", "10px");
 
-           // Add Y axis
+// Add Y axis
 var y = d3.scaleLinear()
-    .domain([0, 20])
-    .range([ height, 0]);
+            .domain([0, 20])
+            .range([ height, 0]);
 svg.append("g")
     .call(d3.axisLeft(y));
-    // Y axis label:
 svg.append("text")
     .attr("text-anchor", "end")
     .attr("transform", "rotate(-90)")
@@ -56,12 +54,12 @@ svg.append("text")
     .text("y-tSNE")
     .style("font-size", "10px");
 
-           // Add dots
+// Add dots
 svg.append('g')
-  .selectAll("dot")
-  .data(dataset_tSNE)
-  .enter()
-  .append("circle")
+      .selectAll("dot")
+      .data(dataset_tSNE)
+      .enter()
+      .append("circle")
       .attr("cx", function (d) { return x(d.real_x); } )
       .attr("cy", function (d) { return y(d.real_y); } )
       .attr("r", 8)
@@ -69,10 +67,10 @@ svg.append('g')
       .style("opacity", 0.7);
 
 svg.append('g')
-  .selectAll("dot")
-  .data(dataset_tSNE_fake)
-  .enter()
-  .append("circle")
+      .selectAll("dot")
+      .data(dataset_tSNE_fake)
+      .enter()
+      .append("circle")
       .attr("cx", function (d) { return x(d.fake_x); } )
       .attr("cy", function (d) { return y(d.fake_y); } )
       .attr("r", 8)

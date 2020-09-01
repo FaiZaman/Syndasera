@@ -195,7 +195,7 @@ $(document).ready(function(){
                     .attr("class", "col-md-4");
             });
         });
-        //$(".default-graphs").hide(); 
+        //$(".default-graphs").hide();
 
 
         /////////-------HISTOGRAM-------/////////
@@ -221,7 +221,6 @@ $(document).ready(function(){
         var height = 300 - margin.top - margin.bottom;
 
         function drawHistogram (dom, array, column, name){
-
 
             var text = d3.select(dom)
                         .append("div")

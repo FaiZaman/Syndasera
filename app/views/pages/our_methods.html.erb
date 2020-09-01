@@ -78,7 +78,7 @@
       <ol>
         <li><b>tSNE and PCA plots comparison.</b> tSNE and PCA plots reduce a multi-dimensional dataset (i.e with multiple columns) into a 2-dimensional visualisation. A machine-learning algorithm groups similar variables and although we cannot interpret the coordinates attributed, we can compare if the groupings made are similar in the original and synthetic data by overlaying the plots. The higher the overlay, the higher the fidelity. </li>
 <div id="tSNE_mockup"></div>
-        <li><b>Empirical distributions comparison.</b> The empirical distribution for each variable within the dataset is calculated for the synthetic and the real data set. To compare the datasets, the MSE (mean standard error(dictionary)) is calculated between each empirical distribution for each variable between both datasets and averaged. The lower the averaged MSE, the higher the fidelity.
+        <li><b>Empirical distributions comparison.</b> The empirical distribution for each variable within the dataset is calculated for the synthetic and the original data set. To compare the datasets, the MSE (mean standard error) is calculated between each empirical distribution for each variable between both datasets and averaged. The lower the averaged MSE, the higher the fidelity.
             <br>The empirical distribution comparison can also be specifically calculated for a column of interest. For example, in a cancer registry database, it may be of interest to subset the registry by cancer type and then do an empirical distribution comparison across the remaining columns.</li>
 <div id="barchart_mockup"></div>
 <div id="empirical_plot"></div>
@@ -572,7 +572,8 @@ svg.append("text").attr("x", 50).attr("y", 0).text("Autocorrelation plot").style
 
 <script>
 
-var names = ["Age","Height","BMI","Cancer Type","Ethnicity","Visit Date","Admitting Hospital","Tumour Size","Specialist Code","Hospital Duration","Temperature","Drug","Gender"];
+//var names = ["Age","Height","BMI","Cancer Type","Ethnicity","Visit Date","Admitting Hospital","Tumour Size","Specialist Code","Hospital Duration","Temperature","Drug","Gender"];
+var names = ["var13","var3","var4","var12","var7","var9","var2","var11","var10","var6","var1"]
 var x_axis = [0.1,0.2,0.3,0.3,0.4,0.5,0.5,0.6,0.7,0.8,0.9,0.95,1.0];
 var y_axis = [0.1,0.35,0.3,0.5,0.65,0.6,0.45,0.4,0.45,0.7,0.9,0.9,0.8];
 accuracy_dummy=[];

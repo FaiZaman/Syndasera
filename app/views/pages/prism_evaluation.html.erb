@@ -1,1 +1,142 @@
 <%= javascript_include_tag 'PRISM-evaluation.js' %>
+<h1>Evaluation documentation</h1>
+<h3 style="color:#472F91">PRISM dataset</h3>
+
+<hr>
+
+<p>
+    The following document evaluates the fidelity and predictiveness of the synthetic data synthesised for the PRISM dataset.
+    <br> The evaluation methods included are:
+</p>
+<b>Fidelity evaluation methods:</b>
+<ul>
+    <li><a href="#tSNE_PCA_link">tSNE and PCA plots comparison</a></li>
+    <li><a href="#autocorrelation_link">Autocorrelation comparison</a></li>
+    <li><a href="#empirical_link">Empirical distributions comparison</a></li>
+    <li><a href="#pearsons_link">Inter-variable dependencies comparison</a></li>
+    <li><a href="#discriminative_link">Discriminative performance</a></li>
+</ul>
+<b>Predictiveness evaluation methods:</b>
+<ul>
+    <li><a href="#predictive_link">Predictive model performance comparison</a></li>
+    <li><a href="#predictive_time_link">Next-step predictive model performance comparison</a></li>
+</ul>
+
+<hr>
+
+<h4 style="color:#0275D8" id="tSNE_PCA_link">tSNE and PCA plots comparison</h4>
+<h5><u>Method description</u></h5>
+<p> tSNE and PCA plots reduce a multi-dimensional dataset (i.e with multiple columns) into a 2-dimensional visualisation.
+    A machine-learning algorithm groups similar variables and although we cannot interpret the coordinates attributed,
+    we can compare if the groupings made are similar in the original and synthetic data by overlaying the plots.
+    <br><b>The higher the overlay, the higher the fidelity.</b></p>
+<h5><u>Results</u></h5>
+<h5><u>Conclusion</u></h5>
+<hr>
+
+<h4 style="color:#0275D8" id="autocorrelation_link">Autocorrelation comparison</h4>
+<h5><u>Method description</u></h5>
+<p>To confirm the variance in numerical values/counts over time are maintained, autocorrelation graphs are plotted for both datasets and overlayed.
+    <br><b>The higher the overlay, the higher the fidelity.</b></p>
+<h5><u>Results</u></h5>
+<h5><u>Conclusion</u></h5>
+<hr>
+
+<h4 style="color:#0275D8" id="empirical_link">Empirical distributions comparison</h4>
+<h5><u>Method description</u></h5>
+<p>The empirical distribution of each variable within the dataset is calculated for the synthetic dataset and the original dataset.
+    To compare the datasets, the MSE (mean standard error) is calculated between each empirical distribution for each variable between both datasets and averaged.
+    <br><b>The lower the averaged MSE, the higher the fidelity.</b></p>
+<h5><u>Results</u></h5>
+<h5><u>Conclusion</u></h5>
+<hr>
+
+<h4 style="color:#0275D8" id="pearsons_link">Inter-variable dependencies comparison</h4>
+<h5><u>Method description</u></h5>
+<p>
+To confirm dependencies between variables within columns are maintained, Pearson’s correlation coefficient is calculated between categorical columns
+within the original and synthetic data. To compare the datasets, the MSE is calculated between each correlation coefficient.
+    <br><b>The lower the averaged MSE, the higher the fidelity.</b></p>
+<h5><u>Results</u></h5>
+<h5><u>Conclusion</u></h5>
+<hr>
+
+<h4 style="color:#0275D8" id="discriminative_link">Discriminative performance</h4>
+<h5><u>Method description</u></h5>
+<p>A discriminator is given data from the original and synthetic data and asked to distinguish them.
+    <br><b>A score close to 0.5 indicates the discriminator is unable to distinguish them and the fidelity is strong.</b></p>
+<h5><u>Results</u></h5>
+<h5><u>Conclusion</u></h5>
+<hr>
+
+<h4 style="color:#0275D8" id="predictive_link">Predictive model performance comparison</h4>
+<h5><u>Method description</u></h5>
+<p>A series of commonly used predictive models (Random Forests, Logistic regression, decision tree)
+    are applied to the test samples and trained on the train samples for both the original and the synthetic data (Test-on-real, Train-on-real & Test-on-synthetic, Train-on-synthetic).
+    The model attempts to predict a variable based on the rest of the variables and the prediction is given an accuracy score.
+    To compare the datasets, the MSE (mean standard error) is calculated between the accuracy scores for each variable between both datasets and averaged.
+    <br><b>A low averaged MSE indicates the synthetic and original dataset behaved similarly in the predictive models.</b>
+    <br>Parallel to the averaged MSE, the Synthetic Accuracy Ranking is calculated, where the accuracy scores are used to rank each predictive model.
+    <br><b>If both datasets behave similarly, the ranking SRA will be close to 1.</b></p>
+<h5><u>Results</u></h5>
+
+<style>
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th,td {
+    padding: 10px;
+}
+</style>
+
+<table style="width:80%">
+    <caption>Averaged MSE of accuracy scores of predictive models applied to original and synthetic Data</caption>
+  <tr>
+    <th>Predictive model</th>
+    <th>Average MSE Original Data</th>
+    <th>Average MSE Synthetic Data</th>
+  </tr>
+  <tr>
+    <td>Logistic Regression</td>
+    <td>1</td>
+    <td>1</td>
+  </tr>
+  <tr>
+    <td>Random Forests</td>
+    <td>1</td>
+    <td>1</td>
+  </tr>
+  <tr>
+    <td>Decision Tree</td>
+    <td>1</td>
+    <td>1</td>
+  </tr>
+  <tr>
+    <td>SVM</td>
+    <td>1</td>
+    <td>1</td>
+  </tr>
+  <tr>
+    <td>KNR1</td>
+    <td>1</td>
+    <td>1</td>
+  </tr>
+  <tr>
+    <td>KNR5</td>
+    <td>1</td>
+    <td>1</td>
+  </tr>
+</table>
+<br>
+
+<h5><u>Conclusion</u></h5>
+<hr>
+
+<h4 style="color:#0275D8" id="predictive_time_link">Next-step predictive model performance comparison</h4>
+<h5><u>Method description</u></h5>
+<p>This method is identical to the previous method with the difference that the predictive model attempts to predict all variables for next time-step entry
+    based on the values for previous time-stamps.</p>
+<h5><u>Results</u></h5>
+<h5><u>Conclusion</u></h5>
+<hr>
