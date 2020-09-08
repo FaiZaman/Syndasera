@@ -43,8 +43,6 @@
   </li>
 </ol>
 
-<hr>
-
 <h5>Privacy</h5>
 <p>Synthetic data has huge advantages over anonymised data when it comes to privacy. We use differential privacy to guarantee the generated data cannot be used to expose the data of any individual or even to conclude that the individual was in the original dataset. Instead of removing details from real data, synthetic data can accurately preserve the detail/coarseness and distribution to enable query design and refinement.</p>
 <p>Differential privacy is achieved by:</p>
@@ -55,6 +53,8 @@
 </ul>
 <p>These measures reduce the impact a single individual’s data can have on the weights by being in the training set. As a result, their information is neither retained by the network nor generated in the synthetic data. Using differential privacy during training rather than post processing makes our synthetic data resilient against membership inference attacks even if trained components of the network are exposed.</p>
 <p>We use TensorFlow Privacy (4) to implement these changes.</p>
+
+<hr>
 
 <h3>Evaluation methods</h3>
 <p> The Synthetic Data Generator used by Syndasera was tested on the publicly available Program for Resistance, Immunology, Surveillance and Modelling of Malaria (PRISM) dataset. This dataset includes time-series and static features amongst categorical and numerical variables, with 54 columns and over 40,000 rows, providing a robust variety of elements.
@@ -85,7 +85,10 @@
         <li><b>Inter-variable dependencies comparison.</b> To confirm dependencies between variables within columns are maintained, Pearson’s correlation coefficient is calculated between categorical columns within the original and synthetic data. To compare the datasets, the MSE is calculated between each correlation coefficient. </li>
         <li><b>Autocorrelation comparison.</b> To confirm the variance in numerical values/counts over time are maintained, autocorrelation graphs are plotted for both datasets and compared.</li>
 <div id="Autocorrelation_mockup"></div>
-        <li><b>Discriminative performance</b> A discriminator is given data from the original and synthetic data and asked to distinguish them. A score close to 0.5 indicates the discriminator is unable to distinguish them and the fidelity is strong.
+        <li><b>Discriminative model performance</b> For a quantitative measure of similarity, a post-hoc time-series classification model is trained (by optimizing a multi-layer GRU) to distinguish between sequences from the original and generated datasets.
+            First, each original sequence is labeled '1', and each generated sequence is labeled '0'.
+            Then, an off-the-shelf (RNN) classifier is trained to distinguish between the two classes as a standard supervised task.
+            A classification error on the held-out test set gives a quantitative assessment of fidelity, with an error closest to 0.5 indicating the discriminator cannot tell the difference between both datasets.
         </li>
       </ol>
   <li><u>Predictiveness.</u> To assess predictiveness, the following methods are applied:</li>
