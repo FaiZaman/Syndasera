@@ -1,0 +1,2 @@
+class TSne < ApplicationRecord
+end

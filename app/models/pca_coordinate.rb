@@ -1,0 +1,2 @@
+class PcaCoordinate < ApplicationRecord
+end

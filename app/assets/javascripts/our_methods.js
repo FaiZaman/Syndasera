@@ -9,6 +9,7 @@ for(var i=0; i<x_axis.length; i++){
   dataset_tSNE.push(obj);
   dataset_tSNE_fake.push(obj_fake);
 }
+console.log("This is the tSNE data in methods js")
 console.log(dataset_tSNE);
 console.log(dataset_tSNE_fake);
 

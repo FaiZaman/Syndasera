@@ -1,8 +1,8 @@
 require 'csv'
 
-# This file should contain all the record creation needed to 
+# This file should contain all the record creation needed to
 # seed the database with its default values.
-# The data can then be loaded with the rails db:seed command 
+# The data can then be loaded with the rails db:seed command
 # (or created alongside the database with db:setup).
 #
 # Examples:
@@ -16,7 +16,7 @@ csv = CSV.parse(observations, :headers => true, :encoding => 'ISO-8859-1')
 csv.each do |row|
 
     t = PrismObservation.new
-    
+
     t.observation_id = row['Observation_Id']
     t.participant_id = row['Participant_Id']
     t.household_id = row['Household_Id']
@@ -78,3 +78,19 @@ csv.each do |row|
 end
 
 puts "There are now #{PrismObservation.count} rows in the transactions table"
+
+tSNE_plots = File.read(Rails.root.join('lib', 'seeds', 'dp_tsne_coordinates.csv'))
+csv2 = CSV.parse(tSNE_plots, :headers => true, :encoding => 'ISO-8859-1')
+csv2.each do |row|
+  u = TSne.new
+
+  u.real_x = row['real_x']
+  u.real_y = row['real_y']
+  u.gen_x = row['gen_x']
+  u.gen_y = row['gen_y']
+
+  u.save
+  puts "#{u.real_x}, #{u.real_y} saved"
+end
+
+puts "There are now #{TSne.count} rows in the tSNE table"

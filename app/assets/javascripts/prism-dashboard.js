@@ -32,6 +32,8 @@ $(document).ready(function(){
     };
 
     function visualisation(data) {
+    console.log("hey there")
+    console.log(data)
     // Three function that change the tooltip when user hover / move / leave a cell
 
         d3.selectAll('#dashboard div').remove()
@@ -293,7 +295,7 @@ $(document).ready(function(){
             svg.append("text").attr("x", 0).attr("y", -20).text(name).style("font-size", "12px").attr("alignment-baseline","middle");
         }
 
-    //removes Nulls to draw histogram that would otherwise replace null with 0.
+        //removes Nulls to draw histogram that would otherwise replace null with 0.
         var withoutNulls=[];
         removenulls("haemoglobin");
         drawHistogram ("#haemoglobin_histogram", withoutNulls, "haemoglobin", "Haemoglobin mg/mL");
