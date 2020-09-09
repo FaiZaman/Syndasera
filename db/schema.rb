@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_08_152942) do
+ActiveRecord::Schema.define(version: 2020_09_09_102702) do
+
+  create_table "pca_coordinates", force: :cascade do |t|
+    t.float "real_x"
+    t.float "real_y"
+    t.float "gen_x"
+    t.float "gen_y"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "prism_observations", force: :cascade do |t|
     t.integer "observation_id"

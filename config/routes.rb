@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   post '/filter_data' => 'prism#filter_data'
 
   get '/get_tSNE_data' => 'eval#get_tSNE_data'
+  get '/get_PCA_data' => 'eval#get_PCA_data'
 
   devise_scope :user do
     get '/sign-in' => "devise/sessions#new", :as => :login

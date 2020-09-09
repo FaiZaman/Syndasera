@@ -8,4 +8,9 @@ class EvalController < ApplicationController
         render json: @tSNE_data
     end
 
+    def get_PCA_data
+        @PCA_data = PcaCoordinate.all.to_json()
+        render json: @PCA_data
+    end
+
 end
