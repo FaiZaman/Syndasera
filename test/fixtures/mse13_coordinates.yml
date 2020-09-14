@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  model: MyString
+  variable: MyString
+  mse_1_ori: 1.5
+  mse_1_gen: 1.5
+
+two:
+  model: MyString
+  variable: MyString
+  mse_1_ori: 1.5
+  mse_1_gen: 1.5

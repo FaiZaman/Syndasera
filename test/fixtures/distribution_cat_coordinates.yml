@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  column: MyString
+  ori: 1.5
+  gen: 1.5
+
+two:
+  column: MyString
+  ori: 1.5
+  gen: 1.5

@@ -1,0 +1,2 @@
+class DistributionCatCoordinate < ApplicationRecord
+end

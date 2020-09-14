@@ -9,7 +9,7 @@ require 'csv'
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-
+#
 # observations = File.read(Rails.root.join('lib', 'seeds', 'sorted.csv'))
 # csv = CSV.parse(observations, :headers => true, :encoding => 'ISO-8859-1')
 #
@@ -78,7 +78,7 @@ require 'csv'
 # end
 #
 # puts "There are now #{PrismObservation.count} rows in the transactions table"
-
+#
 # tSNE_plots = File.read(Rails.root.join('lib', 'seeds', 'dp_tsne_coordinates.csv'))
 # csv2 = CSV.parse(tSNE_plots, :headers => true, :encoding => 'ISO-8859-1')
 # csv2.each do |row|
@@ -94,19 +94,104 @@ require 'csv'
 # end
 #
 # puts "There are now #{TSne.count} rows in the tSNE table"
-
-pca_plots = File.read(Rails.root.join('lib', 'seeds', 'dp_pca_coordinates.csv'))
-csv3 = CSV.parse(pca_plots, :headers => true, :encoding => 'ISO-8859-1')
-csv3.each do |row|
-  v = PcaCoordinate.new
-
-  v.real_x = row['real_x']
-  v.real_y = row['real_y']
-  v.gen_x = row['gen_x']
-  v.gen_y = row['gen_y']
-
-  v.save
-  puts "#{v.real_x}, #{v.real_y} saved"
-end
-
-puts "There are now #{PcaCoordinate.count} rows in the PCA table"
+#
+# pca_plots = File.read(Rails.root.join('lib', 'seeds', 'dp_pca_coordinates.csv'))
+# csv3 = CSV.parse(pca_plots, :headers => true, :encoding => 'ISO-8859-1')
+# csv3.each do |row|
+#   v = PcaCoordinate.new
+#
+#   v.real_x = row['real_x']
+#   v.real_y = row['real_y']
+#   v.gen_x = row['gen_x']
+#   v.gen_y = row['gen_y']
+#
+#   v.save
+#   puts "#{v.real_x}, #{v.real_y} saved"
+# end
+#
+# puts "There are now #{PcaCoordinate.count} rows in the PCA table"
+#
+# tpred_plot = File.read(Rails.root.join('lib', 'seeds', 't_Predictive_coordinates.csv'))
+# csv4 = CSV.parse(tpred_plot, :headers => true, :encoding => 'ISO-8859-1')
+# csv4.each do |row|
+#   v = TPredictiveCoordinate.new
+#
+#   v.column = row['test']
+#   v.test_loss_ori = row['test_loss_real']
+#   v.test_metric_ori = row['test_metric_real']
+#   v.test_loss_gen = row['test_loss_syn']
+#   v.test_metric_gen = row['test_metric_syn']
+#
+#   v.save
+#   puts "#{v.test_loss_ori}, #{v.test_metric_ori} saved"
+# end
+#
+# puts "There are now #{TPredictiveCoordinate.count} rows in the t Pred table"
+#
+# mse3_plot = File.read(Rails.root.join('lib', 'seeds', 'MSE_3_coordinates_figure2.csv'))
+# csv4 = CSV.parse(mse3_plot, :headers => true, :encoding => 'ISO-8859-1')
+# csv4.each do |row|
+#   v = Mse3Coordinate.new
+#
+#   v.model = row['model']
+#   v.ori = row['ori']
+#   v.gen = row['gen']
+#
+#   v.save
+#   puts "#{v.model}, #{v.ori} saved"
+# end
+#
+# puts "There are now #{Mse3Coordinate.count} rows in the MSE_3 table"
+#
+# cat_plot = File.read(Rails.root.join('lib', 'seeds', 'distribution_cat_coordinates.csv'))
+# csv5 = CSV.parse(cat_plot, :headers => true, :encoding => 'ISO-8859-1')
+# csv5.each do |row|
+#   v = DistributionCatCoordinate.new
+#
+#   v.column = row['column']
+#   v.ori = row['ori']
+#   v.gen = row['gen']
+#
+#   v.save
+#   puts "#{v.column}, #{v.ori} saved"
+# end
+#
+# puts "There are now #{DistributionCatCoordinate.count} rows in the cat table"
+#
+# num_plot = File.read(Rails.root.join('lib', 'seeds', 'distribution_num_coordinates.csv'))
+# csv6 = CSV.parse(num_plot, :headers => true, :encoding => 'ISO-8859-1')
+# csv6.each do |row|
+#   v = DistributionNumCoordinate.new
+#
+#   v.dday_gen = row['dday_gen']
+#   v.weight_gen = row['weight_gen']
+#   v.height_gen = row['height_gen']
+#   v.age_gen = row['age_gen']
+#   v.temp_gen = row['temp_gen']
+#   v.dday_ori = row['dday_ori']
+#   v.weight_ori = row['weight_ori']
+#   v.height_ori = row['height_ori']
+#   v.age_ori = row['age_ori']
+#   v.temp_ori = row['temp_ori']
+#
+#   v.save
+#   puts "#{v.dday_gen}, #{v.dday_ori} saved"
+# end
+#
+# puts "There are now #{DistributionNumCoordinate.count} rows in the num table"
+#
+# mse1_plot = File.read(Rails.root.join('lib', 'seeds', 'MSE_1_coordinates_figure1.csv'))
+# csv7 = CSV.parse(mse1_plot, :headers => true, :encoding => 'ISO-8859-1')
+# csv7.each do |row|
+#   v = Mse13Coordinate.new
+#
+#   v.model = row['model']
+#   v.variable = row['variable']
+#   v.mse_1_ori = row['mse_1_ori']
+#   v.mse_1_gen = row['mse_1_gen']
+#
+#   v.save
+#   puts "#{v.model}, #{v.variable} saved"
+# end
+#
+# puts "There are now #{Mse13Coordinate.count} rows in the mse1 table"

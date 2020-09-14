@@ -22,6 +22,12 @@ Rails.application.routes.draw do
 
   get '/get_tSNE_data' => 'eval#get_tSNE_data'
   get '/get_PCA_data' => 'eval#get_PCA_data'
+  get '/get_tPred_data' => 'eval#get_tPred_data'
+  get '/get_MSE3_data' => 'eval#get_MSE3_data'
+  get '/get_cat_data' => 'eval#get_cat_data'
+  get '/get_num_data' => 'eval#get_num_data'
+  get '/get_num_data_5000' => 'eval#get_num_data_5000'
+  get '/get_MSE1_data' => 'eval#get_MSE1_data'
 
   devise_scope :user do
     get '/sign-in' => "devise/sessions#new", :as => :login

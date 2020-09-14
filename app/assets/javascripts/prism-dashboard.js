@@ -237,8 +237,8 @@ $(document).ready(function(){
                         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
             // X axis
-        // var domain = [d3.min(array, function(d) { return +d[column]}) -1, d3.max(array, function(d) { return +d[column]})+1]
-        // var step = Math.round(domain[1])/Math.round(domain[0])
+            // var domain = [d3.min(array, function(d) { return +d[column]}) -1, d3.max(array, function(d) { return +d[column]})+1]
+            // var step = Math.round(domain[1])/Math.round(domain[0])
         // domain[1] = domain[1]+step
             var x = d3.scaleLinear()
                         .domain([d3.min(array, function(d) { return +d[column]}) -1, d3.max(array, function(d) { return +d[column]})+1])

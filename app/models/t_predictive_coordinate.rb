@@ -1,0 +1,2 @@
+class TPredictiveCoordinate < ApplicationRecord
+end

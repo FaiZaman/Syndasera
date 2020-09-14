@@ -1,27 +1,220 @@
 <%= javascript_include_tag 'PRISM-evaluation.js' %>
+
+<style>
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th,td {
+    padding: 5px;
+}
+</style>
+
 <h1>Evaluation documentation</h1>
 <h3 style="color:#472F91">PRISM dataset</h3>
 
 <hr>
 
 <p>
-    The following document evaluates the fidelity and predictiveness of the synthetic data synthesised for the PRISM dataset.
+    The following document evaluates the distribution, fidelity and usefulness of the synthetic data synthesised for the PRISM dataset.
     <br> The evaluation methods included are:
 </p>
-<b>Fidelity evaluation methods:</b>
-<ul>
-    <li><a href="#tSNE_PCA_link">tSNE and PCA plots comparison</a></li>
-    <li><a href="#autocorrelation_link">Autocorrelation comparison</a></li>
-    <li><a href="#distribution_link">Diversity & Distribution comparison</a></li>
-    <li><a href="#pearsons_link">Inter-variable dependencies comparison</a></li>
-    <li><a href="#discriminative_link">Discriminative model performance</a></li>
-</ul>
-<b>Predictiveness evaluation methods:</b>
-<ul>
-    <li><a href="#predictive_link">Predictive model performance comparison</a></li>
-    <li><a href="#predictive_time_link">Next-step predictive model performance comparison</a></li>
-</ul>
+<ol>
+    <li><b>Distribution evaluation methods:</b>
+        <ol>
+            <li><a href="#num_distribution_link">Numerical variables distribution comparison</a></li>
+            <li><a href="#cat_distribution_link">Categorical variables distribution comparison</a></li>
+            <li><a href="#pearsons_link">Pearson's Correlation Coefficient comparison</a></li>
+        </ol>
+    </li>
+    <li><b>Fidelity evaluation methods:</b>
+        <ol>
+            <li><a href="#tSNE_PCA_link">tSNE and PCA plots comparison</a></li>
+            <li><a href="#discriminative_link">Discriminative model performance</a></li>
+            <li><a href="#autocorrelation_link">Autocorrelation comparison</a></li>
+        </ol>
+    </li>
+    <li><b>Usefulness evaluation methods:</b>
+        <ol>
+            <li><a href="#predictive_link">Predictive model performance comparison</a></li>
+            <li><a href="#predictive_time_link">Next-step predictive model performance comparison</a></li>
+        </ol>
+    </li>
+</ol>
 
+<hr>
+
+<h4 style="color:#0275D8" id="num_distribution_link">Numerical variables distribution comparison</h4>
+<h5><u>Method description</u></h5>
+<p>
+    For numerical columns, histograms for the original dataset and the generated dataset are overlaid for each column, giving a visual perception of the similarity in diversity and distribution.
+    <br>To quantify this, a Kolmogrov-Smirnov Test is performed with 100 randomly selected samples to avoid biasing the result towards rejecting the null hypothesis.
+    The Kolmogrov-Smirnov Test is a non parametric hypothesis test where the null hypothesis is that two samples (one from the original and one from the synthetic) originate from the same distribution.
+    <br><b>The closer the Kolmogrov-Smirnov Test p-value is to 1, the higher the fidelity</b>
+    <br>
+</p>
+
+<h5><u>Results</u></h5>
+<ol>
+    <li>Overlay histograms for all numerical columns.
+        <div id="hist_age"></div>
+        <div id="hist_weight"></div>
+        <div id="hist_height"></div>
+        <div id="hist_temp"></div>
+    </li>
+    <br>
+    <li>Kolmogrov-Smirnov Test p-value
+        <br>
+        <table style="width:40%">
+            <!-- <caption>KS Test p-value</caption> -->
+            <tr>
+                <th>Dataset Numerical Column</th>
+                <th>p-value</th>
+            </tr>
+            <tr>
+                <td>ab_pain_dur</td>
+                <td>0.0000000</td>
+            </tr>
+            <tr>
+                <td>age</td>
+                <td>0.0296672</td>
+            </tr>
+            <tr>
+                <td>aneroxia_dur</td>
+                <td>0.0000000</td>
+            </tr>
+            <tr>
+                <td>plasmodium_density</td>
+                <td>0.0000000</td>
+            </tr>
+            <tr>
+                <td>cough_dur</td>
+                <td>0.0000000</td>
+            </tr>
+            <tr>
+                <td>diarrhea_dur</td>
+                <td>0.0000000</td>
+            </tr>
+            <tr>
+                <td>fatigue_dur</td>
+                <td>0.0000000</td>
+            </tr>
+            <tr>
+                <td>fever_dur</td>
+                <td>0.0011301</td>
+            </tr>
+            <tr>
+                <td>headache_dur</td>
+                <td>0.0000000</td>
+            </tr>
+            <tr>
+                <td>height</td>
+                <td>0.0946471</td>
+            </tr>
+            <tr>
+                <td>hemoglobin</td>
+                <td>0.0526180</td>
+            </tr>
+            <tr>
+                <td>joint_pain_dur</td>
+                <td>0.9999996</td>
+            </tr>
+            <tr>
+                <td>muscle_ache_dur</td>
+                <td>0.9999999</td>
+            </tr>
+            <tr>
+                <td>temp</td>
+                <td>0.0000000</td>
+            </tr>
+            <tr>
+                <td>vomit_dur</td>
+                <td>0.8593106</td>
+            </tr>
+            <tr>
+                <td>weight</td>
+                <td>0.0096186</td>
+            </tr>
+            <tr>
+                <td>dday</td>
+                <td>0.0119593</td>
+            </tr>
+            <tr>
+                <td>first_dday</td>
+                <td>0.0000001</td>
+            </tr>
+        </table>
+    </li>
+    <br>
+    <!-- <li>Average of p-values?</li> -->
+</ol>
+<br>
+<h5><u>Conclusion</u></h5>
+<hr>
+
+<h4 style="color:#0275D8" id="cat_distribution_link">Categorical variables distribution comparison</h4>
+<h5><u>Method description</u></h5>
+<p>
+    For categorical columns, the empirical distribution of each variable for all categorical columns is calculated for the synthetic dataset and the original dataset.
+    <br>A dot plot compares the empirical distribution of each variable for the original data set on the x axis and for the synthetic dataset on the y axis, giving a visual perception of the similarity in diversity and distribution.
+    The closer the dot to the y=x line, the higher the fidelity.
+    <!-- <br>To quantify this, the distance of each coordinate to y=x is calculated.
+    <br><b>The lower the averaged distance, the higher the fidelity.</b> -->
+    <br>To quantifiy this, the MSE (mean standard error) between the empirical distribution for the original and synthetic dataset is calculated for each variable and averaged.
+    <br><b>The lower the averaged MSE, the higher the fidelity.</b>
+</p>
+<h5><u>Results</u></h5>
+<ol>
+    <li>Scatter plot of the probability distribution for each unique variable within categorical columns comparing original and synthetic data.
+        <div id="cat"></div>
+    </li>
+    <br>
+    <li>MSE between original and generated data
+        <table style="width:40%">
+            <tr>
+                <th>MSE</th>
+                <td>0.0369463</td>
+            </tr>
+        </table>
+    </li>
+</ol>
+<br>
+<h5><u>Conclusion</u></h5>
+<hr>
+
+<h4 style="color:#0275D8" id="pearsons_link">Pearson's Correlation Coefficient comparison</h4>
+<h5><u>Method description</u></h5>
+<p>
+    To confirm dependencies between variables within columns are maintained, Pearson’s R correlation coefficient is calculated between categorical (all?) columns
+    within the original and synthetic data.
+    <br>To compare the datasets, we use two measurements. Firstly, the MSE (mean standard error) is calculated between the correlation coefficient between original and the generated data, for each column with the other columns. The averge is presented here.
+    <br><b>The lower the MSE, the higher the fidelity.</b>
+    <br>Secondly, the SRA (Synthetic Ranking Accuracy) for each column is calculated. Here, the R correlation coefficients for each column with the other columns is ranked for both the synthetic and the original data and compared. The average is presented here.
+    <br><b>The closer SRA is to 1 the higher the fidelity.</b>
+</p>
+<h5><u>Results</u></h5>
+<ol>
+    <br>
+    <li>Averaged MSE between correlation coefficients for generated and original data
+        <table style="width:40%">
+            <tr>
+                <th>Averaged MSE</th>
+                <td>0.0251338</td>
+            </tr>
+        </table>
+    </li>
+    <br>
+    <li>Average SRA of all columns
+        <table style="width:40%">
+            <tr>
+                <th>Averaged SRA</th>
+                <td>0.4394350</td>
+            </tr>
+        </table>
+    </li>
+</ol>
+<br>
+<h5><u>Conclusion</u></h5>
 <hr>
 
 <h4 style="color:#0275D8" id="tSNE_PCA_link">tSNE and PCA plots comparison</h4>
@@ -31,76 +224,21 @@
     we can compare if the groupings made are similar in the original and synthetic data by overlaying the plots.
     <br><b>The higher the overlay, the higher the fidelity.</b></p>
 <h5><u>Results</u></h5>
-<ol>
-    <li>tSNE plot</li>
+<ul>
+    <li>tSNE plot
     <div id="tSNE"></div>
-    <li>PCA plot</li>
-        <div id="PCA"></div>
-</ol>
+    </li>
+    <br>
+    <li>PCA plot
+    <div id="PCA"></div>
+    </li>
+</ul>
+<br>
 <h5><u>Conclusion</u></h5>
 <p>
     Both the tSNE and the PCA plot show a high overlay.
     However, in the PCA plot we can appreciate a separation between adults and children in the original data, which is not captured in the synthetic data.
 </p>
-<hr>
-
-<h4 style="color:#0275D8" id="autocorrelation_link">Autocorrelation comparison</h4>
-<h5><u>Method description</u></h5>
-<p>To confirm the variance in numerical values/counts over time are maintained, autocorrelation graphs are plotted for both datasets and overlayed.
-    <br><b>The higher the overlay, the higher the fidelity.</b></p>
-<h5><u>Results</u></h5>
-<ol>
-    <li>Autocorrelation plot for number of visits per week?</li>
-    <li>Autocorrelation plot for number of positive malaria diagnosis per week?</li>
-</ol>
-<h5><u>Conclusion</u></h5>
-<hr>
-
-<h4 style="color:#0275D8" id="distribution_link">Diversity & Distribution comparison</h4>
-<h5><u>Method description</u></h5>
-<p>For numerical columns, histograms for the original dataset and the generated dataset are overlaid for each column, giving a visual perception of the similarity in diversity and distribution.
-    <br>To quantify this, a Kolmogrov-Smirnov Test is performed with 100 randomly selected samples to avoid biasing the result towards rejecting the null hypothesis.
-    The Kolmogrov-Smirnov Test is a non parametric hypothesis test where the null hypothesis is that two samples (one from the original and one from the synthetic) originate from the same distribution.
-    <br><b>The closer the Kolmogrov-Smirnov Test p-value is to 1, the higher the fidelity</b>
-    <br>
-    For categorical columns, the empirical distribution of each variable for all categorical columns is calculated for the synthetic dataset and the original dataset.
-    <br>A dot plot compares the empirical distribution of each variable for the original data set on the x axis and for the synthetic dataset on the y axis, giving a visual perception of the similarity in diversity and distribution. The closer the dot to the y=x line, the higher the fidelity.
-    <br><i>still deciding the best way to quantify</i>
-    <br>To quantify this, the distance of each coordinate to y=x is calculated.
-    <br><b>The lower the averaged distance, the higher the fidelity.</b>
-    <br>To quantifiy this, the MSE (mean standard error) between the empirical distribution for the original and synthetic dataset is calculated for each variable and averaged.
-    <br><b>The lower the averaged MSE, the higher the fidelity.</b>
-</p>
-<h5><u>Results</u></h5>
-<ol>
-    <li>Overlay histograms for all numerical columns.</li>
-    <li>Table with KS p-values for each numerical column</li>
-    <li>Average of p-values?</li>
-    <li>Dot plot with all variables for all categorical columns with hover saying which variable+column it is</li>
-    <li>Distance to y=x OR MSE for each pair</li>
-    <li>Averaged distance/MSE?</li>
-</ol>
-<h5><u>Conclusion</u></h5>
-<hr>
-
-<h4 style="color:#0275D8" id="pearsons_link">Inter-variable dependencies comparison</h4>
-<h5><u>Method description</u></h5>
-<p>
-    To confirm dependencies between variables within columns are maintained, Pearson’s R correlation coefficient is calculated between categorical (all?) columns
-    within the original and synthetic data.
-    <br>To compare the datasets, we use two measurements. Firstly, the MSE (mean standard error) is calculated between each correlation coefficient.
-    <br><b>The lower the MSE, the higher the fidelity.</b>
-    <br>Secondly, the SRA (Synthetic Ranking Accuracy) for each column is calculated. Here, the R correlation coefficients for the remaining columns are ranked for both the synthetic and the original data and compared.
-    <br><b>The closer SRA is to 1 the higher the fidelity.</b>
-</p>
-<h5><u>Results</u></h5>
-<ol>
-    <li>Table with MSE between correlation coefficients for synthetic and real, displayed for each column pair </li>
-    <li>Averaged MSE?</li>
-    <li>Table/list of SRA for each column</li>
-    <li>Averaged SRA?</li>
-</ol>
-<h5><u>Conclusion</u></h5>
 <hr>
 
 <h4 style="color:#0275D8" id="discriminative_link">Discriminative model performance</h4>
@@ -114,99 +252,195 @@
     <br><b>An accuracy score similar to the expected accuracy score for an untrained discriminative model indicates the discriminator cannot tell the difference between both datasets.</b>
 </p>
 <h5><u>Results</u></h5>
-<ol>
-    <li>Predicted accuracy score for an untrained discrimintive model (<i>tbh not sure why this exists. Shouldn't it be 0.5?</i>)</li>
-    <li>Accuracy score</li>
-</ol>
+<table style="width:65%">
+    <tr>
+        <th>Predicted accuracy score for an untrained discrimintive model</th>
+        <td>0.4641975308641975</td>
+    </tr>
+    <tr>
+        <th>Final accuracy of trained discriminative model</th>
+        <td>0.4666666666666667</td>
+    </tr>
+</table>
+<br>
+<h5><u>Conclusion</u></h5>
+<hr>
+
+<h4 style="color:#0275D8" id="autocorrelation_link">Autocorrelation comparison</h4>
+<h5><u>Method description</u></h5>
+<p>To confirm the variance in numerical values/counts over time are maintained, autocorrelation graphs are plotted for both datasets and overlayed.
+    <br><b>The higher the overlay, the higher the fidelity.</b></p>
+<h5><u>Results</u></h5>
+<ul>
+    <li>Autocorrelation plot for number of visits per week?</li>
+    <li>Autocorrelation plot for number of positive malaria diagnosis per week?</li>
+</ul>
+<br>
 <h5><u>Conclusion</u></h5>
 <hr>
 
 <h4 style="color:#0275D8" id="predictive_link">Predictive model performance comparison</h4>
 <h5><u>Method description</u></h5>
-<p>A series of commonly used regression based predictive models (Linear Regression, Linear Support Vector Regression, Random Forests Regression, Logistic Regression, Decision tree Regression and K-Nearest Neighbors Regression)
-    are applied to the test samples and trained on the train samples for both the original and the synthetic data (Test-on-real, Train-on-real & Test-on-synthetic, Train-on-synthetic).
-    The model attempts to predict a variable within a column based on the remaining columns.
-    <!-- The model attempts to predict a variable based on the remaining variables and the prediction is given an accuracy score. -->
-    <!-- To compare the datasets, the MSE (mean standard error) is calculated between the accuracy scores for each variable between both datasets and averaged.
-    <br><b>A low averaged MSE indicates the synthetic and original dataset behaved similarly in the predictive models.</b>
-    <br>Parallel to the averaged MSE, the Synthetic Accuracy Ranking is calculated, where the accuracy scores are used to rank each predictive model.
-    <br><b>If both datasets behave similarly, the ranking SRA will be close to 1.</b></p> -->
-    The MSE (mean standard error) is calculated between the predicted value resulting from the predictive model and the test sample and averaged (MSE_1), resulting in MSE_1's for each column, for each predictive model, for the original and synthetic datasets (visualised in Figure 1).
-    <br>The average of MSE_1's for all columns is calculated between the datasets (MSE_2), resulting in MSE_2 for each predictive model, for the original and the synthetic dataset (visualised in Figure 2).
-    <br>To compare the datasets, the MSE between the MSE_2 of the original and the synthetic dataset is calculated (MSE_3), resulting in MSE_3 for each predictive model.
-    <br> To compare datasets, the MSE between the MSE_1's for the original and the synthetic data are calculated (MSE_4), resulting in MSE_4 for each column, for each predictive model (Table 1).
-    Averaging the MSE_4's of all columns (MSE_5) results in an MSE_5 for each predictive model (<i>like MSE_3 but changing the order from averaging+MSE to MSE+averaging</i>) (Table 2).
-    <br><b>A low MSE_3/MSE_5 indicates the synthetic and original dataset behaved similarly in the predictive models.</b>
+<p>
+    A series of commonly used regression based predictive models (Linear Regression, Linear Support Vector Regression, Random Forests Regression, Logistic Regression, Decision tree Regression and K-Nearest Neighbors Regression) are applied to the test samples and trained on the train samples for both the original and the synthetic data (Test-on-real, Train-on-real & Test-on-synthetic, Train-on-synthetic). The model attempts to predict a variable within a column based on the remaining columns.
+    The MSE (mean standard error) is calculated between the predicted value resulting from the predictive model and the test sample and averaged (MSE_1), resulting in MSE_1's for each column, for each predictive model, for the original and synthetic datasets (visualised in the first scatter plot below).
+    <br>To compare the datasets, the MSE between the MSE_1's of the original and the synthetic dataset is calculated (MSE_2), resulting in MSE_2's for each predictive model.
+    <br>The average of MSE_1's for all columns is calculated between the datasets (MSE_3), resulting in MSE_3 for each predictive model, for the original and the synthetic dataset (visualised in the second scatter plot below).
+    <br> To compare datasets, the MSE between the MSE_3's for the original and the synthetic data is calculated (MSE_4).
+    <br><b>A low MSE_2/MSE_4 indicates the synthetic and original dataset behaved similarly in the predictive models.</b>
     <br>Because users to do not have access to the original data, synthetic data should behave similarly to the original data when submitted to any algorithms.
-    To asses this, the MSE_1's are ranked across each predictive model for the original and synthetic data and compared using the SRA (Synthetic Ranking Accuracy) measure (SRA_1), resulting in SRA_1 for each column (Table 3).
-    <br>Similarly, the MSE_2's for each predictive model can be ranked, giving an SRA_2 measure (Table 4).
+    To asses this, the MSE_1's are ranked across each predictive model for the original and synthetic data and compared using the SRA (Synthetic Ranking Accuracy) measure (SRA_1), resulting in SRA_1 for each column.
+    <br>Similarly, the MSE_3's for each predictive model can be ranked, giving an SRA_2 measure.
     <br><b>SRA values close to 1 indicate the synthetic and original dataset behave similarly in predictive models.</b>
 </p>
 
 <h5><u>Results</u></h5>
-To visulise the different parameters described above two different scatter plots are drawn. In figure 1, the MSE_1's for the original and the synthetic data are plotted on the x axis and on the y axis respectively.
-Each dot represents a column in the data and each subfigure represents a different predictive model.
-In Figure 2, the MSE_2's for the original and the synthetic data are plotted on the x axis and on the y axis respectively.
-Each dot represents a predictive model.
-<ol>
-    <li>Figure 1: dot plots of MSE_1 for real (x) and synthetic (y), for each predictive model, with hover function showing the name of the column for each dot</li>
-    <li>Figure 2: dot plot of the MSE_2 for real (x) and synthetic (y) with hover function showing the name of the predictive model for each dot</li>
-    <li>Table 1: Table of MSE_4's (each row is a column of the dataset, each column is a predictive model) <i>This would give us an idea of which columns are not predicting well, and if its common to all predictive models.</i></li>
-    <li>Table 2: Table of MSE_5 (one column, where each row is a predictive model or to be consistent with the previous table, one row where each column is a predictive model)</li>
-    <li>Table 3: Table of SRA_1's (same display as previous Table)</li>
-    <li>Table 4: SRA_2</li>
-</ol>
-
-<style>
-table, th, td {
-  border: 1px solid black;
-  border-collapse: collapse;
-}
-th,td {
-    padding: 10px;
-}
-</style>
-
-<table style="width:80%">
-    <caption>Averaged MSE of accuracy scores of predictive models applied to original and synthetic Data</caption>
-  <tr>
-    <th>Predictive model</th>
-    <th>Average MSE Original Data</th>
-    <th>Average MSE Synthetic Data</th>
-  </tr>
-  <tr>
-    <td>Logistic Regression</td>
-    <td>1</td>
-    <td>1</td>
-  </tr>
-  <tr>
-    <td>Random Forests</td>
-    <td>1</td>
-    <td>1</td>
-  </tr>
-  <tr>
-    <td>Decision Tree</td>
-    <td>1</td>
-    <td>1</td>
-  </tr>
-  <tr>
-    <td>SVM</td>
-    <td>1</td>
-    <td>1</td>
-  </tr>
-  <tr>
-    <td>KNR1</td>
-    <td>1</td>
-    <td>1</td>
-  </tr>
-  <tr>
-    <td>KNR5</td>
-    <td>1</td>
-    <td>1</td>
-  </tr>
-</table>
+<ul>
+    <li>Scatter plots of log(MSE_1) for original (x) and generated (y), for each predictive model.
+        Each dot represents a column in the data and each subfigure represents a different predictive model.
+        <div id="Fig_1_LR"></div>
+        <div id="Fig_1_KNR1"></div>
+        <div id="Fig_1_DTR"></div>
+    </li>
+    <br>
+    <li>MSE's (MSE_2's) for Figure 1, for each predictive model.
+        <table style="width:65%">
+            <tr>
+                <th>Predictive model</th>
+                <th>MSE</th>
+            </tr>
+            <tr>
+                <td>Linear Regression</td>
+                <td>72078667667603440.0000000</td>
+            </tr>
+            <!-- <tr>
+                <td>Linear Support Vector Regression</td>
+                <td>x</td>
+            </tr>
+            <tr>
+                <td>Random Forests Regression</td>
+                <td>x</td>
+            </tr>
+            <tr>
+                <td>Logistic Regression</td>
+                <td>x</td>
+            </tr> -->
+            <tr>
+                <td>Decision tree Regression</td>
+                <td>271773354831614304.0000000</td>
+            </tr>
+            <tr>
+                <td>K-Nearest Neighbors Regression</td>
+                <td>101654545341154352.0000000</td>
+            </tr>
+        </table>
+    </li>
+    <br>
+    <li>Scatter plot of the averaged MSE_1's (MSE_3) for original (x) and generated (y).
+        Each dot represents a predictive model.
+        <div id="Fig_2"></div>
+    </li>
+    <br>
+    <li>MSE (MSE_3) for Figure 2.
+        <table style="width:40%">
+            <tr>
+                <th>MSE</th>
+                <td>3869933382327463.0000000</td>
+            </tr>
+        </table>
+    </li>
+    <br>
+    <li>The ranking comparison (SRA_1) of the predictive models for each column.
+        <table style="width:40%">
+            <tr>
+                <th>Dataset Column</th>
+                <th>SRA</th>
+            </tr>
+            <tr>
+                <td>ab_pain_dur</td>
+                <td>0.0</td>
+            </tr>
+            <tr>
+                <td>age</td>
+                <td>1.0</td>
+            </tr>
+            <tr>
+                <td>aneroxia_dur</td>
+                <td>0.333333</td>
+            </tr>
+            <tr>
+                <td>plasmodium_density</td>
+                <td>0.0</td>
+            </tr>
+            <tr>
+                <td>cough_dur</td>
+                <td>0.666667</td>
+            </tr>
+            <tr>
+                <td>diarrhea_dur</td>
+                <td>0.0</td>
+            </tr>
+            <tr>
+                <td>fatigue_dur</td>
+                <td>0.0</td>
+            </tr>
+            <tr>
+                <td>fever_dur</td>
+                <td>0.333333</td>
+            </tr>
+            <tr>
+                <td>headache_dur</td>
+                <td>0.0</td>
+            </tr>
+            <tr>
+                <td>height</td>
+                <td>0.666667</td>
+            </tr>
+            <tr>
+                <td>hemoglobin</td>
+                <td>0.333333</td>
+            </tr>
+            <tr>
+                <td>joint_pain_dur</td>
+                <td>0.0</td>
+            </tr>
+            <tr>
+                <td>muscle_ache_dur</td>
+                <td>0.0</td>
+            </tr>
+            <tr>
+                <td>temp</td>
+                <td>0.333333</td>
+            </tr>
+            <tr>
+                <td>vomit_dur</td>
+                <td>0.0</td>
+            </tr>
+            <tr>
+                <td>weight</td>
+                <td>1.0</td>
+            </tr>
+            <tr>
+                <td>dday</td>
+                <td>0.666667</td>
+            </tr>
+            <tr>
+                <td>first_dday</td>
+                <td>0.333333</td>
+            </tr>
+        </table>
+    </li>
+    <br>
+    <li>SRA (SRA_2) for Figure 2
+        <table style="width:40%">
+            <tr>
+                <th>SRA</th>
+                <td>0.0</td>
+            </tr>
+        </table>
+    </li>
+</ul>
 <br>
-
 <h5><u>Conclusion</u></h5>
 <hr>
 
@@ -214,18 +448,55 @@ th,td {
 <h5><u>Method description</u></h5>
 <p>This method has a similar principal to the previous method with the difference that the predictive model attempts to predict all variables for next time-step entry
     based on the values for previous time-stamps.
-    <br>Here the predictive model is x and returns a test metric and a test loss for each column.
+    <br>Here the predictive model provided by Tensorflow Keras API returns a test metric and a test loss for each column.
     <br>To compare between datasets, two parameters are determined.
     <br>Firstly, the MSE between the test loss/test metric is calculated between the real and the synthetic data for each column.
-    <!-- <br><b>A low MSE indicates the predictive model behaves similarly in attempting to predict the next time-step in both datasets</b> -->
     <br>Secondly, the SRA is calculated, ranking the test metric/test loss of each column, comparing the rank for the synthetic and for the original data.
     <br><b>A low MSE and an SRA close to 1 indicates the predictive model behaves similarly in attempting to predict the next time-step in both datasets.</b>
 </p>
 <h5><u>Results</u></h5>
-<ol>
-    <li>Dot plot of the test metric/test loss where each dot is a column</li>
-    <li>Table with MSE for real vs synthetic where each row is a column of the data.</li>
-    <li>SRA</li>
-</ol>
+<ul>
+    <li>Scatter plot of the predictive model test loss where each dot is a column
+        <div id="tPred_loss"></div>
+    </li>
+    <li>Scatter plot of the predictive model test metric where each dot is a column
+        <div id="tPred_metric"></div>
+    </li>
+    <br>
+    <li>Table with MSE for original vs generated
+        <table style="width:40%">
+            <tr>
+                <th>Test parameter</th>
+                <th>MSE</th>
+            </tr>
+            <tr>
+                <td>Test Metric</td>
+                <td>0.016288</td>
+            </tr>
+            <tr>
+                <td>Test Loss</td>
+                <td>0.000187</td>
+            </tr>
+        </table>
+    </li>
+    <br>
+    <li>SRA ranking the test metric/test loss for original vs generated
+        <table style="width:40%">
+            <tr>
+                <th>Test parameter</th>
+                <th>SRA</th>
+            </tr>
+            <tr>
+                <td>Test Metric</td>
+                <td>1.0</td>
+            </tr>
+            <tr>
+                <td>Test Loss</td>
+                <td>1.0</td>
+            </tr>
+        </table>
+    </li>
+</ul>
+<br>
 <h5><u>Conclusion</u></h5>
 <hr>

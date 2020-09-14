@@ -1,0 +1,2 @@
+class DistributionNumCoordinate < ApplicationRecord
+end

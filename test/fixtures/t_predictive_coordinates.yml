@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  column: MyString
+  test_loss_ori: 1.5
+  test_metric_ori: 1.5
+  test_loss_gen: 1.5
+  test_metric_gen: 1.5
+
+two:
+  column: MyString
+  test_loss_ori: 1.5
+  test_metric_ori: 1.5
+  test_loss_gen: 1.5
+  test_metric_gen: 1.5
