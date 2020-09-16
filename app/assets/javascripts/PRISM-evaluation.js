@@ -91,18 +91,48 @@ $(document).ready(function(){
     };
 
     var loadData_tPred = function(){
-                    $.ajax({
-                        type: 'GET',
-                        contentType: 'application/json; charset=utf-8',
-                        url: '/get_tPred_data',
-                        dataType: 'json',
-                        success: function(datatPred){
-                            visualisation_tPred(datatPred);
-                        },
-                        failure: function(result){
-                            error();
-                        }
-                    });
+        $.ajax({
+            type: 'GET',
+            contentType: 'application/json; charset=utf-8',
+            url: '/get_tPred_data',
+            dataType: 'json',
+            success: function(datatPred){
+                visualisation_tPred(datatPred);
+            },
+            failure: function(result){
+                error();
+            }
+        });
+    };
+
+    var loadData_autovisit = function(){
+        $.ajax({
+            type: 'GET',
+            contentType: 'application/json; charset=utf-8',
+            url: '/get_auto_visit_data',
+            dataType: 'json',
+            success: function(dataAutoVisit){
+                visualisation_autoVisit(dataAutoVisit);
+            },
+            failure: function(result){
+                error();
+            }
+        });
+    };
+
+    var loadData_automalaria = function(){
+        $.ajax({
+            type: 'GET',
+            contentType: 'application/json; charset=utf-8',
+            url: '/get_auto_malaria_data',
+            dataType: 'json',
+            success: function(dataAutoMalaria){
+                visualisation_autoMalaria(dataAutoMalaria);
+            },
+            failure: function(result){
+                error();
+            }
+        });
     };
 
     function error() {
@@ -367,6 +397,106 @@ $(document).ready(function(){
 
     };
 
+    function autocorrelation (dom, array, real, gen, index){
+
+        var svg = d3.select(dom)
+                    .append("svg")
+                    .attr("width", width + margin.left + margin.right)
+                    .attr("height", height + margin.top + margin.bottom)
+                    .append("g")
+                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        // Add X axis
+        var x = d3.scaleLinear()
+        //        .domain(d3.extent(array, function(d) { return array[index]; }))
+                .domain([0,40])
+                .range([ 0, width ]);
+        svg.append("g")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(x));
+
+        // Add X axis label:
+        svg.append("text")
+              .attr("text-anchor", "end")
+              .attr("x", width)
+              .attr("y", height + margin.top -15)
+              .text("time-lag(weeks)")
+              .style("font-size", "10px");
+
+        // Add Y axis
+        var y = d3.scaleLinear()
+                    .domain([d3.min([(d3.min(array, function(d) { return +d[real]})),(d3.min(array, function(d) { return +d[gen]}))]), d3.max([(d3.max(array, function(d) { return +d[real]})),(d3.max(array, function(d) { return +d[gen]}))])])
+                    .range([ height, 0 ]);
+
+        svg.append("g")
+            .call(d3.axisLeft(y));
+
+        // Y axis label:
+        svg.append("text")
+            .attr("text-anchor", "end")
+            .attr("transform", "rotate(-90)")
+            .attr("y", -margin.left + 10)
+            .attr("x", -margin.top)
+            .text("Autocorrelation")
+            .style("font-size", "10px");
+
+        // Add the line ori
+        svg.append("path")
+            .datum(array)
+            .attr("fill", "none")
+            .attr("stroke", "#fa0000")
+            .attr("opacity", 0.5)
+            .attr("stroke-width", 1.5)
+            .attr("d", d3.line()
+                .x(function(d) { return x(d[index]) })
+                .y(function(d) { return y(d[real]) })
+            )
+
+        // Add the points ori
+        svg
+            .append("g")
+            .selectAll("dot")
+            .data(array)
+            .enter()
+            .append("circle")
+            .attr("cx", function(d) { return x(d[index]) } )
+            .attr("cy", function(d) { return y(d[real]) } )
+            .attr("r", 3)
+            .attr("fill", "#fa0000")
+            .attr("opacity", 0.5);
+
+        // Add the line gen
+        svg.append("path")
+            .datum(array)
+            .attr("fill", "none")
+            .attr("stroke", "#417ee0")
+            .attr("stroke-width", 1.5)
+            .attr("opacity", 0.5)
+            .attr("d", d3.line()
+                .x(function(d) { return x(d[index]) })
+                .y(function(d) { return y(d[gen]) })
+            )
+
+        // Add the points gen
+        svg
+            .append("g")
+            .selectAll("dot")
+            .data(array)
+            .enter()
+            .append("circle")
+            .attr("cx", function(d) { return x(d[index]) } )
+            .attr("cy", function(d) { return y(d[gen]) } )
+            .attr("r", 3)
+            .attr("fill", "#417ee0")
+            .attr("opacity", 0.5);
+
+        //legend
+        svg.append("circle").attr("cx",20).attr("cy",-22).attr("r", 3.5).style("fill", "#fa0000").style("opacity", 0.5)
+        svg.append("circle").attr("cx",20).attr("cy",-7).attr("r", 3.5).style("fill", "#417ee0").style("opacity", 0.5)
+        svg.append("text").attr("x", 30).attr("y", -20).text("original data").style("font-size", "10px").attr("alignment-baseline","middle")
+        svg.append("text").attr("x", 30).attr("y", -5).text("generated data").style("font-size", "10px").attr("alignment-baseline","middle");
+    };
+
     // plotting
 
     // 1.1 Numerical distribution
@@ -411,6 +541,24 @@ $(document).ready(function(){
 
     };
 
+    // 2.3 Autocorrelation
+
+    function visualisation_autoVisit (dataAutoVisit){
+
+        console.log("auto visit week")
+        console.log(dataAutoVisit)
+        autocorrelation("#AutoVisitWeek",dataAutoVisit,"original","generated","index")
+
+    };
+
+    function visualisation_autoMalaria (dataAutoMalaria){
+
+        console.log("auto malaria")
+        console.log(dataAutoMalaria)
+        autocorrelation("#AutoMalaria",dataAutoMalaria,"original","generated","index")
+
+    };
+
     // 3.1 Prediction model
 
     function visualisation_mse1(datamse1){
@@ -449,4 +597,6 @@ $(document).ready(function(){
     loadData_mse1();
     loadData_mse3();
     loadData_tPred();
+    loadData_autovisit();
+    loadData_automalaria();
 });

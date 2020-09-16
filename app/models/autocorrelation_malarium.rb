@@ -1,0 +1,2 @@
+class AutocorrelationMalarium < ApplicationRecord
+end

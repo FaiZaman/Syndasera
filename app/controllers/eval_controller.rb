@@ -43,5 +43,15 @@ class EvalController < ApplicationController
         render json: @MSE1_data
     end
 
+    def get_auto_visit_data
+        @auto_visit_data = AutocorrelationVisitweek.all.to_json()
+        render json: @auto_visit_data
+    end
+
+    def get_auto_malaria_data
+        @auto_malaria_data = AutocorrelationMalarium.all.to_json()
+        render json: @auto_malaria_data
+    end
+
 
 end

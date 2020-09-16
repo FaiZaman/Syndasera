@@ -1,7 +1,17 @@
 <%= javascript_include_tag 'our_methods.js' %>
 <h1> Our Methods </h1>
 
-<h3 style="color:#0275D8">Synthetic data generation</h3>
+<br>
+<h3>Content</h3>
+<ol>
+    <li><a href="#syn_gen">Synthetic data generation</a></li>
+    <li><a href="#eval_met">Evaluation Methods</a></li>
+    <li><a href="#data_handle">Data Handling</a></li>
+    <li><a href="#references">References</a></li>
+</ol>
+<hr>
+
+<h3 style="color:#0275D8" id="syn_gen">Synthetic data generation</h3>
 
 <!--
 <p>The <i>(Two?)</i> Generative Adversarial Network model developed to generate Synthetic Data is based on recent work (Jarret et al. 2019, Lin et al. 2019, DP papers that helped design the DP in our GAN).
@@ -89,7 +99,7 @@
 
 <hr>
 
-<h3 style="color:#0275D8">Evaluation methods</h3>
+<h3 style="color:#0275D8" id="eval_met">Evaluation methods</h3>
 <p> The Synthetic Data Generator used by Syndasera was tested on the publicly available Program for Resistance, Immunology, Surveillance and Modelling of Malaria (PRISM) dataset. This dataset includes time-series and static features amongst categorical and numerical variables, with 54 columns and over 40,000 rows, providing a robust variety of elements.
 </p>
 
@@ -110,15 +120,16 @@
 <ol>
     <li><u>Distribution.</u> To assess distribution, the following methods are applied:
         <ol>
+            <br>
             <li><b>Numerical variables distribution comparison.</b>
                 <br>
                 For numerical columns, histograms for the original dataset and the generated dataset are overlaid for each column, giving a visual perception of the similarity in diversity and distribution.
                 <br>To quantify this, a Kolmogrov-Smirnov Test is performed with 100 randomly selected samples to avoid biasing the result towards rejecting the null hypothesis.
                 The Kolmogrov-Smirnov Test is a non parametric hypothesis test where the null hypothesis is that two samples (one from the original and one from the synthetic) originate from the same distribution.
                 <br><b>The closer the Kolmogrov-Smirnov Test p-value is to 1, the higher the fidelity</b>
-                <div id="barchart_mockup"></div>
-                <div id="empirical_plot"></div>
+                <div id="histogram_mockup"></div>
             </li>
+            <br>
             <li><b>Categorical variables distribution comparison.</b>
                 <br>
                 For categorical columns, the empirical distribution of each variable for all categorical columns is calculated for the synthetic dataset and the original dataset.
@@ -126,7 +137,10 @@
                 The closer the dot to the y=x line, the higher the fidelity.
                 <br>To quantifiy this, the MSE (mean standard error) between the empirical distribution for the original and synthetic dataset is calculated for each variable and averaged.
                 <br><b>The lower the averaged MSE, the higher the fidelity.</b>
+                <div id="barchart_mockup"></div>
+                <div id="empirical_plot"></div>
             </li>
+            <br>
             <li><b>Pearson's Correlation Coefficient comparison.</b>
                 <br>
                 To confirm dependencies between variables within columns are maintained, Pearson’s R correlation coefficient is calculated between categorical (all?) columns
@@ -136,10 +150,12 @@
                 <br>Secondly, the SRA (Synthetic Ranking Accuracy) for each column is calculated. Here, the R correlation coefficients for each column with the other columns is ranked for both the synthetic and the original data and compared. The average is presented here.
                 <br><b>The closer SRA is to 1 the higher the fidelity.</b>
             </li>
+            <br>
         </ol>
     </li>
     <li><u>Fidelity.</u> To assess fidelity, the following methods are applied:
         <ol>
+            <br>
             <li><b>tSNE and PCA plots comparison.</b>
                 <br>
                 tSNE and PCA plots reduce a multi-dimensional dataset (i.e with multiple columns) into a 2-dimensional visualisation.
@@ -148,6 +164,7 @@
                 <br><b>The higher the overlay, the higher the fidelity.</b>
                 <div id="tSNE_mockup"></div>
             </li>
+            <br>
             <li><b>Discriminative model performance</b>
                 <br>
                 For a quantitative measure of similarity, a post-hoc time-series classification model is trained (by optimizing a multi-layer GRU)
@@ -157,16 +174,19 @@
                 An accuracy score on the held-out test set gives a quantitative assessment of fidelity.
                 <br><b>An accuracy score similar to the expected accuracy score for an untrained discriminative model indicates the discriminator cannot tell the difference between both datasets.</b>
             </li>
+            <br>
             <li><b>Autocorrelation comparison.</b>
                 <br>
                 To confirm the variance in numerical values/counts over time are maintained, autocorrelation graphs are plotted for both datasets and overlayed.
                 <br><b>The higher the overlay, the higher the fidelity.</b>
                 <div id="Autocorrelation_mockup"></div>
             </li>
+            <br>
         </ol>
     </li>
     <li><u>Predictiveness.</u> To assess predictiveness, the following methods are applied:
         <ol>
+            <br>
             <li><b>Predictive model performance comparison</b>
                 The original and generated evaluation samples are further divided into a test sample (90% of evaluation sample) and train sample (10% of evaluation sample).
                 <!-- Numerical data is transformed to categorical data and all data is one-hot-encoded, including NA values as a category (exception: if NA% &lt3% these rows are excluded).  -->
@@ -180,8 +200,16 @@
                 To asses this, the MSE_1's are ranked across each predictive model for the original and synthetic data and compared using the SRA (Synthetic Ranking Accuracy) measure (SRA_1), resulting in SRA_1 for each column.
                 <br>Similarly, the MSE_3's for each predictive model can be ranked, giving an SRA_2 measure.
                 <br><b>SRA values close to 1 indicate the synthetic and original dataset behave similarly in predictive models.</b>
-                <div id="predictive_mockup"></div>
+                <ul>
+                    <li>Scatter plot of MSE_1
+                        <div id="predictive_mockup"></div>
+                    </li>
+                    <li>Scatter plot of MSE_3
+                        <div id="MSE3_plot"></div>
+                    </li>
+                </ul>
             </li>
+            <br>
             <li><b>Next-step predictive model performance comparison (time-series only). </b>
                 <br>
                 This method has a similar principal to the previous method with the difference that the predictive model attempts to predict all variables for next time-step entry
@@ -191,7 +219,9 @@
                 <br>Firstly, the MSE between the test loss/test metric is calculated between the real and the synthetic data for each column.
                 <br>Secondly, the SRA is calculated, ranking the test metric/test loss of each column, comparing the rank for the synthetic and for the original data.
                 <br><b>A low MSE and an SRA close to 1 indicates the predictive model behaves similarly in attempting to predict the next time-step in both datasets.</b>
+                <div id="tpredictive_mockup"></div>
             </li>
+            <br>
         </ol>
     </li>
     <li><u>Privacy.</u> Including differential privacy within the GAN ensures total anonymity. However, to further test this, membership inference attacks are performed.
@@ -199,7 +229,7 @@
 </ol>
 <hr>
 
-<h3 style="color:#0275D8">Data handling</h3>
+<h3 style="color:#0275D8" id="data_handle">Data handling</h3>
 
 <p>
 Data shared between clients and Syndasera will be held on a Data Access Environment. Generation of Synthetic Data and it’s evaluation will be performed in this secure server using Databricks so that no data is transferred onto a local machine.
@@ -207,7 +237,7 @@ Data shared between clients and Syndasera will be held on a Data Access Environm
 
 <hr>
 
-<h3 style="color:#0275D8">References</h3>
+<h3 style="color:#0275D8" id="references">References</h3>
 
 <ol>
 <li>Jarrett, D., Yoon, J., Van de Schaar, M. (2019), ‘Time-series Generative Adversarial Networks’, Advances in Neural Information Processing Systems 32, Vancouver Canada.</li>

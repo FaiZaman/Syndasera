@@ -147,9 +147,9 @@ $(document).ready(function(){
         });
 
         // console.log("Nested data structure")
-        // console.log("These are the counts by week")
-        // console.log(allWeekCounts)
-        // console.log(allWeekCounts.filter(e=>e.column=="visit_type"))
+         console.log("These are the counts by week")
+         console.log(allWeekCounts)
+         console.log(allWeekCounts.filter(e=>e.column=="visit_type"))
 
     //--HISTOGRAM divs--//
         var divs_to_add = [
@@ -198,6 +198,80 @@ $(document).ready(function(){
             });
         });
         //$(".default-graphs").hide();
+
+
+        ////////----- week collapsed bar chart----//////
+
+        function drawWeekBarChart (dom, array, var1, var2, name){
+
+            var svg = d3.select(dom)
+                        .append("svg")
+                        .attr("width", width + margin.left + margin.right)
+                        .attr("height", height + margin.top + margin.bottom)
+                        .append("g")
+                        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+            var subgroups = [var1,var2]
+            console.log("subgroups")
+            console.log(subgroups)
+
+            // List of groups that will be on the x axis
+            var groups = d3.map(array, function(d){return(d["week"])}).keys()
+
+            //X axis
+            var x = d3.scaleBand()
+              .domain(groups)
+              .range([0, width])
+              .padding([0.2])
+            svg.append("g")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(x).tickSize(0));
+
+            //Y axis
+            var y = d3.scaleLinear()
+            //    .domain([0, (d3.max(hist_dummy, function(d) { return +d.real})])
+                    .domain([0,0.8])
+                    .range([ height, 0 ]);
+
+            svg.append("g")
+                .call(d3.axisLeft(y));
+
+            // Another scale for subgroup position?
+            var xSubgroup = d3.scaleBand()
+                                .domain(subgroups)
+                                .range([0, x.bandwidth()])
+                                .padding([0.05]);
+
+            // color palette = one color per subgroup
+            var color = d3.scaleOrdinal()
+                          .domain(subgroups)
+                          .range(['#fa0000','#417ee0']);
+
+            // Show the bars
+            svg.append("g")
+                .selectAll("g")
+            // Enter in data = loop group per group
+                .data(array)
+                .enter()
+                .append("g")
+                .attr("transform", function(d) { return "translate(" + x(d["week"]) + ",0)"; })
+                .selectAll("rect")
+                .data(function(d) { return subgroups.map(function(key) { return {key: key, value: d[key]}; }); })
+                .enter().append("rect")
+                .attr("x", function(d) { return xSubgroup(d.key); })
+                .attr("y", function(d) { return y(d.value); })
+                .attr("width", xSubgroup.bandwidth())
+                .attr("height", function(d) { return height - y(d.value); })
+                .attr("fill", function(d) { return color(d.key); })
+                .attr("opacity", 0.7);
+
+            svg.append("circle").attr("cx",30).attr("cy",20).attr("r", 5).style("fill", "#fa0000").style("opacity", 0.7)
+            svg.append("circle").attr("cx",30).attr("cy",40).attr("r", 5).style("fill", "#417ee0").style("opacity", 0.7)
+            svg.append("text").attr("x", 40).attr("y", 25).text("original data").style("font-size", "10px").attr("alignment-baseline","middle")
+            svg.append("text").attr("x", 40).attr("y", 45).text("synthetic data").style("font-size", "10px").attr("alignment-baseline","middle")
+            svg.append("text").attr("x", 50).attr("y", 0).text("Empricial distribution plot").style("font-size", "15px").attr("alignment-baseline","middle")
+
+        };
 
 
         /////////-------HISTOGRAM-------/////////

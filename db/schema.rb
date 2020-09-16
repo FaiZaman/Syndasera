@@ -10,7 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_11_160318) do
+ActiveRecord::Schema.define(version: 2020_09_16_130818) do
+
+  create_table "autocorrelation_malaria", force: :cascade do |t|
+    t.integer "index"
+    t.float "original"
+    t.float "generated"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "autocorrelation_visitweeks", force: :cascade do |t|
+    t.integer "index"
+    t.float "original"
+    t.float "generated"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "distribution_cat_coordinates", force: :cascade do |t|
     t.string "column"

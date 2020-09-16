@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  index: 1
+  original: 1.5
+  generated: 1.5
+
+two:
+  index: 1
+  original: 1.5
+  generated: 1.5
