@@ -1,0 +1,2 @@
+class AutocorrelationVisitweek < ApplicationRecord
+end

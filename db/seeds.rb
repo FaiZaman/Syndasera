@@ -195,3 +195,33 @@ require 'csv'
 # end
 #
 # puts "There are now #{Mse13Coordinate.count} rows in the mse1 table"
+
+# auto_visit_plot = File.read(Rails.root.join('lib', 'seeds', 'autocorrelation_visitweeks.csv'))
+# csv8 = CSV.parse(auto_visit_plot, :headers => true, :encoding => 'ISO-8859-1')
+# csv8.each do |row|
+#   v = AutocorrelationVisitweek.new
+#
+#   v.index = row['index']
+#   v.original = row['original']
+#   v.generated = row['generated']
+#
+#   v.save
+#   puts "#{v.index}, #{v.original} saved"
+# end
+#
+# puts "There are now #{AutocorrelationVisitweek.count} rows in the auto visit table"
+
+auto_malaria_plot = File.read(Rails.root.join('lib', 'seeds', 'autocorrelation_malaria.csv'))
+csv9 = CSV.parse(auto_malaria_plot, :headers => true, :encoding => 'ISO-8859-1')
+csv9.each do |row|
+  v = AutocorrelationMalarium.new
+
+  v.index = row['index']
+  v.original = row['original']
+  v.generated = row['generated']
+
+  v.save
+  puts "#{v.index}, #{v.generated} saved"
+end
+
+puts "There are now #{AutocorrelationMalarium.count} rows in the auto visit table"

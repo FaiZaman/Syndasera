@@ -28,6 +28,8 @@ Rails.application.routes.draw do
   get '/get_num_data' => 'eval#get_num_data'
   get '/get_num_data_5000' => 'eval#get_num_data_5000'
   get '/get_MSE1_data' => 'eval#get_MSE1_data'
+  get '/get_auto_visit_data' => 'eval#get_auto_visit_data'
+  get '/get_auto_malaria_data' => 'eval#get_auto_malaria_data'
 
   devise_scope :user do
     get '/sign-in' => "devise/sessions#new", :as => :login
