@@ -272,8 +272,8 @@ th,td {
     <br><b>The higher the overlay, the higher the fidelity.</b></p>
 <h5><u>Results</u></h5>
 <ul>
-    <li>Autocorrelation plot for number of visits per week?</li>
-    <li>Autocorrelation plot for number of positive malaria diagnosis per week?</li>
+    <li>Autocorrelation plot for number of visits per week</li>
+    <li>Autocorrelation plot for number of positive malaria diagnosis per week</li>
 </ul>
 <br>
 <h5><u>Conclusion</u></h5>
@@ -282,6 +282,7 @@ th,td {
 <h4 style="color:#0275D8" id="predictive_link">Predictive model performance comparison</h4>
 <h5><u>Method description</u></h5>
 <p>
+    The original and generated evaluation samples are further divided into a test sample (90% of evaluation sample) and train sample (10% of evaluation sample).
     A series of commonly used regression based predictive models (Linear Regression, Linear Support Vector Regression, Random Forests Regression, Logistic Regression, Decision tree Regression and K-Nearest Neighbors Regression) are applied to the test samples and trained on the train samples for both the original and the synthetic data (Test-on-real, Train-on-real & Test-on-synthetic, Train-on-synthetic). The model attempts to predict a variable within a column based on the remaining columns.
     The MSE (mean standard error) is calculated between the predicted value resulting from the predictive model and the test sample and averaged (MSE_1), resulting in MSE_1's for each column, for each predictive model, for the original and synthetic datasets (visualised in the first scatter plot below).
     <br>To compare the datasets, the MSE between the MSE_1's of the original and the synthetic dataset is calculated (MSE_2), resulting in MSE_2's for each predictive model.
@@ -298,9 +299,17 @@ th,td {
 <ul>
     <li>Scatter plots of log(MSE_1) for original (x) and generated (y), for each predictive model.
         Each dot represents a column in the data and each subfigure represents a different predictive model.
-        <div id="Fig_1_LR"></div>
-        <div id="Fig_1_KNR1"></div>
-        <div id="Fig_1_DTR"></div>
+        <ul>
+            <li>Logistic Regression
+                <div id="Fig_1_LR"></div>
+            </li>
+            <li>K-Nearest Neighbours Regression
+                <div id="Fig_1_KNR1"></div>
+            </li>
+            <li>Decision Tree Regression
+                <div id="Fig_1_DTR"></div>
+            </li>
+        </ul>
     </li>
     <br>
     <li>MSE's (MSE_2's) for Figure 1, for each predictive model.

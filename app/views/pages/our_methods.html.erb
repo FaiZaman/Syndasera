@@ -1,6 +1,7 @@
+<%= javascript_include_tag 'our_methods.js' %>
 <h1> Our Methods </h1>
 
-<h3>Synthetic data generation</h3>
+<h3 style="color:#0275D8">Synthetic data generation</h3>
 
 <!--
 <p>The <i>(Two?)</i> Generative Adversarial Network model developed to generate Synthetic Data is based on recent work (Jarret et al. 2019, Lin et al. 2019, DP papers that helped design the DP in our GAN).
@@ -13,7 +14,7 @@
 <p>The model trained is one that is capable of preserving the static and temporal dynamics of data. To generate realistic time-series data, unsupervised learning of a traditional GAN is combined with supervised learning of time-steps within the data. In addition, since temporal dynamics of systems are often driven by lower-dimensional factors of variation, an embedding network is used for reversible mapping between original features to a latent dimension. Joint training is then done on both the embedding and generator network such that the supervised loss is minimised.
 </p>
 
-<h5>The Data</h5>
+<h5 style="color:#472F91">The Data</h5>
 <!--<p>We are able to accommodate static, time-series and mixed data. In the PRISM dataset we present here, each participant had x static and x temporal features including binary, categorical and numerical types. ... add more stuff about how flexible it is...</p>-->
 <p>Our model is flexible and able to deal with different types of data. We are able to accommodate static, time-series and mixed data. In the PRISM dataset we present here, each participant had static features such as household ID and temporal features such as weight. The dataset also contains numerical data that is continuous such as weight and categorical data, such as whether a patient has a cough. The categorical data are one-hot-encoded before being fed into the model. </p>
 <p>When dealing with time-series data, a model usually requires the same time-series length for each sample of data. In our dataset however, each participant visited the hospital a different number of times. Our model is able to cope with these different number of visits and is capable of capturing the distribution of the number of visits participants make.</p>
@@ -21,7 +22,7 @@
 <!--...stuff about how flexible it is…-->
 <p>Data obtained is first classified into numerical and categorical data, in which categorical data is then one-hot-encoded. The data is then classified as being static or temporal features. Missing values in the data are filled in with interpolated values. The data is then batched and each sample of the batched data represents a participant.</p>
 
-<h5>The Algorithm</h5>
+<h5 style="color:#472F91">The Algorithm</h5>
 
 <p>The embedding network consists of the auto-encoder and auto-decoder. The generative adversarial network (GAN) consists of a generator to generate synthetic data and discriminator to differentiate between the real and synthetic data.</p>
 <!-- This only works on regular html files <img src="GAN-scheme.jpg" height="500">-->
@@ -43,7 +44,7 @@
   </li>
 </ol>
 
-<h5>Privacy</h5>
+<h5 style="color:#472F91">Privacy</h5>
 <p>Synthetic data has huge advantages over anonymised data when it comes to privacy. We use differential privacy to guarantee the generated data cannot be used to expose the data of any individual or even to conclude that the individual was in the original dataset. Instead of removing details from real data, synthetic data can accurately preserve the detail/coarseness and distribution to enable query design and refinement.</p>
 <p>Differential privacy is achieved by:</p>
 <ul>
@@ -56,63 +57,125 @@
 
 <hr>
 
-<h3>Evaluation methods</h3>
+<h3 style="color:#0275D8">Evaluation methods</h3>
 <p> The Synthetic Data Generator used by Syndasera was tested on the publicly available Program for Resistance, Immunology, Surveillance and Modelling of Malaria (PRISM) dataset. This dataset includes time-series and static features amongst categorical and numerical variables, with 54 columns and over 40,000 rows, providing a robust variety of elements.
 </p>
 
 <p>Three main things are evaluated in synthesised synthetic data to ensure optimum utility whilst not compromising privacy:
-  1) <u>Fidelity</u> – the synthetic data should capture the diversity, distribution and dependencies between variables of the original data;
-  2) <u>Predictiveness</u> – As the user will always need to confirm observations made on the synthetic data with the original data, synthetic data should behave in a similar way to the original data when applied to algorithms for data analysis;
-  3) <u>Privacy</u> – No real individual should be identifiable from the synthetic data.
-  <br>
-  To execute the evaluation mehtods, 20% of the original data, not used in the generative model, are set aside (original evaluation sample). An equal size of the synthetic data is used for comparison (synthetic evaluation sample).
-  <br>
+    1) <u>Distribution</u> - The synthetic data should capture the diversity, distribution and dependencies between variables of the original data;
+    1) <u>Fidelity</u> – The synthetic data should be as similar to the original data as possible without imitating samples, without compromising privacy;
+    2) <u>Usefulness</u> – As the user will always need to confirm observations made on the synthetic data with the original data, synthetic data should behave in a similar way to the original data when applied to algorithms for data analysis;
+    3) <u>Privacy</u> – No real individual should be identifiable from the synthetic data.
+    <br>
+    To execute the evaluation mehtods, 20% of the original data, not used in the generative model, are set aside (original evaluation sample). An equal size of the synthetic data is used for comparison (synthetic evaluation sample).
+    <br>
 <!--    <%= image_tag("DWPPre.png", :alt => "GAN", :height => "400") %> -->
-  <br>
-  To see an example of the application of these methods, <a href="/prism_evaluation">click here</a>.
+    <br>
+    To see an example of the application of these methods, <a href="/prism_evaluation">click here</a>.
 </p>
 
 
 <ol>
-  <li><u>Fidelity.</u> To assess fidelity, the following methods are applied:</li>
-      <ol>
-        <li><b>tSNE and PCA plots comparison.</b> tSNE and PCA plots reduce a multi-dimensional dataset (i.e with multiple columns) into a 2-dimensional visualisation. A machine-learning algorithm groups similar variables and although we cannot interpret the coordinates attributed, we can compare if the groupings made are similar in the original and synthetic data by overlaying the plots. The higher the overlay, the higher the fidelity. </li>
-<div id="tSNE_mockup"></div>
-        <li><b>Empirical distributions comparison.</b> The empirical distribution for each variable within the dataset is calculated for the synthetic and the original data set. To compare the datasets, the MSE (mean standard error) is calculated between each empirical distribution for each variable between both datasets and averaged. The lower the averaged MSE, the higher the fidelity.
-            <br>The empirical distribution comparison can also be specifically calculated for a column of interest. For example, in a cancer registry database, it may be of interest to subset the registry by cancer type and then do an empirical distribution comparison across the remaining columns.</li>
-<div id="barchart_mockup"></div>
-<div id="empirical_plot"></div>
-        <li><b>Inter-variable dependencies comparison.</b> To confirm dependencies between variables within columns are maintained, Pearson’s correlation coefficient is calculated between categorical columns within the original and synthetic data. To compare the datasets, the MSE is calculated between each correlation coefficient. </li>
-        <li><b>Autocorrelation comparison.</b> To confirm the variance in numerical values/counts over time are maintained, autocorrelation graphs are plotted for both datasets and compared.</li>
-<div id="Autocorrelation_mockup"></div>
-        <li><b>Discriminative model performance</b> For a quantitative measure of similarity, a post-hoc time-series classification model is trained (by optimizing a multi-layer GRU) to distinguish between sequences from the original and generated datasets.
-            First, each original sequence is labeled '1', and each generated sequence is labeled '0'.
-            Then, an off-the-shelf (RNN) classifier is trained to distinguish between the two classes as a standard supervised task.
-            A classification error on the held-out test set gives a quantitative assessment of fidelity, with an error closest to 0.5 indicating the discriminator cannot tell the difference between both datasets.
-        </li>
-      </ol>
-  <li><u>Predictiveness.</u> To assess predictiveness, the following methods are applied:</li>
-      <ol>
-        <li><b>Predictive model performance comparison</b> The original and synthetic evaluation samples are further divided into a test sample (90% of evaluation sample) and train sample (10% of evaluation sample). Numerical data is transformed to categorical data and all data is one-hot-encoded, including NA values as a category (exception: if NA% &lt3% these rows are excluded). A series of commonly used predictive models (Random Forests, Logistic regression…) are applied to the test samples and trained on the train samples for both the real and the synthetic data (Test-on-real, Train-on-real and Test-on-synthetic, Train-on-synthetic) in accordance to previous studies. The model attempts to predict a variable based on the rest of the variables and the prediction is given an accuracy score.
-        <br>To compare the datasets, the MSE (mean standard error) is calculated between the accuracy scores for each variable between both datasets and averaged. A low averaged MSE indicates the synthetic and original dataset behaved similarly in the predictive models.
-        <br>Parallel to the averaged MSE, the Synthetic Accuracy Ranking is calculated, where the accuracy scores are used to rank each predictive model. If both datasets behave similarly the ranking SRA will be close to 1. will be equal.
-        </li>
-<div id="predictive_mockup"></div>
-        <li><b>Next-step predictive model performance comparison (time-series only). </b> This method is identical to previous method with the difference that the predictive model attempts to predict a time series entry based on the previous time steps. </li>
-      </ol>
-  <li><u>Privacy.</u> Including differential privacy within the GAN ensures total anonymity. However, to further test this, membership inference attacks are performed.</li>
+    <li><u>Distribution.</u> To assess distribution, the following methods are applied:
+        <ol>
+            <li><b>Numerical variables distribution comparison.</b>
+                <br>
+                For numerical columns, histograms for the original dataset and the generated dataset are overlaid for each column, giving a visual perception of the similarity in diversity and distribution.
+                <br>To quantify this, a Kolmogrov-Smirnov Test is performed with 100 randomly selected samples to avoid biasing the result towards rejecting the null hypothesis.
+                The Kolmogrov-Smirnov Test is a non parametric hypothesis test where the null hypothesis is that two samples (one from the original and one from the synthetic) originate from the same distribution.
+                <br><b>The closer the Kolmogrov-Smirnov Test p-value is to 1, the higher the fidelity</b>
+                <div id="barchart_mockup"></div>
+                <div id="empirical_plot"></div>
+            </li>
+            <li><b>Categorical variables distribution comparison.</b>
+                <br>
+                For categorical columns, the empirical distribution of each variable for all categorical columns is calculated for the synthetic dataset and the original dataset.
+                <br>A dot plot compares the empirical distribution of each variable for the original data set on the x axis and for the synthetic dataset on the y axis, giving a visual perception of the similarity in diversity and distribution.
+                The closer the dot to the y=x line, the higher the fidelity.
+                <br>To quantifiy this, the MSE (mean standard error) between the empirical distribution for the original and synthetic dataset is calculated for each variable and averaged.
+                <br><b>The lower the averaged MSE, the higher the fidelity.</b>
+            </li>
+            <li><b>Pearson's Correlation Coefficient comparison.</b>
+                <br>
+                To confirm dependencies between variables within columns are maintained, Pearson’s R correlation coefficient is calculated between categorical (all?) columns
+                within the original and synthetic data.
+                <br>To compare the datasets, we use two measurements. Firstly, the MSE (mean standard error) is calculated between the correlation coefficient between original and the generated data, for each column with the other columns. The averge is presented here.
+                <br><b>The lower the MSE, the higher the fidelity.</b>
+                <br>Secondly, the SRA (Synthetic Ranking Accuracy) for each column is calculated. Here, the R correlation coefficients for each column with the other columns is ranked for both the synthetic and the original data and compared. The average is presented here.
+                <br><b>The closer SRA is to 1 the higher the fidelity.</b>
+            </li>
+        </ol>
+    </li>
+    <li><u>Fidelity.</u> To assess fidelity, the following methods are applied:
+        <ol>
+            <li><b>tSNE and PCA plots comparison.</b>
+                <br>
+                tSNE and PCA plots reduce a multi-dimensional dataset (i.e with multiple columns) into a 2-dimensional visualisation.
+                A machine-learning algorithm groups similar variables and although we cannot interpret the coordinates attributed,
+                we can compare if the groupings made are similar in the original and synthetic data by overlaying the plots.
+                <br><b>The higher the overlay, the higher the fidelity.</b>
+                <div id="tSNE_mockup"></div>
+            </li>
+            <li><b>Discriminative model performance</b>
+                <br>
+                For a quantitative measure of similarity, a post-hoc time-series classification model is trained (by optimizing a multi-layer GRU)
+                to distinguish between sequences from the original and generated datasets.
+                First, each original sequence is labeled '1', and each generated sequence is labeled '0'.
+                Then, an off-the-shelf (RNN) classifier is trained to distinguish between the two classes as a standard supervised task.
+                An accuracy score on the held-out test set gives a quantitative assessment of fidelity.
+                <br><b>An accuracy score similar to the expected accuracy score for an untrained discriminative model indicates the discriminator cannot tell the difference between both datasets.</b>
+            </li>
+            <li><b>Autocorrelation comparison.</b>
+                <br>
+                To confirm the variance in numerical values/counts over time are maintained, autocorrelation graphs are plotted for both datasets and overlayed.
+                <br><b>The higher the overlay, the higher the fidelity.</b>
+                <div id="Autocorrelation_mockup"></div>
+            </li>
+        </ol>
+    </li>
+    <li><u>Predictiveness.</u> To assess predictiveness, the following methods are applied:
+        <ol>
+            <li><b>Predictive model performance comparison</b>
+                The original and generated evaluation samples are further divided into a test sample (90% of evaluation sample) and train sample (10% of evaluation sample).
+                <!-- Numerical data is transformed to categorical data and all data is one-hot-encoded, including NA values as a category (exception: if NA% &lt3% these rows are excluded).  -->
+                A series of commonly used regression based predictive models (Linear Regression, Linear Support Vector Regression, Random Forests Regression, Logistic Regression, Decision tree Regression and K-Nearest Neighbors Regression) are applied to the test samples and trained on the train samples for both the original and the synthetic data (Test-on-real, Train-on-real & Test-on-synthetic, Train-on-synthetic). The model attempts to predict a variable within a column based on the remaining columns.
+                The MSE (mean standard error) is calculated between the predicted value resulting from the predictive model and the test sample and averaged (MSE_1), resulting in MSE_1's for each column, for each predictive model, for the original and synthetic datasets (visualised in the first scatter plot below).
+                <br>To compare the datasets, the MSE between the MSE_1's of the original and the synthetic dataset is calculated (MSE_2), resulting in MSE_2's for each predictive model.
+                <br>The average of MSE_1's for all columns is calculated between the datasets (MSE_3), resulting in MSE_3 for each predictive model, for the original and the synthetic dataset (visualised in the second scatter plot below).
+                <br> To compare datasets, the MSE between the MSE_3's for the original and the synthetic data is calculated (MSE_4).
+                <br><b>A low MSE_2/MSE_4 indicates the synthetic and original dataset behaved similarly in the predictive models.</b>
+                <br>Because users to do not have access to the original data, synthetic data should behave similarly to the original data when submitted to any algorithms.
+                To asses this, the MSE_1's are ranked across each predictive model for the original and synthetic data and compared using the SRA (Synthetic Ranking Accuracy) measure (SRA_1), resulting in SRA_1 for each column.
+                <br>Similarly, the MSE_3's for each predictive model can be ranked, giving an SRA_2 measure.
+                <br><b>SRA values close to 1 indicate the synthetic and original dataset behave similarly in predictive models.</b>
+                <div id="predictive_mockup"></div>
+            </li>
+            <li><b>Next-step predictive model performance comparison (time-series only). </b>
+                <br>
+                This method has a similar principal to the previous method with the difference that the predictive model attempts to predict all variables for next time-step entry
+                based on the values for previous time-stamps.
+                <br>Here the predictive model provided by Tensorflow Keras API returns a test metric and a test loss for each column.
+                <br>To compare between datasets, two parameters are determined.
+                <br>Firstly, the MSE between the test loss/test metric is calculated between the real and the synthetic data for each column.
+                <br>Secondly, the SRA is calculated, ranking the test metric/test loss of each column, comparing the rank for the synthetic and for the original data.
+                <br><b>A low MSE and an SRA close to 1 indicates the predictive model behaves similarly in attempting to predict the next time-step in both datasets.</b>
+            </li>
+        </ol>
+    </li>
+    <li><u>Privacy.</u> Including differential privacy within the GAN ensures total anonymity. However, to further test this, membership inference attacks are performed.
+    </li>
 </ol>
 <hr>
 
-<h3>Data handling</h3>
+<h3 style="color:#0275D8">Data handling</h3>
 
 <p>
-Data shared between users and Syndasera will be held on a Data Access Environment. Generation of Synthetic Data and it’s evaluation will be performed in this secure server, so that no data is transferred onto a local machine.
+Data shared between clients and Syndasera will be held on a Data Access Environment. Generation of Synthetic Data and it’s evaluation will be performed in this secure server using Databricks so that no data is transferred onto a local machine.
 </p>
 
 <hr>
 
-<h3>References</h3>
+<h3 style="color:#0275D8">References</h3>
 
 <ol>
 <li>Jarrett, D., Yoon, J., Van de Schaar, M. (2019), ‘Time-series Generative Adversarial Networks’, Advances in Neural Information Processing Systems 32, Vancouver Canada.</li>
@@ -125,580 +188,12 @@ Data shared between users and Syndasera will be held on a Data Access Environmen
 <!--<a href="/prism_dashboard">text</a>-->
 <!--<a href="/prism_evaluation">text</a>-->
 
-<!-- tSNE mockup-->
-
-<%= javascript_include_tag 'our_methods.js' %>
-
-<!--Empirical distribution mockup side by side bar chart-->
-
 <script>
 
-hist_dummy_real=[];
-hist_dummy_fake=[];
-hist_dummy=[];
-hist_numbers=[];
-variables = ["var1","var2","var3","var4"];
-count_real = [0.25,0.25,0.3,0.2];
-count_fake=[0.2,0.15,0.45,0.2];
 
-for(var i=0; i<variables.length; i++){
-  var obj = {variable: variables[i], real: count_real[i]};
-  var obj_fake = {variable: variables[i], fake: count_fake[i]};
-  var obj_total = {variable: variables[i], real: count_real[i], fake:count_fake[i]};
-  var numbers = {real: count_real[i], fake:count_fake[i]}
-  hist_dummy_real.push(obj);
-  hist_dummy_fake.push(obj_fake);
-  hist_dummy.push(obj_total);
-  hist_numbers.push(numbers)
-}
-
-var margin = {top: 30, right: 30, bottom: 70, left: 60},
-    width = 340 - margin.left - margin.right,
-    height = 300 - margin.top - margin.bottom;
-
-// var svg = d3.select("#barchart_mockup2")
-//       .append("svg")
-//         .attr("width", width + margin.left + margin.right)
-//         .attr("height", height + margin.top + margin.bottom)
-//       .append("g")
-//         .attr("transform",
-//               "translate(" + margin.left + "," + margin.top + ")");
-//
-// //X axis
-// var x = d3.scaleBand()
-//           .range([ 0, width ])
-//           .domain(hist_dummy_real.map(function(d) { return d.variable; }))
-//           .padding(0.2);
-// svg.append("g")
-//       .attr("transform", "translate(0," + height + ")")
-//       .call(d3.axisBottom(x))
-//       .selectAll("text")
-//       .attr("transform", "translate(-10,0)rotate(-45)")
-//       .style("text-anchor", "end");
-//
-//
-// // Add X axis label:
-//
-// svg.append("text")
-//       .attr("text-anchor", "end")
-//       .attr("x", width)
-//       .attr("y", height + margin.top + 10)
-//       .text("variables")
-//       .style("font-size", "10px");
-//
-// //Y axis
-// var y = d3.scaleLinear()
-//   .domain([0, 0.6])
-//   .range([ height, 0]);
-// svg.append("g")
-//   .call(d3.axisLeft(y));
-// // Y axis label:
-// svg.append("text")
-//   .attr("text-anchor", "end")
-//   .attr("transform", "rotate(-90)")
-//   .attr("y", -margin.left + 20)
-//   .attr("x", -margin.top)
-//   .text("empirical distribution")
-//   .style("font-size", "10px");
-//
-// // Bars
-// svg.selectAll("mybar")
-//   .data(hist_dummy_real)
-//   .enter()
-//   .append("rect")
-//     .attr("x", function(d) { return x(d.variable); })
-//     .attr("y", function(d) { return y(d.real); })
-//     .attr("width", x.bandwidth())
-//     .attr("height", function(d) { return height - y(d.real); })
-//     .attr("fill", "#fa0000")
-//     .attr("opacity", 0.6)
-//     .attr("stroke", "black");
-//
-// svg.selectAll("mybar")
-//   .data(hist_dummy_fake)
-//   .enter()
-//   .append("rect")
-//     .attr("x", function(d) { return x(d.variable); })
-//     .attr("y", function(d) { return y(d.fake); })
-//     .attr("width", x.bandwidth())
-//     .attr("height", function(d) { return height - y(d.fake); })
-//     .attr("fill", "#417ee0")
-//     .attr("opacity", 0.6)
-//     .attr("stroke", "black");
-//
-//     svg.append("text").attr("x", 60).attr("y", 0).text("Empirical distribution").style("font-size", "15px").attr("alignment-baseline","middle")
-//     svg.append("circle").attr("cx",20).attr("cy",10).attr("r", 5).style("fill", "#fa0000").style("opacity", 0.7)
-//     svg.append("circle").attr("cx",20).attr("cy",30).attr("r", 5).style("fill", "#417ee0").style("opacity", 0.7)
-//     svg.append("text").attr("x", 35).attr("y", 15).text("original data").style("font-size", "10px").attr("alignment-baseline","middle")
-//     svg.append("text").attr("x", 35).attr("y", 35).text("synthetic data").style("font-size", "10px").attr("alignment-baseline","middle")
 
 ///////////////////////
 
-  var svg = d3.select("#barchart_mockup")
-        .append("svg")
-          .attr("width", width + margin.left + margin.right)
-          .attr("height", height + margin.top + margin.bottom)
-        .append("g")
-          .attr("transform",
-                "translate(" + margin.left + "," + margin.top + ")");
-
-//var subgroups = hist_dummy.slice(1) //this removes the first "row"
-//var subgroups = delete hist_dummy.variable
-var subgroups = ["real","fake"]
-console.log("subgroups")
-console.log(subgroups)
-
-  // List of groups = species here = value of the first column called group -> I show them on the X axis
-  var groups = d3.map(hist_dummy, function(d){return(d.variable)}).keys()
-
-//X axis
-  var x = d3.scaleBand()
-      .domain(groups)
-      .range([0, width])
-      .padding([0.2])
-  svg.append("g")
-    .attr("transform", "translate(0," + height + ")")
-    .call(d3.axisBottom(x).tickSize(0));
-
-//Y axis
-var y = d3.scaleLinear()
-//    .domain([0, (d3.max(hist_dummy, function(d) { return +d.real})])
-    .domain([0,0.8])
-    .range([ height, 0 ]);
-  svg.append("g")
-    .call(d3.axisLeft(y));
-
-// Another scale for subgroup position?
-  var xSubgroup = d3.scaleBand()
-    .domain(subgroups)
-    .range([0, x.bandwidth()])
-    .padding([0.05])
-
-    // color palette = one color per subgroup
-    var color = d3.scaleOrdinal()
-      .domain(subgroups)
-      .range(['#fa0000','#417ee0'])
-
-
-
-      // Show the bars
-svg.append("g")
-  .selectAll("g")
-  // Enter in data = loop group per group
-  .data(hist_dummy)
-  .enter()
-  .append("g")
-    .attr("transform", function(d) { return "translate(" + x(d.variable) + ",0)"; })
-  .selectAll("rect")
-  .data(function(d) { return subgroups.map(function(key) { return {key: key, value: d[key]}; }); })
-  .enter().append("rect")
-    .attr("x", function(d) { return xSubgroup(d.key); })
-    .attr("y", function(d) { return y(d.value); })
-    .attr("width", xSubgroup.bandwidth())
-    .attr("height", function(d) { return height - y(d.value); })
-    .attr("fill", function(d) { return color(d.key); })
-    .attr("opacity", 0.7);
-
-    svg.append("circle").attr("cx",30).attr("cy",20).attr("r", 5).style("fill", "#fa0000").style("opacity", 0.7)
-    svg.append("circle").attr("cx",30).attr("cy",40).attr("r", 5).style("fill", "#417ee0").style("opacity", 0.7)
-    svg.append("text").attr("x", 40).attr("y", 25).text("original data").style("font-size", "10px").attr("alignment-baseline","middle")
-    svg.append("text").attr("x", 40).attr("y", 45).text("synthetic data").style("font-size", "10px").attr("alignment-baseline","middle")
-    svg.append("text").attr("x", 50).attr("y", 0).text("Empricial distribution plot").style("font-size", "15px").attr("alignment-baseline","middle")
-
-</script>
-
-<!--empirical distribution plot mockup-->
-
-<script>
-
-emp_plot=[];
-variables = ["var1","var2","var3","var4"];
-count_real = [0.25,0.25,0.3,0.2];
-count_fake=[0.2,0.15,0.45,0.2];
-
-for(var i=0; i<variables.length; i++){
-  var obj = {fake: count_fake[i], real: count_real[i], variables:variables[i]};
-  emp_plot.push(obj);
-}
-
-console.log(emp_plot)
-var margin = {top: 30, right: 30, bottom: 70, left: 60},
-    width = 340 - margin.left - margin.right,
-    height = 300 - margin.top - margin.bottom;
-
-var svg = d3.select("#empirical_plot")
-      .append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-      .append("g")
-        .attr("transform",
-              "translate(" + margin.left + "," + margin.top + ")");
-
-// Add X axis
-var x = d3.scaleLinear()
-.domain([0, 0.8])
-.range([ 0, width ]);
-svg.append("g")
-.attr("transform", "translate(0," + height + ")")
-.call(d3.axisBottom(x));
-// Add X axis label:
-svg.append("text")
-.attr("text-anchor", "end")
-.attr("x", width)
-.attr("y", height + margin.top + 10)
-.text("empirical distribution - original data")
-.style("font-size", "10px");
-
-// Add Y axis
-var y = d3.scaleLinear()
-.domain([0, 0.8])
-.range([ height, 0]);
-svg.append("g")
-.call(d3.axisLeft(y));
-// Y axis label:
-svg.append("text")
-.attr("text-anchor", "end")
-.attr("transform", "rotate(-90)")
-.attr("y", -margin.left + 10)
-.attr("x", -margin.top)
-.text("empirical distribution - synthesised data")
-.style("font-size", "10px");
-
-//hover function
-
-var tooltip = d3.select("#empirical_plot")
-.append("div")
-.style("opacity", 0)
-.attr("class", "tooltip")
-.style("position", "absolute")
-.style("background-color", "white")
-.style("border", "solid")
-.style("border-width", "1px")
-.style("border-radius", "5px")
-.style("padding", "5px")
-
-// Three function that change the tooltip when user hover / move / leave a cell
-var mouseover = function(d) {
-tooltip
-.style("opacity", 1)
-d3.select(this)
-.style("stroke", "black")
-.style("opacity", 1)
-}
-
-var mousemove = function(d) {
-tooltip
-.html(d.variables)
-.style("left", (d3.event.pageX + 10)+"px")
-.style("top", (d3.event.pageY + 10)+"px")
-}
-var mouseleave = function(d) {
-tooltip
-.style("opacity", 0)
-d3.select(this)
-.style("stroke", "none")
-.style("opacity", 0.8)
-}
-
-// Add dots
-svg.append('g')
-.selectAll("dot")
-.data(emp_plot)
-.enter()
-.append("circle")
-.attr("cx", function (d) { return x(d.real); } )
-.attr("cy", function (d) { return y(d.fake); } )
-.attr("r", 5)
-.style("fill", "#472F91")
-.style("opacity", 0.7)
-.on("mouseover", mouseover)
-.on("mousemove", mousemove)
-.on("mouseleave", mouseleave);
-
-lines=[{x:0,y:0},{x:0.5,y:0.5},{x:0.7,y:0.7}]
-
-svg.append("path")
-      .datum(lines)
-      .attr("fill", "none")
-      .attr("stroke", "black")
-      .attr("stroke-width", 1)
-      .attr("d", d3.line()
-        .x(function(d) { return x(d.x) })
-        .y(function(d) { return y(d.y) })
-        )
-
-
-</script>
-
-<!-- Autocorrelation mockup-->
-
-<script>
-
-var numbers = [];
-for (var i = 0; i <= 40; i++) {
-    numbers.push(i);
-}
-var auto_real= [ 1.0,  0.83194072,  0.60752648,  0.40733211,  0.2393539 ,
-        0.06308392, -0.03042551, -0.00156437,  0.11492175,  0.23156727,
-        0.40431004,  0.587576  ,  0.74329417,  0.73899856,  0.60086223,
-        0.42929339,  0.26445132,  0.08971791, -0.04624491, -0.10146541,
-       -0.05592395,  0.02258253,  0.14953432,  0.32115828,  0.49650044,
-        0.57808745,  0.56546254,  0.45923887,  0.31581384,  0.15070561,
-       -0.00991299, -0.11399981, -0.14651289, -0.12881442, -0.04292734,
-        0.0860217 ,  0.25763288,  0.37661576,  0.4222832 ,  0.39984781,
-        0.30730804];
-
-var auto_fake = [ 1.0,  0.85194072,  0.65752648,  0.40733211,  0.2293539 ,
-        0.06308392, -0.03042551, -0.00156437,  0.13492175,  0.23156727,
-        0.40431004,  0.557576  ,  0.78329417,  0.77899856,  0.60086223,
-        0.42929339,  0.23445132,  0.08971791, -0.07624491, -0.10146541,
-       -0.05592395,  0.02258253,  0.14953432,  0.37115828,  0.46650044,
-        0.52808745,  0.56546254,  0.45923887,  0.33581384,  0.15070561,
-       -0.00991299, -0.11399981, -0.12651289, -0.12881442, -0.04292734,
-        0.1860217 ,  0.28763288,  0.39661576,  0.4822832 ,  0.39984781,
-        0.30730804];
-
-var auto_real_df=[];
-var auto_fake_df=[];
-
-for(var i=0; i<numbers.length; i++){
-    var obj = {real_x: numbers[i], real_auto: auto_real[i]};
-    var obj_fake = {fake_x: numbers[i], fake_auto: auto_fake[i]};
-    auto_real_df.push(obj);
-    auto_fake_df.push(obj_fake);
-        }
-console.log(auto_real_df);
-console.log(auto_fake_df);
-
-// set the dimensions and margins of the graph
-var margin = {top: 20, right: 30, bottom: 40, left: 40},
-    width = 340 - margin.left - margin.right,
-    height = 300 - margin.top - margin.bottom;
-
-// append the svg object to the body of the page
-var svg = d3.select("#Autocorrelation_mockup")
-            .append("svg")
-              .attr("width", width + margin.left + margin.right)
-              .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-              .attr("transform",
-                    "translate(" + margin.left + "," + margin.top + ")");
-
-// Add X axis
-    var x = d3.scaleLinear()
-      .domain(d3.extent(auto_real_df, function(d) { return d.real_x; }))
-      .range([ 0, width ]);
-    svg.append("g")
-      .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(x));
-// Add X axis label:
-svg.append("text")
-      .attr("text-anchor", "end")
-      .attr("x", width)
-      .attr("y", height + margin.top + 10)
-      .text("time-lag(weeks)")
-      .style("font-size", "10px");
-    // Add Y axis
-    var y = d3.scaleLinear()
-      .domain( [d3.min(auto_real_df, function(d) { return +d.real_auto }), d3.max(auto_real_df, function(d) { return +d.real_auto })])
-      .range([ height, 0 ]);
-    svg.append("g")
-      .call(d3.axisLeft(y));
-// Y axis label:
-svg.append("text")
-  .attr("text-anchor", "end")
-  .attr("transform", "rotate(-90)")
-  .attr("y", -margin.left + 10)
-  .attr("x", -margin.top)
-  .text("Autocorrelation")
-  .style("font-size", "10px");
-
-// Add the line
-    svg.append("path")
-      .datum(auto_real_df)
-      .attr("fill", "none")
-      .attr("stroke", "#fa0000")
-      .attr("opacity", 0.7)
-      .attr("stroke-width", 1.5)
-      .attr("d", d3.line()
-        .x(function(d) { return x(d.real_x) })
-        .y(function(d) { return y(d.real_auto) })
-        )
-    // Add the points
-    svg
-      .append("g")
-      .selectAll("dot")
-      .data(auto_real_df)
-      .enter()
-      .append("circle")
-        .attr("cx", function(d) { return x(d.real_x) } )
-        .attr("cy", function(d) { return y(d.real_auto) } )
-        .attr("r", 3)
-        .attr("fill", "#fa0000")
-        .attr("opacity", 0.7);
-
-// Add the line
-    svg.append("path")
-      .datum(auto_fake_df)
-      .attr("fill", "none")
-      .attr("stroke", "#417ee0")
-      .attr("stroke-width", 1.5)
-      .attr("opacity", 0.7)
-      .attr("d", d3.line()
-        .x(function(d) { return x(d.fake_x) })
-        .y(function(d) { return y(d.fake_auto) })
-
-        )
-    // Add the points
-    svg
-      .append("g")
-      .selectAll("dot")
-      .data(auto_fake_df)
-      .enter()
-      .append("circle")
-        .attr("cx", function(d) { return x(d.fake_x) } )
-        .attr("cy", function(d) { return y(d.fake_auto) } )
-        .attr("r", 3)
-        .attr("fill", "#417ee0")
-        .attr("opacity", 0.7);
-
-// Handmade legend
-svg.append("circle").attr("cx",200).attr("cy",20).attr("r", 5).style("fill", "#fa0000").style("opacity", 0.7)
-svg.append("circle").attr("cx",200).attr("cy",40).attr("r", 5).style("fill", "#417ee0").style("opacity", 0.7)
-svg.append("text").attr("x", 215).attr("y", 25).text("original data").style("font-size", "10px").attr("alignment-baseline","middle")
-svg.append("text").attr("x", 215).attr("y", 45).text("synthetic data").style("font-size", "10px").attr("alignment-baseline","middle")
-svg.append("text").attr("x", 50).attr("y", 0).text("Autocorrelation plot").style("font-size", "15px").attr("alignment-baseline","middle")
-
-</script>
-
-<!--predictive model mockup-->
-
-<script>
-
-//var names = ["Age","Height","BMI","Cancer Type","Ethnicity","Visit Date","Admitting Hospital","Tumour Size","Specialist Code","Hospital Duration","Temperature","Drug","Gender"];
-var names = ["var13","var3","var4","var12","var7","var9","var2","var11","var10","var6","var1"]
-var x_axis = [0.1,0.2,0.3,0.3,0.4,0.5,0.5,0.6,0.7,0.8,0.9,0.95,1.0];
-var y_axis = [0.1,0.35,0.3,0.5,0.65,0.6,0.45,0.4,0.45,0.7,0.9,0.9,0.8];
-accuracy_dummy=[];
-for(var i=0; i<x_axis.length; i++){
-  var obj = {real: x_axis[i], fake: y_axis[i], variable:names[i]};
-  accuracy_dummy.push(obj);
-}
-console.log(accuracy_dummy);
-
-// set the dimensions and margins of the graph
-var margin = {top: 20, right: 30, bottom: 40, left: 40},
-    width = 340 - margin.left - margin.right,
-    height = 300 - margin.top - margin.bottom;
-
-// append the svg object to the body of the page
-var svg = d3.select("#predictive_mockup")
-            .append("svg")
-              .attr("width", width + margin.left + margin.right)
-              .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-              .attr("transform",
-                    "translate(" + margin.left + "," + margin.top + ")");
-
-
-              // Add X axis
-  var x = d3.scaleLinear()
-      .domain([0, 1])
-      .range([ 0, width ]);
-  svg.append("g")
-      .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(x));
-      // Add X axis label:
-  svg.append("text")
-      .attr("text-anchor", "end")
-      .attr("x", width)
-      .attr("y", height + margin.top + 10)
-      .text("accuracy score - original data")
-      .style("font-size", "10px");
-
-             // Add Y axis
-  var y = d3.scaleLinear()
-      .domain([0, 1])
-      .range([ height, 0]);
-  svg.append("g")
-      .call(d3.axisLeft(y));
-      // Y axis label:
-  svg.append("text")
-      .attr("text-anchor", "end")
-      .attr("transform", "rotate(-90)")
-      .attr("y", -margin.left + 10)
-      .attr("x", -margin.top)
-      .text("accuracy score - synthesised data")
-      .style("font-size", "10px");
-
-      //hover function
-
-  var tooltip = d3.select("#predictive_mockup")
-      .append("div")
-      .style("opacity", 0)
-      .attr("class", "tooltip")
-      .style("position", "absolute")
-      .style("background-color", "white")
-      .style("border", "solid")
-      .style("border-width", "1px")
-      .style("border-radius", "5px")
-      .style("padding", "5px")
-
-      // Three function that change the tooltip when user hover / move / leave a cell
-  var mouseover = function(d) {
-    // d3.mouse(this) returns x,y in relation to the svg, not in relation to the page
-    // so when you transform the div it ends up in the corner
-    // So you need to use either event.pageY or d3.event.pageY
-    // I'd use the d3 one just for cohesivness but don't think it matters tbh
-    tooltip
-      .style("opacity", 1)
-    d3.select(this)
-      .style("stroke", "black")
-      .style("opacity", 1)
-  }
-  var mousemove = function(d) {
-    tooltip
-      .html(d.variable)
-      .style("top", (d3.event.pageY + 10)+"px")
-      .style("left",(d3.event.pageX + 10)+"px")
-      // .style("top", (event.pageY)+"px")
-      // .style("left",(event.pageX)+"px")
-  }
-  var mouseleave = function(d) {
-    tooltip
-      .transition()
-      .style("opacity", 0)
-    d3.select(this)
-      .style("stroke", "none")
-      .style("opacity", 0.8)
-  }
-
-      // Add dots
-svg.append('g')
-.selectAll("dot")
-.data(accuracy_dummy)
-.enter()
-.append("circle")
- .attr("cx", function (d) { return x(d.real); } )
- .attr("cy", function (d) { return y(d.fake); } )
- .attr("r", 5)
- .style("fill", "#472F91") //#69b3a2
- .style("opacity", 0.7)
-.on("mouseover", mouseover)
-.on("mousemove", mousemove)
-.on("mouseleave", mouseleave);
-
-lines=[{x:0,y:0},{x:0.5,y:0.5},{x:1,y:1}]
-
-svg.append("path")
-      .datum(lines)
-      .attr("fill", "none")
-      .attr("stroke", "black")
-      .attr("stroke-width", 1)
-      .attr("d", d3.line()
-        .x(function(d) { return x(d.x) })
-        .y(function(d) { return y(d.y) })
-        )
 
 
 </script>

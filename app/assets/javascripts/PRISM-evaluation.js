@@ -415,9 +415,9 @@ $(document).ready(function(){
 
     function visualisation_mse1(datamse1){
 
-        scatterplot ("#Fig_1_LR",datamse1.filter(e=>e.model=="LR"),"mse_1_ori","mse_1_gen","variable","MSE_1 Original Data","MSE_1 Generated Data")
-        scatterplot ("#Fig_1_KNR1",datamse1.filter(e=>e.model=="KNR1"),"mse_1_ori","mse_1_gen","variable","MSE_1 Original Data","MSE_1 Generated Data")
-        scatterplot ("#Fig_1_DTR",datamse1.filter(e=>e.model=="DTR"),"mse_1_ori","mse_1_gen","variable","MSE_1 Original Data","MSE_1 Generated Data")
+        scatterplot ("#Fig_1_LR",datamse1.filter(e=>e.model=="LR"),"mse_1_ori","mse_1_gen","variable","log(MSE_1) Original Data","log(MSE_1) Generated Data")
+        scatterplot ("#Fig_1_KNR1",datamse1.filter(e=>e.model=="KNR1"),"mse_1_ori","mse_1_gen","variable","log(MSE_1) Original Data","log(MSE_1) Generated Data")
+        scatterplot ("#Fig_1_DTR",datamse1.filter(e=>e.model=="DTR"),"mse_1_ori","mse_1_gen","variable","log(MSE_1) Original Data","log(MSE_1) Generated Data")
     };
 
     function visualisation_mse3(datamse3){
