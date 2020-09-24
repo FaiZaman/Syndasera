@@ -32,7 +32,7 @@ $(document).ready(function(){
     };
 
     function visualisation(data) {
-    console.log("hey there")
+    console.log("1000 rows of the full data")
     console.log(data)
     // Three function that change the tooltip when user hover / move / leave a cell
 
@@ -149,9 +149,141 @@ $(document).ready(function(){
         // console.log("Nested data structure")
          console.log("These are the counts by week")
          console.log(allWeekCounts)
-         console.log(allWeekCounts.filter(e=>e.column=="visit_type"))
+         //console.log(allWeekCounts.filter(e=>e.column=="visit_type"))
 
-    //--HISTOGRAM divs--//
+        // function flatten(obj) {
+        //     var flattenedObj = {};
+        //     Object.keys(obj).forEach(function(key){
+        //     if (typeof obj[key] === 'object') {
+        //         $.extend(flattenedObj, flatten(obj[key]));
+        //     } else {
+        //         flattenedObj[key] = obj[key];
+        //     }
+        //     });
+        //     return flattenedObj;
+        // }
+        //console.log(flatten(arr1))
+
+        // flat_array=[];
+        // function superflat(array){
+        //     for (var i = 0; i < array.length; i++) {
+        //         var obj = array[i]
+        //         var flattenedObj = {};
+        //         Object.keys(obj).forEach(function(key){
+        //             if (typeof obj[key] === 'object') {
+        //                 $.extend(flattenedObj, flatten(obj[key]));
+        //             } else {
+        //                 flattenedObj[key] = obj[key];
+        //             }
+        //         });
+        //         flat_array.push(flattenedObj);
+        //     }
+        // };
+
+        // superflat(arr1);
+        //console.log(flat_array)
+
+        // mega_flat_array=[];
+        // function megaflatten(obj) {
+        //     Object.keys(obj).forEach(function(key){
+        //     var flattenedObj = {};
+        //     if (typeof obj[key] === 'object') {
+        //         $.extend(flattenedObj, flatten(obj[key]));
+        //     } else {
+        //         flattenedObj[key] = obj[key];
+        //     }
+        //     mega_flat_array.push(flattenedObj); //same result
+        //     });
+        // //mega_flat_array.push(flattenedObj);
+        // }
+
+        //megaflatten(arr1)
+        //console.log("mega flat")
+        //console.log(mega_flat_array)
+
+        // function flattenObject(ob) {
+        //   var toReturn = {};
+        //   var flatObject;
+        //   for (var i in ob) {
+        //     if (!ob.hasOwnProperty(i)) {
+        //       continue;
+        //     }
+        //     if ((typeof ob[i]) === 'object') {
+        //       flatObject = flattenObject(ob[i]);
+        //       for (var x in flatObject) {
+        //         if (!flatObject.hasOwnProperty(x)) {
+        //           continue;
+        //         }
+        //         toReturn[x] = flatObject[x];
+        //       }
+        //     } else {
+        //       toReturn[i] = ob[i];
+        //     }
+        //   }
+        //   return toReturn;
+        // };
+        //
+        // console.log(flattenObject(arr1))
+
+
+
+//         function flattenArrayObjects(arr) {
+//             return arr.map(obj => flatten(obj));
+//         }
+//
+//         function flatten(obj, output = {}) {
+//             return Object.entries(obj).reduce((res,[k,v]) => {
+//                 if (typeof v === "object") {
+//                     res = flatten(v, res);
+//                 } else {
+//                     res[k] = v;
+//                 }
+//             return res;
+//             }, output);
+//         }
+//
+// console.log(flattenArrayObjects(arr1));
+
+        function flatten(branch, flattenedObj) {
+            Object.keys(branch).forEach((key) => {
+                if (typeof branch[key] === "object") {
+                    Object.assign({}, flattenedObj, flatten(branch[key], flattenedObj));
+                } else {
+                    if (key in flattenedObj) {
+                        // new row detected, get existing keys to work with
+                        let keysArray = Object.keys(flattenedObj);
+                        // we are going to loop backwards and delete duplicate keys
+                        let end = Object.keys(flattenedObj).length;
+                        let stopAt = Object.keys(flattenedObj).indexOf(key);
+                        //delete object keys from back of object to the newly found one
+                    for (let z = end; z > stopAt; z--) {
+                        delete flattenedObj[keysArray[z - 1]];
+                    }
+                    flattenedObj[key] = branch[key];
+                    } else {
+                        flattenedObj[key] = branch[key];
+                    }
+                }
+            });
+            //convert to string to remove duplicates later. probably should not have duplicates in first place
+            arrayWeek.push(JSON.stringify(flattenedObj));
+            return flattenedObj;
+        }
+
+        // var array = [];
+        // flatten(arr1, {});
+        //
+        // //remove duplicates
+        // array = array.filter(function(item, pos) {
+        //     return array.indexOf(item) == pos;
+        // });
+        //
+        // //convert back to array
+        // array = array.map((array) => JSON.parse(array));
+        // console.log("here it is")
+        // console.log(array);
+
+         //--HISTOGRAM divs--//
         var divs_to_add = [
             [
                 "haemoglobin_histogram",
@@ -182,6 +314,12 @@ $(document).ready(function(){
                 "febrile_cathistogram",
                 "autocorrelation",
                 "autocorrelation2"
+            ],
+            [
+                "week_visit_type"
+            ],
+            [
+                "week_ab_pain"
             ]
         ];
 
@@ -199,80 +337,179 @@ $(document).ready(function(){
         });
         //$(".default-graphs").hide();
 
+        var margin = {top: 60, right: 30, bottom: 60, left: 50};
+        var width = 345 - margin.left - margin.right;
+        var height = 300 - margin.top - margin.bottom;
 
         ////////----- week collapsed bar chart----//////
 
-        function drawWeekBarChart (dom, array, var1, var2, name){
+        function removenulls(column){
+            withoutNulls = subset.filter(function(obj) {
+                return obj[column] != null;
+            });
+        }
+
+        function drawWeekBarChart (dom, array, name){
+
+            array = array.filter(function(item, pos) {
+                return array.indexOf(item) == pos;
+            });
+
+            array = array.map((array) => JSON.parse(array));
+
+            var array = array.slice(0, 50);
+
+            var margin = {top: 60, right: 30, bottom: 60, left: 50};
+            var width = 1100 - margin.left - margin.right;
+            var height = 300 - margin.top - margin.bottom;
 
             var svg = d3.select(dom)
                         .append("svg")
                         .attr("width", width + margin.left + margin.right)
-                        .attr("height", height + margin.top + margin.bottom)
-                        .append("g")
+                        .attr("height", height + margin.top + margin.bottom);
+
+            var color = d3.scaleOrdinal(d3.schemeCategory10);
+
+            var x = d3.scaleBand()
+                    .rangeRound([0, width])
+                    .padding(0.1),
+                y = d3.scaleLinear()
+                    .rangeRound([height, 0]);
+
+            var g = svg.append("g")
                         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-            var subgroups = [var1,var2]
-            console.log("subgroups")
-            console.log(subgroups)
+            var ymaxdomain = d3.max(array, function(d) {
+                return d.count;
+            });
 
-            // List of groups that will be on the x axis
-            var groups = d3.map(array, function(d){return(d["week"])}).keys()
+            x.domain(array.map(function(d) {
+                return d.week
+            }));
 
-            //X axis
-            var x = d3.scaleBand()
-              .domain(groups)
-              .range([0, width])
-              .padding([0.2])
-            svg.append("g")
-            .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(x).tickSize(0));
+            y.domain([0, ymaxdomain]);
 
-            //Y axis
-            var y = d3.scaleLinear()
-            //    .domain([0, (d3.max(hist_dummy, function(d) { return +d.real})])
-                    .domain([0,0.8])
-                    .range([ height, 0 ]);
+            var x1 = d3.scaleBand()
+                .rangeRound([0, x.bandwidth()])
+                .padding(0.05)
+                .domain(array.map(function(d) {
+                    return d.variable;
+                }));
 
-            svg.append("g")
-                .call(d3.axisLeft(y));
+            color.domain(array.map(function(d) {
+                return d.variable;
+            }));
 
-            // Another scale for subgroup position?
-            var xSubgroup = d3.scaleBand()
-                                .domain(subgroups)
-                                .range([0, x.bandwidth()])
-                                .padding([0.05]);
+            var groups = g.selectAll(null)
+              .data(array)
+              .enter()
+              .append("g")
+              .attr("transform", function(d) {
+                return "translate(" + x(d.week) + ",0)";
+            })
 
-            // color palette = one color per subgroup
-            var color = d3.scaleOrdinal()
-                          .domain(subgroups)
-                          .range(['#fa0000','#417ee0']);
+            var bars = groups.selectAll(null)
+                            .data(function(d) {
+                                return [d]
+                            })
+              .enter()
+              .append("rect")
+              .attr("x", function(d, i) {
+                return x1(d.variable)
+              })
+              .attr("y", function(d) {
+                return y(d.count);
+              })
+              .attr("width", x1.bandwidth())
+              .attr("height", function(d) {
+                return height - y(d.count);
+              })
+              .attr("fill", function(d) {
+                return color(d.variable)
+              })
+              .on("mouseover", mouseover)
+              .on("mousemove", mousemoveBar)
+              .on("mouseleave", mouseleave);
 
-            // Show the bars
-            svg.append("g")
-                .selectAll("g")
-            // Enter in data = loop group per group
-                .data(array)
-                .enter()
-                .append("g")
-                .attr("transform", function(d) { return "translate(" + x(d["week"]) + ",0)"; })
-                .selectAll("rect")
-                .data(function(d) { return subgroups.map(function(key) { return {key: key, value: d[key]}; }); })
-                .enter().append("rect")
-                .attr("x", function(d) { return xSubgroup(d.key); })
-                .attr("y", function(d) { return y(d.value); })
-                .attr("width", xSubgroup.bandwidth())
-                .attr("height", function(d) { return height - y(d.value); })
-                .attr("fill", function(d) { return color(d.key); })
-                .attr("opacity", 0.7);
+            g.append("g")
+              .attr("transform", "translate(0," + height + ")")
+              .call(d3.axisBottom(x))
+              .selectAll("text")
+              .attr("transform", "translate(-10,0)rotate(-45)")
+              .style("text-anchor", "end");
 
-            svg.append("circle").attr("cx",30).attr("cy",20).attr("r", 5).style("fill", "#fa0000").style("opacity", 0.7)
-            svg.append("circle").attr("cx",30).attr("cy",40).attr("r", 5).style("fill", "#417ee0").style("opacity", 0.7)
-            svg.append("text").attr("x", 40).attr("y", 25).text("original data").style("font-size", "10px").attr("alignment-baseline","middle")
-            svg.append("text").attr("x", 40).attr("y", 45).text("synthetic data").style("font-size", "10px").attr("alignment-baseline","middle")
-            svg.append("text").attr("x", 50).attr("y", 0).text("Empricial distribution plot").style("font-size", "15px").attr("alignment-baseline","middle")
+            g.append("g")
+              .attr("class", "axis")
+              .call(d3.axisLeft(y).ticks(null, "s"))
+              .append("text")
+              .attr("x", 2)
+              .attr("y", y(y.ticks().pop()) + 0.5)
+              .attr("dy", "0.32em")
+              .attr("fill", "#000")
+              .attr("font-weight", "bold")
+              .attr("text-anchor", "start")
+
+            g.append("text").attr("x", 0).attr("y", -40).text(name).style("font-size", "12px").attr("alignment-baseline","middle");
+
+            var legNames = d3.map(array, function(d){return(d.variable)}).keys()
+
+            var legend = g.selectAll(".legend")
+                            .data(legNames.slice().reverse())
+                            .enter().append("g")
+                            .attr("class", "legend")
+                            .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+            legend.append("rect")
+                    .attr("x", width - 9)
+                    .attr("y", -42)
+                    .attr("width", 9)
+                    .attr("height", 9)
+                    .style("fill", color);
+
+            legend.append("text")
+                    .attr("x", width - 17)
+                    .attr("y", -38)
+                    .attr("dy", ".35em")
+                    .style("font-size", "12px")
+                    .style("text-anchor", "end")
+                    .text(function(d) { return d; });
 
         };
 
+        // arr_flatten.sort(function(a,b){
+        //     return a.week - b.week;
+        // });
+        //
+        // console.log(arr_flatten)
+
+        var subset = allWeekCounts.filter(e=>e.column=="visit_type");
+        var arrayWeek = [];
+        flatten(subset, {});
+        drawWeekBarChart ("#week_visit_type", arrayWeek, "Visit type counts per week")
+
+        // var subset = allWeekCounts.filter(e=>e.column=="admitting_hospital");
+        // // var subset = subset.filter(function (el) {
+        // //   return el != null;
+        // // });
+        // const removeEmpty = (obj) => {
+        //     Object.keys(obj).forEach(key =>
+        //         (obj[key] && typeof obj[key] === 'object') && removeEmpty(obj[key]) ||
+        //         (obj[key] === undefined || obj[key] === null) && delete obj[key]
+        //     );
+        //     return obj;
+        // };
+        //
+        // var subset = removeEmpty(subset)
+        // console.log(subset)
+        // var arrayWeek = [];
+        // flatten(subset, {});
+        // console.log(arrayWeek)
+        // drawWeekBarChart ("#week_admitting_hospital", arrayWeek, "Admitting hospital counts per week")
+
+        var subset = allWeekCounts.filter(e=>e.column=="abdominal_pain");
+        var arrayWeek = [];
+        flatten(subset, {});
+        drawWeekBarChart ("#week_ab_pain", arrayWeek, "Abdominal pain counts per week")
 
         /////////-------HISTOGRAM-------/////////
 
@@ -291,10 +528,6 @@ $(document).ready(function(){
                 return obj[column] != null;
             });
         }
-
-        var margin = {top: 60, right: 30, bottom: 60, left: 50};
-        var width = 345 - margin.left - margin.right;
-        var height = 300 - margin.top - margin.bottom;
 
         function drawHistogram (dom, array, column, name){
 

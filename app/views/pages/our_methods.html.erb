@@ -31,7 +31,7 @@
 <!--<p>We are able to accommodate static, time-series and mixed data. In the PRISM dataset we present here, each participant had x static and x temporal features including binary, categorical and numerical types. ... add more stuff about how flexible it is...</p>-->
 <p>Our model is flexible and able to deal with different types of data. We are able to accommodate static, time-series and mixed data. In the PRISM dataset we present here, each participant had static features such as household ID and temporal features such as weight. The dataset also contains numerical data that is continuous such as weight and categorical data, such as whether a patient has a cough. The categorical data are one-hot-encoded before being fed into the model. </p>
 <p>When dealing with time-series data, a model usually requires the same time-series length for each sample of data. In our dataset however, each participant visited the hospital a different number of times. Our model is able to cope with these different number of visits and is capable of capturing the distribution of the number of visits participants make.</p>
-<p>Recurrent Neural Networks that are used in the model expects a regularly-spaced time-series data for all individuals. However, medical data of participants tend to be irregular, i.e. participants do not tend to visit the hospital every day. To account for the missing time-steps, an additional input time, delta time, column is fed into the algorithm so that the algorithm is above to generate the time in which an event occurs.</p>
+<p>Recurrent Neural Networks that are used in the model expects a regularly-spaced time-series data for all individuals. However, medical data of participants tend to be irregular, i.e. participants do not tend to visit the hospital every day. To account for the missing time-steps, an additional input time, delta time, column is fed into the algorithm so that the algorithm is able to generate the time in which an event occurs.</p>
 <!--...stuff about how flexible it is…-->
 <p>Data obtained is first divided into attributes and temporal features. The temporal features are then classified into numerical and categorical data, in which categorical data is then one-hot-encoded. Missing values in the data are filled in with interpolated values. The data is then batched and each sample of the batched data represents a participant.</p>
 
@@ -66,24 +66,24 @@
 <figcaption><i>Architecture of the synthetic data generator</i></figcaption>
 </figure>
 
-<p>The GAN is made of two competing networks - the generator and discriminator - both improving together as we train. 
-   They are adversarial in the game theory sense, and are playing a zero-sum game. 
-   The generator tries to generate realistic looking data while the discriminator is shown real data and synthetic data from the generator and its job is to classify them as either real or fake. 
-   In training, the generator updates its weights to maximize the probability that fake data is being classified as real, which is the opposite of what the discriminator does. 
+<p>The GAN is made of two competing networks - the generator and discriminator - both improving together as we train.
+   They are adversarial in the game theory sense, and are playing a zero-sum game.
+   The generator tries to generate realistic looking data while the discriminator is shown real data and synthetic data from the generator and its job is to classify them as either real or fake.
+   In training, the generator updates its weights to maximize the probability that fake data is being classified as real, which is the opposite of what the discriminator does.
    Once the discriminator starts to only classify the data right about half the time, we know that the generator is generating realistic looking data such that the discriminator is not able to distinguish the real and fake samples. </p>
-<p>An additional discriminator, called the Auxiliary discriminator, is added specifically for classifying attributes. 
+<p>An additional discriminator, called the Auxiliary discriminator, is added specifically for classifying attributes.
    This helps split up the problem and gives the generator better feedback in order to improve fidelity.</p>
-<p>The algorithm is capable of capturing the correlation between attributes (static values) and temporal features. 
-   To enable the model to capture these correlations, data generation is separated into 2 phases: first by generating the attributes, 
+<p>The algorithm is capable of capturing the correlation between attributes (static values) and temporal features.
+   To enable the model to capture these correlations, data generation is separated into 2 phases: first by generating the attributes,
    and then the features are generated based on the attributes to capture these dependencies.</p>
-<p>In order to alleviate mode collapse, data is first normalised. 
-  Then for each feature the data has, combinations derived from the minimum and maximum for each sample are used as added attributes. 
+<p>In order to alleviate mode collapse, data is first normalised.
+  Then for each feature the data has, combinations derived from the minimum and maximum for each sample are used as added attributes.
   These added attributes are also used to scale features back to a realistic range.</p>
-<p>To capture temporal correlations with long time-series length, MLPs and RNNs are used together in generation. 
-  The MLP network reads the output from the RNN and generates a batch of samples in the desired dimensionality, 
+<p>To capture temporal correlations with long time-series length, MLPs and RNNs are used together in generation.
+  The MLP network reads the output from the RNN and generates a batch of samples in the desired dimensionality,
   and the RNN iterates over each sample to produce consecutive records that make up the whole time series. </p>
-<p>The model is also capable of dealing with different time-series length, i.e. participants visiting the hospital a different number of times. 
-  A generation flag was added to indicate whether a time series has ended. And if the time series has ended, the generator stops generating data. 
+<p>The model is also capable of dealing with different time-series length, i.e. participants visiting the hospital a different number of times.
+  A generation flag was added to indicate whether a time series has ended. And if the time series has ended, the generator stops generating data.
   The generation flags are also fed to the discriminator as part of the features so that the discriminator can learn sample time-series length characteristics.</p>
 
 <h5 style="color:#472F91">Privacy</h5>
@@ -249,13 +249,3 @@ Data shared between clients and Syndasera will be held on a Data Access Environm
 <!--<a href="/make_request">text</a>-->
 <!--<a href="/prism_dashboard">text</a>-->
 <!--<a href="/prism_evaluation">text</a>-->
-
-<script>
-
-
-
-///////////////////////
-
-
-
-</script>
