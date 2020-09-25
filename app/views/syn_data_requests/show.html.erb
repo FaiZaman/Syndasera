@@ -25,21 +25,78 @@
 <h4>Upload your data:</h4>
 <br>
 
-<%= s3_uploader_form id: "s3-uploader", max_file_size: 50.gigabytes do %>
-  <%= file_field_tag :file, multiple: false %>
-<% end %>
+<script src="https://sdk.amazonaws.com/js/aws-sdk-2.1.12.min.js"></script>
 
-<%= s3_uploader_form callback_method: "POST",
-                     callback_param: "model[image_url]",
-                     key: "files/{timestamp}-{unique_id}-#{SecureRandom.hex}/${filename}",
-                     key_starts_with: "files/",
-                     acl: "public-read",
-                     max_file_size: 50.megabytes,
-                     id: "s3-uploader",
-                     class: "upload-form",
-                     data: {:key => :val} do %>
-  <%= file_field_tag :file, multiple: true %>
-<% end %>
+<p>
+    <input type="file" id="file-chooser" />
+    <button id="upload-button">Upload to S3</button>
+    <div id="results"></div>
+    <script type="text/javascript">
+    AWS.config.region = 'eu-west-2'; // 1. Enter your region
+
+    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+        IdentityPoolId: 'eu-west-2:ec2ef15e-d4b4-483a-8cf8-2269b4b3a86b'
+    });
+
+    AWS.config.credentials.get(function(err) {
+        if (err) alert(err);
+        console.log(AWS.config.credentials);
+    });
+
+    var bucketName = 'sagemaker-eu-west-2-845678102724'; // Enter your bucket name
+    var bucket = new AWS.S3({
+        params: {
+            Bucket: bucketName
+        }
+    });
+
+    var fileChooser = document.getElementById('file-chooser');
+    var button = document.getElementById('upload-button');
+    var results = document.getElementById('results');
+    button.addEventListener('click', function() {
+
+        var file = fileChooser.files[0];
+
+        if (file) {
+
+            results.innerHTML = '';
+            var objKey = 'testing/' + file.name;
+            var params = {
+                Key: objKey,
+                ContentType: file.type,
+                Body: file,
+                ACL: 'public-read'
+            };
+
+            bucket.putObject(params, function(err, data) {
+                if (err) {
+                    results.innerHTML = 'ERROR: ' + err;
+                } else {
+                    listObjs();
+                }
+            });
+        } else {
+            results.innerHTML = 'Nothing to upload.';
+        }
+    }, false);
+    function listObjs() {
+        var prefix = 'testing';
+        bucket.listObjects({
+            Prefix: prefix
+        }, function(err, data) {
+            if (err) {
+                results.innerHTML = 'ERROR: ' + err;
+            } else {
+                var objKeys = "";
+                data.Contents.forEach(function(obj) {
+                    objKeys += obj.Key + "<br>";
+                });
+                results.innerHTML = objKeys;
+            }
+        });
+    }
+    </script>
+</p>
 <hr>
 
 <h4>Progress of your request:</h4>

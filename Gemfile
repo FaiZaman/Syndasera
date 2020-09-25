@@ -58,4 +58,5 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 #adding gem for uploading csv files to AWS s3
-gem 's3_direct_upload'
+# gem 's3_direct_upload'
+gem 'aws-sdk-s3', '~> 1'
