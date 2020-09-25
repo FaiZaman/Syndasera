@@ -33,7 +33,7 @@
     AWS.config.region = 'eu-west-2'; // 1. Enter your region
 
     AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-        IdentityPoolId: 'eu-west-2:ec2ef15e-d4b4-483a-8cf8-2269b4b3a86b'
+        IdentityPoolId: 'eu-west-2:ba84027b-1732-4c8c-b8be-8f17b369656d'
     });
 
     AWS.config.credentials.get(function(err) {
@@ -41,7 +41,7 @@
         console.log(AWS.config.credentials);
     });
 
-    var bucketName = 'sagemaker-eu-west-2-845678102724'; // Enter your bucket name
+    var bucketName = ''; // Enter your bucket name
     var bucket = new AWS.S3({
         params: {
             Bucket: bucketName
@@ -70,37 +70,31 @@
                 if (err) {
                     results.innerHTML = 'ERROR: ' + err;
                 } else {
-                    listObjs();
+                    // listObjs();
+                    results.innerHTML = file.name + " was uploaded succesfully"
                 }
             });
         } else {
             results.innerHTML = 'Nothing to upload.';
         }
     }, false);
-    function listObjs() {
-        var prefix = 'testing';
-        bucket.listObjects({
-            Prefix: prefix
-        }, function(err, data) {
-            if (err) {
-                results.innerHTML = 'ERROR: ' + err;
-            } else {
-                var objKeys = "";
-                data.Contents.forEach(function(obj) {
-                    objKeys += obj.Key + "<br>";
-                });
-                results.innerHTML = objKeys;
-            }
-        });
-    }
-<<<<<<< HEAD
-    </script>
-</p>
-=======
+    // function listObjs() {
+    //     var prefix = 'testing';
+    //     bucket.listObjects({
+    //         Prefix: prefix
+    //     }, function(err, data) {
+    //         if (err) {
+    //             results.innerHTML = 'ERROR: ' + err;
+    //         } else {
+    //             var objKeys = "";
+    //             data.Contents.forEach(function(obj) {
+    //                 objKeys += obj.Key + "<br>";
+    //             });
+    //             results.innerHTML = objKeys;
+    //         }
+    //     });
+    // }
 </script>
-
-
->>>>>>> 4d24bb623e299a0d149369a2f6ed11fcf939ae5e
 <hr>
 
 <h4>Progress of your request:</h4>
