@@ -1,6 +1,7 @@
 <h2>Viewing Request</h2>
+<hr>
+<h4>Details of your request:</h4>
 <br>
-
 <p>
   <strong>Dataset Name:</strong>
   <%= @request.dataset_name %>
@@ -20,7 +21,29 @@
   Request submitted by <%= @request.first_name %> <%= @request.last_name %>
 </p>
 
-<h4>The progress of your request - updated weekly:</h4>
+<hr>
+<h4>Upload your data:</h4>
+<br>
+
+<%= s3_uploader_form id: "s3-uploader", max_file_size: 50.gigabytes do %>
+  <%= file_field_tag :file, multiple: false %>
+<% end %>
+
+<%= s3_uploader_form callback_method: "POST",
+                     callback_param: "model[image_url]",
+                     key: "files/{timestamp}-{unique_id}-#{SecureRandom.hex}/${filename}",
+                     key_starts_with: "files/",
+                     acl: "public-read",
+                     max_file_size: 50.megabytes,
+                     id: "s3-uploader",
+                     class: "upload-form",
+                     data: {:key => :val} do %>
+  <%= file_field_tag :file, multiple: true %>
+<% end %>
+<hr>
+
+<h4>Progress of your request:</h4>
+<br>
 <div class="progress" style="height: 50px;">
   <div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar"
   style="width: 15%;" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">
@@ -49,8 +72,8 @@
 <br>
 
 <%= link_to 'Back', user_syn_data_requests_path(current_user), :class => "btn btn-info" %><br>
-<%= link_to 'Cancel Request', user_syn_data_request_path(current_user, @request), 
-:class => "btn btn-danger", method: :delete, data: { 
-confirm: 'Are you sure you want to cancel this request? 
-This action cannot be undone and any progress made so far will be discarded.' 
+<%= link_to 'Cancel Request', user_syn_data_request_path(current_user, @request),
+:class => "btn btn-danger", method: :delete, data: {
+confirm: 'Are you sure you want to cancel this request?
+This action cannot be undone and any progress made so far will be discarded.'
 } %>

@@ -296,7 +296,7 @@ $(document).ready(function(){
                 "joint_pains_duration_histogram"
             ],
             [
-                "plasmodium_parasite_density_histogram",
+                "febrile_cathistogram",
                 "visit_type_cathistogram",
                 "asexual_plasmodium_parasite_present_cathistogram"
             ],
@@ -310,11 +310,11 @@ $(document).ready(function(){
                 "malaria_treatment_cathistogram",
                 "complicated_malaria_cathistogram"
             ],
-            [
-                "febrile_cathistogram",
-                "autocorrelation",
-                "autocorrelation2"
-            ],
+            // [
+            //     "plasmodium_parasite_density_histogram",
+            //     "autocorrelation",
+            //     "autocorrelation2"
+            // ],
             [
                 "week_visit_type"
             ],
