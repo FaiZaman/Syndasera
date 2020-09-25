@@ -26,12 +26,19 @@
 <br>
 
 <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1.12.min.js"></script>
+<<<<<<< HEAD
 
 <p>
     <input type="file" id="file-chooser" />
     <button id="upload-button">Upload to S3</button>
     <div id="results"></div>
     <script type="text/javascript">
+=======
+<input type="file" id="file-chooser" />
+<button id="upload-button">Upload to S3</button>
+<div id="results"></div>
+<script type="text/javascript">
+>>>>>>> 4d24bb623e299a0d149369a2f6ed11fcf939ae5e
     AWS.config.region = 'eu-west-2'; // 1. Enter your region
 
     AWS.config.credentials = new AWS.CognitoIdentityCredentials({
@@ -95,8 +102,14 @@
             }
         });
     }
+<<<<<<< HEAD
     </script>
 </p>
+=======
+</script>
+
+
+>>>>>>> 4d24bb623e299a0d149369a2f6ed11fcf939ae5e
 <hr>
 
 <h4>Progress of your request:</h4>
