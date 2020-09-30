@@ -507,8 +507,15 @@ $(document).ready(function(){
         console.log(dataNum)
         histogram ("#hist_weight", dataNum, "weight_ori" , "weight_gen", "Weight", 3)
         histogram ("#hist_temp", dataNum, "temp_ori" , "temp_gen", "Temperature in degrees celsius", 1)
-        histogram ("#hist_age", dataNum, "age_ori" , "age_gen", "Age in years", 3)
+        histogram ("#hist_age", dataNum, "age_ori" , "age_gen", "Age in years", 1)
         histogram ("#hist_height", dataNum, "height_ori" , "height_gen", "Height in cm", 5)
+        histogram ("#hist_ab", dataNum, "ab_pain_dur_ori" , "ab_pain_dur_gen", "Abdominal pain duration in hours", 1)
+        histogram ("#hist_vomit", dataNum, "vomit_dur_gen" , "vomit_dur_ori", "Vomitting duration in hours", 1)
+        histogram ("#hist_plas", dataNum, "plasmodium_density_gen" , "plasmodium_density_ori", "Plasmodium density", 1)
+        histogram ("#hist_fever", dataNum, "fever_dur_gen" , "fever_dur_ori", "Fever duration in hours", 1)
+        histogram ("#hist_hemo", dataNum, "hemoglobin_gen" , "hemoglobin_ori", "Hemoglobin in mg/mL", 1)
+        histogram ("#hist_cough", dataNum, "cough_dur_gen" , "cough_dur_ori", "Cough duration in days", 1)
+
     };
 
     // 1.2 Categorical distribution
@@ -563,9 +570,9 @@ $(document).ready(function(){
 
     function visualisation_mse1(datamse1){
 
-        scatterplot ("#Fig_1_LR",datamse1.filter(e=>e.model=="LR"),"mse_1_ori","mse_1_gen","variable","log(MSE_1) Original Data","log(MSE_1) Generated Data")
-        scatterplot ("#Fig_1_KNR1",datamse1.filter(e=>e.model=="KNR1"),"mse_1_ori","mse_1_gen","variable","log(MSE_1) Original Data","log(MSE_1) Generated Data")
-        scatterplot ("#Fig_1_DTR",datamse1.filter(e=>e.model=="DTR"),"mse_1_ori","mse_1_gen","variable","log(MSE_1) Original Data","log(MSE_1) Generated Data")
+        scatterplot ("#Fig_1_LR",datamse1.filter(e=>e.model=="LR"),"mse_1_ori","mse_1_gen","variable","MSE_1 Original Data","MSE_1 Generated Data")
+        scatterplot ("#Fig_1_KNR1",datamse1.filter(e=>e.model=="KNR1"),"mse_1_ori","mse_1_gen","variable","MSE_1 Original Data","MSE_1 Generated Data")
+        scatterplot ("#Fig_1_DTR",datamse1.filter(e=>e.model=="DTR"),"mse_1_ori","mse_1_gen","variable","MSE_1 Original Data","MSE_1 Generated Data")
     };
 
     function visualisation_mse3(datamse3){
@@ -592,7 +599,6 @@ $(document).ready(function(){
     loadData_num();
     loadData_cat();
     loadData_tSNE();
-    loadData_PCA();
     loadData_PCA();
     loadData_mse1();
     loadData_mse3();

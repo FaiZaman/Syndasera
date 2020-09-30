@@ -1,4 +1,4 @@
-/////NOTE: THIS javascript page was done when Rebeca was learning javascript/d3. For better organisation, see prism_evalauation.js
+/////NOTE: THIS javascript page was done when Rebeca was learning javascript/d3. For better organisation, see prism_evalauation.js or prism-dashboard.js
 
 $(document).ready(function(){
     var margin = {top: 20, right: 30, bottom: 40, left: 40},

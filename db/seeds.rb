@@ -1,4 +1,4 @@
-require 'csv'
+ require 'csv'
 
 # This file should contain all the record creation needed to
 # seed the database with its default values.
@@ -79,7 +79,7 @@ require 'csv'
 #
 # puts "There are now #{PrismObservation.count} rows in the transactions table"
 #
-# tSNE_plots = File.read(Rails.root.join('lib', 'seeds', 'dp_tsne_coordinates.csv'))
+# tSNE_plots = File.read(Rails.root.join('lib', 'seeds', 'tsne_coordinates.csv'))
 # csv2 = CSV.parse(tSNE_plots, :headers => true, :encoding => 'ISO-8859-1')
 # csv2.each do |row|
 #   u = TSne.new
@@ -95,7 +95,7 @@ require 'csv'
 #
 # puts "There are now #{TSne.count} rows in the tSNE table"
 #
-# pca_plots = File.read(Rails.root.join('lib', 'seeds', 'dp_pca_coordinates.csv'))
+# pca_plots = File.read(Rails.root.join('lib', 'seeds', 'pca_coordinates.csv'))
 # csv3 = CSV.parse(pca_plots, :headers => true, :encoding => 'ISO-8859-1')
 # csv3.each do |row|
 #   v = PcaCoordinate.new
@@ -116,7 +116,7 @@ require 'csv'
 # csv4.each do |row|
 #   v = TPredictiveCoordinate.new
 #
-#   v.column = row['test']
+#   v.column = row['column']
 #   v.test_loss_ori = row['test_loss_real']
 #   v.test_metric_ori = row['test_metric_real']
 #   v.test_loss_gen = row['test_loss_syn']
@@ -161,24 +161,50 @@ require 'csv'
 # num_plot = File.read(Rails.root.join('lib', 'seeds', 'distribution_num_coordinates.csv'))
 # csv6 = CSV.parse(num_plot, :headers => true, :encoding => 'ISO-8859-1')
 # csv6.each do |row|
-#   v = DistributionNumCoordinate.new
+#   t = DistributionNumCoordinatesToday.new
 #
-#   v.dday_gen = row['dday_gen']
-#   v.weight_gen = row['weight_gen']
-#   v.height_gen = row['height_gen']
-#   v.age_gen = row['age_gen']
-#   v.temp_gen = row['temp_gen']
-#   v.dday_ori = row['dday_ori']
-#   v.weight_ori = row['weight_ori']
-#   v.height_ori = row['height_ori']
-#   v.age_ori = row['age_ori']
-#   v.temp_ori = row['temp_ori']
+#   t.ab_pain_dur_gen = row['ab_pain_dur_gen']
+#   t.age_gen = row['age_gen']
+#   t.aneroxia_dur_gen = row['aneroxia_dur_gen']
+#   t.plasmodium_density_gen = row['plasmodium_density_gen']
+#   t.cough_dur_gen = row['cough_dur_gen']
+#   t.diarrhea_dur_gen = row['diarrhea_dur_gen']
+#   t.fatigue_dur_gen = row['fatigue_dur_gen']
+#   t.fever_dur_gen = row['fever_dur_gen']
+#   t.headache_dur_gen = row['headache_dur_gen']
+#   t.height_gen = row['height_gen']
+#   t.hemoglobin_gen = row['hemoglobin_gen']
+#   t.joint_pain_dur_gen = row['joint_pain_dur_gen']
+#   t.muscle_ache_dur_gen = row['muscle_ache_dur_gen']
+#   t.temp_gen = row['temp_gen']
+#   t.vomit_dur_gen = row['vomit_dur_gen']
+#   t.weight_gen = row['weight_gen']
+#   t.dday_gen = row['dday_gen']
+#   t.first_dday_gen = row['first_dday_gen']
+#   t.ab_pain_dur_ori = row['ab_pain_dur_ori']
+#   t.age_ori = row['age_ori']
+#   t.aneroxia_dur_ori = row['aneroxia_dur_ori']
+#   t.plasmodium_density_ori = row['plasmodium_density_ori']
+#   t.cough_dur_ori = row['cough_dur_ori']
+#   t.diarrhea_dur_ori = row['diarrhea_dur_ori']
+#   t.fatigue_dur_ori = row['fatigue_dur_ori']
+#   t.fever_dur_ori = row['fever_dur_ori']
+#   t.headache_dur_ori = row['headache_dur_ori']
+#   t.height_ori = row['height_ori']
+#   t.hemoglobin_ori = row['hemoglobin_ori']
+#   t.joint_pain_dur_ori = row['joint_pain_dur_ori']
+#   t.muscle_ache_dur_ori = row['muscle_ache_dur_ori']
+#   t.temp_ori = row['temp_ori']
+#   t.vomit_dur_ori = row['vomit_dur_ori']
+#   t.weight_ori = row['weight_ori']
+#   t.dday_ori = row['dday_ori']
+#   t.first_dday_ori = row['first_dday_ori']
 #
-#   v.save
-#   puts "#{v.dday_gen}, #{v.dday_ori} saved"
+#   t.save
+#   puts "#{t.dday_gen}, #{t.dday_ori} saved"
 # end
 #
-# puts "There are now #{DistributionNumCoordinate.count} rows in the num table"
+# puts "There are now #{DistributionNumCoordinatesToday.count} rows in the num table"
 #
 # mse1_plot = File.read(Rails.root.join('lib', 'seeds', 'MSE_1_coordinates_figure1.csv'))
 # csv7 = CSV.parse(mse1_plot, :headers => true, :encoding => 'ISO-8859-1')
@@ -195,7 +221,7 @@ require 'csv'
 # end
 #
 # puts "There are now #{Mse13Coordinate.count} rows in the mse1 table"
-
+#
 # auto_visit_plot = File.read(Rails.root.join('lib', 'seeds', 'autocorrelation_visitweeks.csv'))
 # csv8 = CSV.parse(auto_visit_plot, :headers => true, :encoding => 'ISO-8859-1')
 # csv8.each do |row|
@@ -210,18 +236,18 @@ require 'csv'
 # end
 #
 # puts "There are now #{AutocorrelationVisitweek.count} rows in the auto visit table"
-
-auto_malaria_plot = File.read(Rails.root.join('lib', 'seeds', 'autocorrelation_malaria.csv'))
-csv9 = CSV.parse(auto_malaria_plot, :headers => true, :encoding => 'ISO-8859-1')
-csv9.each do |row|
-  v = AutocorrelationMalarium.new
-
-  v.index = row['index']
-  v.original = row['original']
-  v.generated = row['generated']
-
-  v.save
-  puts "#{v.index}, #{v.generated} saved"
-end
-
-puts "There are now #{AutocorrelationMalarium.count} rows in the auto visit table"
+#
+# auto_malaria_plot = File.read(Rails.root.join('lib', 'seeds', 'autocorrelation_malaria.csv'))
+# csv9 = CSV.parse(auto_malaria_plot, :headers => true, :encoding => 'ISO-8859-1')
+# csv9.each do |row|
+#   v = AutocorrelationMalarium.new
+#
+#   v.index = row['index']
+#   v.original = row['original']
+#   v.generated = row['generated']
+#
+#   v.save
+#   puts "#{v.index}, #{v.generated} saved"
+# end
+#
+# puts "There are now #{AutocorrelationMalarium.count} rows in the auto visit table"

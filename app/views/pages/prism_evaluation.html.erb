@@ -1,4 +1,5 @@
 <%= javascript_include_tag 'PRISM-evaluation.js' %>
+<!-- The data used for this file is from prism_eval_c1000_RF -->
 
 <style>
 table, th, td {
@@ -61,6 +62,12 @@ th,td {
         <div id="hist_weight"></div>
         <div id="hist_height"></div>
         <div id="hist_temp"></div>
+        <div id="hist_hemo"></div>
+        <div id="hist_plas"></div>
+        <div id="hist_ab"></div>
+        <!-- <div id="hist_vomit"></div>
+        <div id="hist_fever"></div>
+        <div id="hist_cough"></div> -->
     </li>
     <br>
     <li>Kolmogrov-Smirnov Test p-value
@@ -73,19 +80,19 @@ th,td {
             </tr>
             <tr>
                 <td>ab_pain_dur</td>
-                <td>0.0000000</td>
+                <td>0.0000940</td>
             </tr>
             <tr>
                 <td>age</td>
-                <td>0.0296672</td>
+                <td>0.0993394</td>
             </tr>
             <tr>
-                <td>aneroxia_dur</td>
+                <td>anorexia_dur</td>
                 <td>0.0000000</td>
             </tr>
             <tr>
                 <td>plasmodium_density</td>
-                <td>0.0000000</td>
+                <td>0.0251721</td>
             </tr>
             <tr>
                 <td>cough_dur</td>
@@ -93,7 +100,7 @@ th,td {
             </tr>
             <tr>
                 <td>diarrhea_dur</td>
-                <td>0.0000000</td>
+                <td>0.0000306</td>
             </tr>
             <tr>
                 <td>fatigue_dur</td>
@@ -101,7 +108,7 @@ th,td {
             </tr>
             <tr>
                 <td>fever_dur</td>
-                <td>0.0011301</td>
+                <td>0.0000000</td>
             </tr>
             <tr>
                 <td>headache_dur</td>
@@ -109,47 +116,46 @@ th,td {
             </tr>
             <tr>
                 <td>height</td>
-                <td>0.0946471</td>
+                <td>0.2589475</td>
             </tr>
             <tr>
                 <td>hemoglobin</td>
-                <td>0.0526180</td>
+                <td>0.0326327</td>
             </tr>
             <tr>
                 <td>joint_pain_dur</td>
-                <td>0.9999996</td>
+                <td>0.0000006</td>
             </tr>
             <tr>
                 <td>muscle_ache_dur</td>
-                <td>0.9999999</td>
+                <td>0.7082394</td>
             </tr>
             <tr>
                 <td>temp</td>
-                <td>0.0000000</td>
+                <td>0.0003199</td>
             </tr>
             <tr>
                 <td>vomit_dur</td>
-                <td>0.8593106</td>
+                <td>0.0000000</td>
             </tr>
             <tr>
                 <td>weight</td>
-                <td>0.0096186</td>
+                <td>0.3391497</td>
             </tr>
             <tr>
                 <td>dday</td>
-                <td>0.0119593</td>
+                <td>0.0518573</td>
             </tr>
             <tr>
                 <td>first_dday</td>
-                <td>0.0000001</td>
+                <td>0.0000000</td>
             </tr>
         </table>
     </li>
     <br>
     <!-- <li>Average of p-values?</li> -->
 </ol>
-<br>
-<h5><u>Conclusion</u></h5>
+<!-- <h5><u>Conclusion</u></h5> -->
 <hr>
 
 <h4 style="color:#0275D8" id="cat_distribution_link">Categorical variables distribution comparison</h4>
@@ -173,13 +179,12 @@ th,td {
         <table style="width:40%">
             <tr>
                 <th>MSE</th>
-                <td>0.0369463</td>
+                <td>0.0033473</td>
             </tr>
         </table>
     </li>
 </ol>
-<br>
-<h5><u>Conclusion</u></h5>
+<!-- <h5><u>Conclusion</u></h5> -->
 <hr>
 
 <h4 style="color:#0275D8" id="pearsons_link">Pearson's Correlation Coefficient comparison</h4>
@@ -199,7 +204,7 @@ th,td {
         <table style="width:40%">
             <tr>
                 <th>Averaged MSE</th>
-                <td>0.0251338</td>
+                <td>0.0219599</td>
             </tr>
         </table>
     </li>
@@ -208,13 +213,12 @@ th,td {
         <table style="width:40%">
             <tr>
                 <th>Averaged SRA</th>
-                <td>0.4394350</td>
+                <td>0.7219041</td>
             </tr>
         </table>
     </li>
 </ol>
-<br>
-<h5><u>Conclusion</u></h5>
+<!-- <h5><u>Conclusion</u></h5> -->
 <hr>
 
 <h4 style="color:#0275D8" id="tSNE_PCA_link">tSNE and PCA plots comparison</h4>
@@ -233,8 +237,7 @@ th,td {
     <div id="PCA"></div>
     </li>
 </ul>
-<br>
-<h5><u>Conclusion</u></h5>
+<!-- <h5><u>Conclusion</u></h5> -->
 <p>
     Both the tSNE and the PCA plot show a high overlay.
     However, in the PCA plot we can appreciate a separation between adults and children in the original data, which is not captured in the synthetic data.
@@ -255,15 +258,14 @@ th,td {
 <table style="width:65%">
     <tr>
         <th>Predicted accuracy score for an untrained discrimintive model</th>
-        <td>0.4641975308641975</td>
+        <td>0.49876543209876545</td>
     </tr>
     <tr>
         <th>Final accuracy of trained discriminative model</th>
-        <td>0.4666666666666667</td>
+        <td>0.508641975308642</td>
     </tr>
 </table>
-<br>
-<h5><u>Conclusion</u></h5>
+<!-- <h5><u>Conclusion</u></h5> -->
 <hr>
 
 <h4 style="color:#0275D8" id="autocorrelation_link">Autocorrelation comparison</h4>
@@ -279,8 +281,7 @@ th,td {
         <div id="AutoMalaria"></div>
     </li>
 </ul>
-<br>
-<h5><u>Conclusion</u></h5>
+<!-- <h5><u>Conclusion</u></h5> -->
 <hr>
 
 <h4 style="color:#0275D8" id="predictive_link">Predictive model performance comparison</h4>
@@ -324,7 +325,7 @@ th,td {
             </tr>
             <tr>
                 <td>Linear Regression</td>
-                <td>72078667667603440.0000000</td>
+                <td>0.0000136</td>
             </tr>
             <!-- <tr>
                 <td>Linear Support Vector Regression</td>
@@ -340,11 +341,11 @@ th,td {
             </tr> -->
             <tr>
                 <td>Decision tree Regression</td>
-                <td>271773354831614304.0000000</td>
+                <td>0.0001173</td>
             </tr>
             <tr>
                 <td>K-Nearest Neighbors Regression</td>
-                <td>101654545341154352.0000000</td>
+                <td>0.0000209</td>
             </tr>
         </table>
     </li>
@@ -358,7 +359,7 @@ th,td {
         <table style="width:40%">
             <tr>
                 <th>MSE</th>
-                <td>3869933382327463.0000000</td>
+                <td>0.0000087</td>
             </tr>
         </table>
     </li>
@@ -371,7 +372,7 @@ th,td {
             </tr>
             <tr>
                 <td>ab_pain_dur</td>
-                <td>0.0</td>
+                <td>0.3333333</td>
             </tr>
             <tr>
                 <td>age</td>
@@ -379,7 +380,7 @@ th,td {
             </tr>
             <tr>
                 <td>aneroxia_dur</td>
-                <td>0.333333</td>
+                <td>0.0</td>
             </tr>
             <tr>
                 <td>plasmodium_density</td>
@@ -391,11 +392,11 @@ th,td {
             </tr>
             <tr>
                 <td>diarrhea_dur</td>
-                <td>0.0</td>
+                <td>0.333333</td>
             </tr>
             <tr>
                 <td>fatigue_dur</td>
-                <td>0.0</td>
+                <td>0.333333</td>
             </tr>
             <tr>
                 <td>fever_dur</td>
@@ -403,7 +404,7 @@ th,td {
             </tr>
             <tr>
                 <td>headache_dur</td>
-                <td>0.0</td>
+                <td>0.333333</td>
             </tr>
             <tr>
                 <td>height</td>
@@ -411,11 +412,11 @@ th,td {
             </tr>
             <tr>
                 <td>hemoglobin</td>
-                <td>0.333333</td>
+                <td>0.666667</td>
             </tr>
             <tr>
                 <td>joint_pain_dur</td>
-                <td>0.0</td>
+                <td>0.3333333</td>
             </tr>
             <tr>
                 <td>muscle_ache_dur</td>
@@ -439,7 +440,7 @@ th,td {
             </tr>
             <tr>
                 <td>first_dday</td>
-                <td>0.333333</td>
+                <td>0.0</td>
             </tr>
         </table>
     </li>
@@ -448,13 +449,12 @@ th,td {
         <table style="width:40%">
             <tr>
                 <th>SRA</th>
-                <td>0.0</td>
+                <td>0.3333333</td>
             </tr>
         </table>
     </li>
 </ul>
-<br>
-<h5><u>Conclusion</u></h5>
+<!-- <h5><u>Conclusion</u></h5> -->
 <hr>
 
 <h4 style="color:#0275D8" id="predictive_time_link">Next-step predictive model performance comparison</h4>
@@ -484,11 +484,11 @@ th,td {
             </tr>
             <tr>
                 <td>Test Metric</td>
-                <td>0.016288</td>
+                <td>0.0000014</td>
             </tr>
             <tr>
                 <td>Test Loss</td>
-                <td>0.000187</td>
+                <td>0.0000089</td>
             </tr>
         </table>
     </li>
@@ -501,15 +501,14 @@ th,td {
             </tr>
             <tr>
                 <td>Test Metric</td>
-                <td>1.0</td>
+                <td>0.6190476</td>
             </tr>
             <tr>
                 <td>Test Loss</td>
-                <td>1.0</td>
+                <td>0.8571429</td>
             </tr>
         </table>
     </li>
 </ul>
-<br>
-<h5><u>Conclusion</u></h5>
+<!-- <h5><u>Conclusion</u></h5> -->
 <hr>

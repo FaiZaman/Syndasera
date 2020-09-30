@@ -146,144 +146,290 @@ $(document).ready(function(){
             });
         });
 
-        // console.log("Nested data structure")
+        // allWeekCounts has duplicates of weeks with same info - not sure why.
+
          console.log("These are the counts by week")
          console.log(allWeekCounts)
          //console.log(allWeekCounts.filter(e=>e.column=="visit_type"))
 
-        // function flatten(obj) {
-        //     var flattenedObj = {};
-        //     Object.keys(obj).forEach(function(key){
-        //     if (typeof obj[key] === 'object') {
-        //         $.extend(flattenedObj, flatten(obj[key]));
-        //     } else {
-        //         flattenedObj[key] = obj[key];
-        //     }
-        //     });
-        //     return flattenedObj;
-        // }
-        //console.log(flatten(arr1))
-
-        // flat_array=[];
-        // function superflat(array){
-        //     for (var i = 0; i < array.length; i++) {
-        //         var obj = array[i]
-        //         var flattenedObj = {};
-        //         Object.keys(obj).forEach(function(key){
-        //             if (typeof obj[key] === 'object') {
-        //                 $.extend(flattenedObj, flatten(obj[key]));
-        //             } else {
-        //                 flattenedObj[key] = obj[key];
-        //             }
-        //         });
-        //         flat_array.push(flattenedObj);
-        //     }
-        // };
-
-        // superflat(arr1);
-        //console.log(flat_array)
-
-        // mega_flat_array=[];
-        // function megaflatten(obj) {
-        //     Object.keys(obj).forEach(function(key){
-        //     var flattenedObj = {};
-        //     if (typeof obj[key] === 'object') {
-        //         $.extend(flattenedObj, flatten(obj[key]));
-        //     } else {
-        //         flattenedObj[key] = obj[key];
-        //     }
-        //     mega_flat_array.push(flattenedObj); //same result
-        //     });
-        // //mega_flat_array.push(flattenedObj);
-        // }
-
-        //megaflatten(arr1)
-        //console.log("mega flat")
-        //console.log(mega_flat_array)
-
-        // function flattenObject(ob) {
-        //   var toReturn = {};
-        //   var flatObject;
-        //   for (var i in ob) {
-        //     if (!ob.hasOwnProperty(i)) {
-        //       continue;
-        //     }
-        //     if ((typeof ob[i]) === 'object') {
-        //       flatObject = flattenObject(ob[i]);
-        //       for (var x in flatObject) {
-        //         if (!flatObject.hasOwnProperty(x)) {
-        //           continue;
-        //         }
-        //         toReturn[x] = flatObject[x];
-        //       }
-        //     } else {
-        //       toReturn[i] = ob[i];
-        //     }
-        //   }
-        //   return toReturn;
-        // };
-        //
-        // console.log(flattenObject(arr1))
-
-
-
-//         function flattenArrayObjects(arr) {
-//             return arr.map(obj => flatten(obj));
-//         }
+//         // function flatten(obj) {
+//         //     var flattenedObj = {};
+//         //     Object.keys(obj).forEach(function(key){
+//         //     if (typeof obj[key] === 'object') {
+//         //         $.extend(flattenedObj, flatten(obj[key]));
+//         //     } else {
+//         //         flattenedObj[key] = obj[key];
+//         //     }
+//         //     });
+//         //     return flattenedObj;
+//         // }
+//         //console.log(flatten(arr1))
 //
-//         function flatten(obj, output = {}) {
-//             return Object.entries(obj).reduce((res,[k,v]) => {
-//                 if (typeof v === "object") {
-//                     res = flatten(v, res);
+//         // flat_array=[];
+//         // function superflat(array){
+//         //     for (var i = 0; i < array.length; i++) {
+//         //         var obj = array[i]
+//         //         var flattenedObj = {};
+//         //         Object.keys(obj).forEach(function(key){
+//         //             if (typeof obj[key] === 'object') {
+//         //                 $.extend(flattenedObj, flatten(obj[key]));
+//         //             } else {
+//         //                 flattenedObj[key] = obj[key];
+//         //             }
+//         //         });
+//         //         flat_array.push(flattenedObj);
+//         //     }
+//         // };
+//
+//         // superflat(arr1);
+//         //console.log(flat_array)
+//
+//         // mega_flat_array=[];
+//         // function megaflatten(obj) {
+//         //     Object.keys(obj).forEach(function(key){
+//         //     var flattenedObj = {};
+//         //     if (typeof obj[key] === 'object') {
+//         //         $.extend(flattenedObj, flatten(obj[key]));
+//         //     } else {
+//         //         flattenedObj[key] = obj[key];
+//         //     }
+//         //     mega_flat_array.push(flattenedObj); //same result
+//         //     });
+//         // //mega_flat_array.push(flattenedObj);
+//         // }
+//
+//         //megaflatten(arr1)
+//         //console.log("mega flat")
+//         //console.log(mega_flat_array)
+//
+//         // function flattenObject(ob) {
+//         //   var toReturn = {};
+//         //   var flatObject;
+//         //   for (var i in ob) {
+//         //     if (!ob.hasOwnProperty(i)) {
+//         //       continue;
+//         //     }
+//         //     if ((typeof ob[i]) === 'object') {
+//         //       flatObject = flattenObject(ob[i]);
+//         //       for (var x in flatObject) {
+//         //         if (!flatObject.hasOwnProperty(x)) {
+//         //           continue;
+//         //         }
+//         //         toReturn[x] = flatObject[x];
+//         //       }
+//         //     } else {
+//         //       toReturn[i] = ob[i];
+//         //     }
+//         //   }
+//         //   return toReturn;
+//         // };
+//         //
+//         // console.log(flattenObject(arr1))
+//
+//
+//
+// //         function flattenArrayObjects(arr) {
+// //             return arr.map(obj => flatten(obj));
+// //         }
+// //
+// //         function flatten(obj, output = {}) {
+// //             return Object.entries(obj).reduce((res,[k,v]) => {
+// //                 if (typeof v === "object") {
+// //                     res = flatten(v, res);
+// //                 } else {
+// //                     res[k] = v;
+// //                 }
+// //             return res;
+// //             }, output);
+// //         }
+// //
+// // console.log(flattenArrayObjects(arr1));
+//
+//         function flatten2(branch, flattenedObj) {
+//             Object.keys(branch).forEach((key) => {
+//                 if (typeof branch[key] === "object") {
+//                     Object.assign({}, flattenedObj, flatten2(branch[key], flattenedObj));
 //                 } else {
-//                     res[k] = v;
+//                     if (key in flattenedObj) {
+//                         // new row detected, get existing keys to work with
+//                         let keysArray = Object.keys(flattenedObj);
+//                         // we are going to loop backwards and delete duplicate keys
+//                         let end = Object.keys(flattenedObj).length;
+//                         let stopAt = Object.keys(flattenedObj).indexOf(key);
+//                         //delete object keys from back of object to the newly found one
+//                     for (let z = end; z > stopAt; z--) {
+//                         delete flattenedObj[keysArray[z - 1]];
+//                     }
+//                     flattenedObj[key] = branch[key];
+//                     } else {
+//                         flattenedObj[key] = branch[key];
+//                     }
 //                 }
-//             return res;
-//             }, output);
+//             });
+//             //convert to string to remove duplicates later. probably should not have duplicates in first place
+//             arrayWeek.push(JSON.stringify(flattenedObj));
+//             return flattenedObj;
 //         }
 //
-// console.log(flattenArrayObjects(arr1));
-
-        function flatten(branch, flattenedObj) {
-            Object.keys(branch).forEach((key) => {
-                if (typeof branch[key] === "object") {
-                    Object.assign({}, flattenedObj, flatten(branch[key], flattenedObj));
-                } else {
-                    if (key in flattenedObj) {
-                        // new row detected, get existing keys to work with
-                        let keysArray = Object.keys(flattenedObj);
-                        // we are going to loop backwards and delete duplicate keys
-                        let end = Object.keys(flattenedObj).length;
-                        let stopAt = Object.keys(flattenedObj).indexOf(key);
-                        //delete object keys from back of object to the newly found one
-                    for (let z = end; z > stopAt; z--) {
-                        delete flattenedObj[keysArray[z - 1]];
-                    }
-                    flattenedObj[key] = branch[key];
-                    } else {
-                        flattenedObj[key] = branch[key];
-                    }
-                }
-            });
-            //convert to string to remove duplicates later. probably should not have duplicates in first place
-            arrayWeek.push(JSON.stringify(flattenedObj));
-            return flattenedObj;
-        }
-
-        // var array = [];
-        // flatten(arr1, {});
+//         var subset = allWeekCounts.filter(e=>e.column=="visit_type");
+//         var arrayWeek = [];
+//         flatten2(subset, {});
+//
+//         arrayWeek = arrayWeek.filter(function(item, pos) {
+//             return arrayWeek.indexOf(item) == pos;
+//         });
+//
+//         arrayWeek = arrayWeek.map((arrayWeek) => JSON.parse(arrayWeek));
+//
+//         console.log("method 1")
+//         console.log(subset)
+//         console.log(arrayWeek)
+//
         //
-        // //remove duplicates
-        // array = array.filter(function(item, pos) {
-        //     return array.indexOf(item) == pos;
+        // function makeFlat(arr) { //assume you're always passing in an array
+        //
+        //     let objects = [];
+        //     arr.forEach(item =>
+        //         {
+        //         let currentObject = {};
+        //         const keys = Object.keys(item);
+        //         keys.forEach(key =>
+        //             {
+        //             const obj = item[key];
+        //             if(Array.isArray(obj))
+        //                 {
+        //                 let parts = makeFlat(obj);
+        //                 if(objects.length > 0)
+        //                     {
+        //                     if(parts.length > objects.length)
+        //                         {
+        //                         parts.forEach(part =>
+        //                             {
+        //                                 objects.forEach(ob =>
+        //                                     {
+        //                                         Object.keys(ob).forEach(k =>
+        //                                             {
+        //                                                 if(Object.keys(part).indexOf(k) == -1)
+        //                                                     {
+        //                                                     part[k] = ob[k];
+        //                                                     }
+        //                                             });
+        //                                     });
+        //                             });
+        //                         objects = parts;
+        //                         }
+        //                     else
+        //                         {
+        //                         objects.forEach(ob =>
+        //                             {
+        //                             parts.forEach(part =>
+        //                                 {
+        //                                 Object.keys(part).forEach(k =>
+        //                                     {
+        //                                     if(Object.keys(ob).indexOf(k) == -1)
+        //                                         {
+        //                                         ob[k] = part[k];
+        //                                         }
+        //                                     });
+        //                                 });
+        //                             });
+        //                         }
+        //                     }
+        //                 else
+        //                     {
+        //                     objects = parts;
+        //                     }
+        //                 }
+        //                 else
+        //                     {
+        //                     if(Object.keys(currentObject).length == 0)
+        //                         {
+        //                         objects.push(currentObject);
+        //                         }
+        //                     currentObject[key] = item[key];
+        //
+        //                     objects.forEach(ob =>
+        //                         {
+        //                         if(Object.keys(ob).indexOf(key) == -1)
+        //                             {
+        //                             ob[key] = currentObject[key]
+        //                             }
+        //                         });
+        //                     }
+        //             });
+        //         });
+        //     return objects;
+        // }
+        //
+        // var subset = allWeekCounts.filter(e=>e.column=="visit_type");
+        // let flattened = makeFlat(subset);
+        // flattened.sort(function(a, b){
+        //     var y1 = 1 * a["week"].split("-")[0],
+        //     y2 = 1* b["week"].split("-")[0],
+        //     m1 = 1 * a["week"].split("-")[1],
+        //     m2 = 1 * b["week"].split("-")[1];
+        //     if (y1 != y2) return d3.ascending(y1, y2);
+        //     else return d3.ascending(m1, m2);
         // });
         //
-        // //convert back to array
-        // array = array.map((array) => JSON.parse(array));
-        // console.log("here it is")
-        // console.log(array);
+        // console.log("method 2")
+        // // flattened.forEach(item => console.log(JSON.stringify(item)));
+        // console.log(flattened)
 
-         //--HISTOGRAM divs--//
+//unnest allWeekCounts array.
+
+        const isArray = (arr) => {
+            return Array.isArray(arr);
+        };
+
+        const isObject = (obj) => {
+            return typeof obj === "object" && obj !== null;
+        };
+
+        const flatten = (tree, row, result) => {
+            try {
+                if (isArray(tree)) {
+                    tree.forEach((branch, index) => {
+                        flatten(branch, row, result);
+                    });
+                } else if (isObject(tree)) {
+                    Object.keys(tree).forEach((key) => {
+                        //we don't want to add objects or arrays to the row -
+                        if (!isArray(tree[key]) && !isObject(tree[key])) {
+                            if (key in row) {
+                                // new row detected, get existing keys to work with
+                                let keysArray = Object.keys(row);
+                                // we are going to loop backwards and delete duplicate keys
+                                let end = Object.keys(row).length;
+                                let stopAt = Object.keys(row).indexOf(key);
+                                //delete object keys from back of object to the newly found one
+                                for (let z = end; z > stopAt; z--) {
+                                    delete row[keysArray[z - 1]];
+                                }
+                                row[key] = tree[key];
+                            } else {
+                                row[key] = tree[key];
+                            }
+                        } else {
+                            flatten(tree[key], row, result);
+                            throw "skip";
+                        }
+                    });
+                //all other rows in results will be overridden if we don't stringify
+                result.push(JSON.stringify(row));
+                }
+            } catch (e) {
+                    //console.log(e)
+            }
+            finally {
+                return result.map((row) => JSON.parse(row));
+            }
+        };
+
+        // var resulthello = flatten(subset, {}, [])
+        // console.log(resulthello)
+
+         //-- divs--//
         var divs_to_add = [
             [
                 "haemoglobin_histogram",
@@ -319,6 +465,12 @@ $(document).ready(function(){
                 "week_visit_type"
             ],
             [
+                "week_malaria_diagnosis"
+            ],
+            [
+                "week_plasmodium_present"
+            ],
+            [
                 "week_ab_pain"
             ]
         ];
@@ -335,7 +487,7 @@ $(document).ready(function(){
                     .attr("class", "col-md-4");
             });
         });
-        //$(".default-graphs").hide();
+        $(".default-graphs").hide();
 
         var margin = {top: 60, right: 30, bottom: 60, left: 50};
         var width = 345 - margin.left - margin.right;
@@ -349,15 +501,19 @@ $(document).ready(function(){
             });
         }
 
-        function drawWeekBarChart (dom, array, name){
+        function drawWeekBarChart (dom, array, name, slice){
 
-            array = array.filter(function(item, pos) {
-                return array.indexOf(item) == pos;
+            // sort by week
+            array.sort(function(a, b){
+                var y1 = 1 * a["week"].split("-")[0],
+                y2 = 1* b["week"].split("-")[0],
+                m1 = 1 * a["week"].split("-")[1],
+                m2 = 1 * b["week"].split("-")[1];
+                if (y1 != y2) return d3.ascending(y1, y2);
+                else return d3.ascending(m1, m2);
             });
 
-            array = array.map((array) => JSON.parse(array));
-
-            var array = array.slice(0, 50);
+            var array = array.slice(0, slice);
 
             var margin = {top: 60, right: 30, bottom: 60, left: 50};
             var width = 1100 - margin.left - margin.right;
@@ -476,40 +632,21 @@ $(document).ready(function(){
 
         };
 
-        // arr_flatten.sort(function(a,b){
-        //     return a.week - b.week;
-        // });
-        //
-        // console.log(arr_flatten)
-
         var subset = allWeekCounts.filter(e=>e.column=="visit_type");
-        var arrayWeek = [];
-        flatten(subset, {});
-        drawWeekBarChart ("#week_visit_type", arrayWeek, "Visit type counts per week")
+        var arrayWeek = flatten(subset, {}, []);
+        drawWeekBarChart ("#week_visit_type", arrayWeek, "Counts per week for each visit type", 225)
 
-        // var subset = allWeekCounts.filter(e=>e.column=="admitting_hospital");
-        // // var subset = subset.filter(function (el) {
-        // //   return el != null;
-        // // });
-        // const removeEmpty = (obj) => {
-        //     Object.keys(obj).forEach(key =>
-        //         (obj[key] && typeof obj[key] === 'object') && removeEmpty(obj[key]) ||
-        //         (obj[key] === undefined || obj[key] === null) && delete obj[key]
-        //     );
-        //     return obj;
-        // };
-        //
-        // var subset = removeEmpty(subset)
-        // console.log(subset)
-        // var arrayWeek = [];
-        // flatten(subset, {});
-        // console.log(arrayWeek)
-        // drawWeekBarChart ("#week_admitting_hospital", arrayWeek, "Admitting hospital counts per week")
+        var subset = allWeekCounts.filter(e=>e.column=="malaria_diagnosis");
+        var arrayWeek = flatten(subset, {}, []);
+        drawWeekBarChart ("#week_malaria_diagnosis", arrayWeek, "Counts per week for positive or negative malaria diagnosis", 195)
 
         var subset = allWeekCounts.filter(e=>e.column=="abdominal_pain");
-        var arrayWeek = [];
-        flatten(subset, {});
-        drawWeekBarChart ("#week_ab_pain", arrayWeek, "Abdominal pain counts per week")
+        var arrayWeek = flatten(subset, {}, []);
+        drawWeekBarChart ("#week_ab_pain", arrayWeek, "Counts per week for presence or absence of abdominal pain", 225)
+
+        var subset = allWeekCounts.filter(e=>e.column=="submicroscopic_plasmodium_present");
+        var arrayWeek = flatten(subset, {}, []);
+        drawWeekBarChart ("#week_plasmodium_present", arrayWeek, "Counts per week for presence or absence of submicroscopic plasmodium detected by LAMP test", 280)
 
         /////////-------HISTOGRAM-------/////////
 

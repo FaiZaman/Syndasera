@@ -1,0 +1,2 @@
+class DistributionNumCoordinatesToday < ApplicationRecord
+end

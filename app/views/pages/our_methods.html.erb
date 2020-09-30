@@ -4,7 +4,7 @@
 <br>
 <h3>Content</h3>
 <ol>
-    <li><a href="#syn_gen">Synthetic data generation</a></li>
+    <li><a href="#syn_gen">Synthetic Data Generation</a></li>
     <li><a href="#eval_met">Evaluation Methods</a></li>
     <li><a href="#data_handle">Data Handling</a></li>
     <li><a href="#references">References</a></li>
@@ -95,7 +95,7 @@
   <li>Adding random noise to the gradients before applying changes</li>
 </ul>
 <p>These measures reduce the impact a single individual’s data can have on the weights by being in the training set. As a result, their information is neither retained by the network nor generated in the synthetic data. Using differential privacy during training rather than post processing makes our synthetic data resilient against membership inference attacks even if trained components of the network are exposed.</p>
-<p>We use TensorFlow Privacy (4) to implement these changes.</p>
+<p>We use TensorFlow Privacy to implement these changes.</p>
 
 <hr>
 
@@ -137,7 +137,7 @@
                 The closer the dot to the y=x line, the higher the fidelity.
                 <br>To quantifiy this, the MSE (mean standard error) between the empirical distribution for the original and synthetic dataset is calculated for each variable and averaged.
                 <br><b>The lower the averaged MSE, the higher the fidelity.</b>
-                <div id="barchart_mockup"></div>
+                <!-- <div id="barchart_mockup"></div> -->
                 <div id="empirical_plot"></div>
             </li>
             <br>
@@ -232,19 +232,22 @@
 <h3 style="color:#0275D8" id="data_handle">Data handling</h3>
 
 <p>
-Data shared between clients and Syndasera will be held on a Data Access Environment. Generation of Synthetic Data and it’s evaluation will be performed in this secure server using Databricks so that no data is transferred onto a local machine.
+Confidential data is uploaded onto Amazon Web Services into an AWS S3 bucket. Generation of synthetic data and it’s evaluation is performed using AWS sagemaker and no confidential data is transferred onto a local machine. Synthetic data and evaluation output is uploaded at the end of the AWS sagemaker run back into the AWS s3 bucket. After the project is completed, all confidential data is eliminated from AWS.
 </p>
 
 <hr>
 
 <h3 style="color:#0275D8" id="references">References</h3>
 
-<ol>
+<ul>
 <li>Jarrett, D., Yoon, J., Van de Schaar, M. (2019), ‘Time-series Generative Adversarial Networks’, Advances in Neural Information Processing Systems 32, Vancouver Canada.</li>
 <li>Lin, Z.,  Jain, A., Wang, C., Fanti, G., Sekar, V. (2019), ‘Generating High-fidelity, Synthetic Time Series Datasets with DoppelGANger’, <i>arXiv e-prints</i>, arXiv:1909.13403</li>
+<li>Jordan, J., Yoon, J., Van de Schaar, M. (2019), 'PATE-GAN: Generating Synthetic data with differential privacy guarantees', International Conference on Learning Representations, New Orleans USA</li>
+<li>(2019), 'TensorFlow Privacy 0.3.0' <i>https://github.com/tensorflow/privacy</i></li>
+<li>Camino, R., Hammerschmidt, C., State, R. (2018), 'Generating Multi-Categorical Samples with Generative Adversarial Networks', <i>arXiv e-prints</i>, arXiv:1807.01202 </li>
 <li>Jordan, J., Yoon, J., Van de Schaar, M. (2018), ‘Measuring the quality of Synthetic data for use in competitions’ <i>arXiv e-prints</i>, arXiv:1806.11345</li>
-<li>(2019), 'TensorFlow Privacy 0.3.0' <i>https://github.com/tensorflow/privacy<i>
-</ol>
+<li>Choi, E., Biswall, S., Malin, B., Duke, J., Stewart, W., Sun, J. (2017) 'Generating Multi-label Discrete Patient Records using Generative Adversarial Networks' <i>arXiv e-prints</i>, arXiv:1703.06490</li>
+</ul>
 
 <!--<a href="/make_request">text</a>-->
 <!--<a href="/prism_dashboard">text</a>-->
