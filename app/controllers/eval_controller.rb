@@ -29,12 +29,12 @@ class EvalController < ApplicationController
     end
 
     def get_num_data
-        @num_data = DistributionNumCoordinate.all.to_json()
+        @num_data = DistributionNumCoordinatesToday.all.to_json()
         render json: @num_data
     end
 
     def get_num_data_5000
-      @num_data = DistributionNumCoordinate.first(5000).to_json()
+      @num_data = DistributionNumCoordinatesToday.first(5000).to_json()
       render json: @num_data
     end
 

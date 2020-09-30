@@ -43,7 +43,7 @@ TAKE NOTE WHEN DEPLOYING!
 <script type="text/javascript">
     AWS.config.region = 'eu-west-2'; // 1. Enter your region
 
-    var identitypoolid =document.getElementById("identity_pool_id").dataset.key; 
+    var identitypoolid =document.getElementById("identity_pool_id").dataset.key;
 
     AWS.config.credentials = new AWS.CognitoIdentityCredentials({
         IdentityPoolId: identitypoolid
