@@ -25,6 +25,17 @@
 <h4>Upload your data:</h4>
 <br>
 
+<% if false %>
+The lines below prevents us from accidentally uploading AWS credentials to github
+but DOES NOT prevent the public from getting AWS credentials by inspecting HTML element
+TAKE NOTE WHEN DEPLOYING!
+<% end %>
+
+<%= content_tag "div", id: "identity_pool_id", data: { key: ENV['IDENTITYPOOLID'] } do %>
+  <% end %>
+<%= content_tag "div", id: "bucket_name", data: { key: ENV['BUCKETNAME'] } do %>
+  <% end %>
+
 <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1.12.min.js"></script>
 <input type="file" id="file-chooser" />
 <button id="upload-button">Upload to S3</button>
@@ -32,8 +43,10 @@
 <script type="text/javascript">
     AWS.config.region = 'eu-west-2'; // 1. Enter your region
 
+    var identitypoolid =document.getElementById("identity_pool_id").dataset.key; 
+
     AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-        IdentityPoolId: 'eu-west-2:ba84027b-1732-4c8c-b8be-8f17b369656d'
+        IdentityPoolId: identitypoolid
     });
 
     AWS.config.credentials.get(function(err) {
@@ -41,7 +54,7 @@
         console.log(AWS.config.credentials);
     });
 
-    var bucketName = ''; // Enter your bucket name
+    var bucketName =document.getElementById("bucket_name").dataset.key;    // Enter your bucket name
     var bucket = new AWS.S3({
         params: {
             Bucket: bucketName
