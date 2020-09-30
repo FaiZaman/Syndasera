@@ -40,6 +40,7 @@ In order to upload files directly to AWS S3 bucket, specify the identity pool id
 
 In Windows, type `set` in the terminal to see the list of environment variables. 
 
-To add AWS credentials to environment variables, type the following in the terminal
-`set IDENTITYPOOLID = ABCDEF123`
+To add AWS credentials to environment variables, type the following in the terminal  
+
+`set IDENTITYPOOLID = ABCDEF123`  
 `set BUCKETNAME = bucket123`
